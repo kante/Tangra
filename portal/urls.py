@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     url(r'^$', 'portal.views.home', name="home"),
     (r'^admin/', include(admin.site.urls)),
     (r'^study/',include('portal.studies.urls')),
+    
+    
     url(r'^accounts/login/$',  login, name="login"),
     url(r'^accounts/logout/$', logout, name="logout"),
     
@@ -27,7 +29,9 @@ urlpatterns = patterns('',
     url(r'^video_conferencing/', include('portal.investigator.video_conferencing.urls')),
     
     # New investigator interface
-    url(r'^investigator/', include('portal.investigator.urls'))
+    url(r'^investigator/', include('portal.investigator.urls')),
+    
+    
 )
 
 

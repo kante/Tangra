@@ -73,82 +73,6 @@ def show_users_in_study(request,study_id):
 
 
 @login_required
-def create_one_study(request):
-    if request.method == 'POST':
-        form = NewStudyForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-
-            s = Study.objects.create(
-                name=cd['name'],
-                start_date=cd['start_date'],
-                end_date=cd['end_date'],
-                started=cd['started'],
-                description=cd['description'])
-            s.set_investigator(request.user)
-            return HttpResponseRedirect('/study/'+str(s.id))
-    else:
-        #study = Blank()
-        form = NewStudyForm()
-    return render_to_response('study/new_study.html', locals(), context_instance=RequestContext(request))
-
-
-@login_required
-def edit_one_study(request,study_id):
-    """docstring for edit_one_study"""
-    if request.method == 'POST':
-        pass #update
-    else: #render the form
-        study = Study.objects.get(id=study_id)
-        form = NewStudyForm(instance=study)
-        return render_to_response('study/edit_study.html',locals(), context_instance=RequestContext(request))
-
-
-@login_required
-def remove_one_study(request,study_id):
-    """docstring for remove_one_study"""
-    s = Study.objects.get(id=study_id)
-    StudyParticipant.objects.filter(study=s).delete()
-    StudyInvestigator.objects.filter(study=s).delete()
-    
-    s.delete()
-    return HttpResponseRedirect('/study/')
-
-
-@login_required
-def add_participant_to_study(request,study_id):
-    """docstring for add_participant_to_study"""
-    if request.method == 'POST':
-        newuser = False
-        form = AddParticipantForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            study = Study.objects.get(id=study_id)
-            query = cd['email']
-            user = User.objects.filter(email=query)
-            
-            if len(user) == 0:
-                newuser = True
-                pwd = hashlib.new('ripemd160')
-                pwd.update(cd['email'])
-                pwd = pwd.hexdigest()[:10]
-                user = User.objects.create_user(username=cd['email'],email=cd['email'],password=pwd)
-                user.message_set.create(message=pwd)
-            else:
-                user = user[0]
-            #study.set_investigator(user)
-            #add participant to study
-            create_user_stages(user)
-            return HttpResponseRedirect('/study/added_to_study/'+ str(user.id)+"/"+str(study.id))
-        else:
-            return render_to_response('study/add_participant_to_study.html',locals(), context_instance=RequestContext(request))
-    else: #render the form
-        study = Study.objects.get(id=study_id)
-        form = AddParticipantForm()
-        return render_to_response('study/add_participant_to_study.html',locals(), context_instance=RequestContext(request))
-
-
-@login_required
 def added_to_study(request, study_id, user_id):
     """docstring for added_to_study"""
     useradded = User.objects.get(id=user_id)
@@ -295,12 +219,6 @@ def show_task(request, game):
         link = "paradise_island"
         code = "PAR"
     return render_to_response('study/fitbrains.html', locals(),context_instance=RequestContext(request))
-
-
-
-@login_required
-def show_wonderjuice(request):
-    return render_to_response('study/wonderjuice.html', context_instance=RequestContext(request))
 
 
 

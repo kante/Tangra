@@ -6,8 +6,6 @@ import datetime
 from operator import attrgetter
 
 
-
-
 class Study(models.Model):
 
     name = models.CharField('Study Name', max_length=300)
@@ -351,7 +349,8 @@ class Alert(models.Model):
         a.author = sender
         a.save()
         return a
-        
+
+
 class AlertRecepient(models.Model):
     """Join b/w messages and recepients"""
     
@@ -359,7 +358,7 @@ class AlertRecepient(models.Model):
     alert = models.ForeignKey(Alert)
     CHOICES = ((0, 'Unread'),(1, 'Read'))
     read = models.IntegerField('Read?', max_length=1, choices=CHOICES)
-
+    
     def __unicode__(self):
         """docstring for __unicode__"""
         prefix = ""
@@ -367,7 +366,7 @@ class AlertRecepient(models.Model):
             prefix = "UN"
             
         return u'%s - %s (%sREAD)' % (self.recepient, self.alert.subject, prefix)
-
+    
     @classmethod
     def associate(cls, a, r):
         """docstring for associate"""

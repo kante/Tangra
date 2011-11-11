@@ -24,12 +24,9 @@ class StudyParticipantAdmin( admin.ModelAdmin ):
 
 admin.site.register(Study)
 admin.site.register(StudyParticipant, StudyParticipantAdmin)
-admin.site.register(StudyInvestigator)
 admin.site.register(Stage)
 admin.site.register(UserStage)
 admin.site.register(StageGroup)
 admin.site.register(Group)
 admin.site.register(Data)
-admin.site.register(Alert)
-admin.site.register(AlertRecepient)
 admin.site.register(UserProfile)

@@ -1,5 +1,4 @@
 from django.db import models
-
 from django.contrib.auth.models import User
 from tinymce import models as tinymce_models
 import datetime
@@ -7,7 +6,6 @@ from operator import attrgetter
 
 
 class Study(models.Model):
-
     name = models.CharField('Study Name', max_length=300)
     stub = models.CharField('Study Stub', max_length=3)
     description = tinymce_models.HTMLField('Description')
@@ -30,43 +28,14 @@ class Study(models.Model):
         super(Study, self).save(*args, **kwargs) 
     
     
-    def role(self,user):
-        a = 0
-        allowed = False
-        if StudyParticipant.objects.filter(user=user,study=self).count() > 0:
-            a += 1
-            allowed = True
-        if StudyInvestigator.objects.filter(investigator=user,study=self).count() > 0:
-            a += -1
-            allowed = True
-        if allowed:
-            return a
-        else:
-            return -2
-    
-    
-    def set_investigator(self, current_user):
-        """Assign creator of study to investigator role"""
-        StudyInvestigator(study=self,investigator=current_user).save()
-    
-    
     def participants(self):
         """Returns a list of all participants in the Study"""
         return [x.user for x in StudyParticipant.objects.filter(study=self)]
     
     
-    def investigators(self):
-        """Returns a list of all investigators in the Study"""
-        return [x.investigator for x in StudyInvestigator.objects.filter(study=self)]
-    
-    
     def get_study_participant(self, user):
         s = StudyParticipant.objects.get(study=self, user=user)
         return s
-    
-    
-    def get_study_investigator(self, user):
-        return StudyInvestigator.objects.get(study=self, investigator=user)
     
     
     def __unicode__(self):
@@ -77,34 +46,11 @@ class Group(models.Model):
     name = models.CharField('Group Name', max_length=300)
     study = models.ForeignKey(Study)
     
-    
     def __unicode__(self):
         return u'%s - %s' % (self.study, self.name)     
     
-    
     def stages(self):
         return [x.stage for x in StageGroup.objects.filter(group=self).order_by('order')]
-
-
-class StudyInvestigator(models.Model):
-    study = models.ForeignKey(Study)
-    investigator = models.ForeignKey(User)
-    
-    
-    def stages(self):
-        """Returns all of a study's stages as userstage objects"""
-        stages = Stage.objects.filter(study=self.study)
-        stageusers = [StageGroup.objects.filter(stage=x)[0] for x in stages]
-        stageusers.sort(key=attrgetter('order'))
-        return [x.stage for x in stageusers]
-    
-    
-    def stages_per_condition(self, cond):
-        return StageGroup.objects.filter(group=cond).order_by('order')
-    
-    
-    def __unicode__(self):
-        return u'%s - %s (Investigator)' % (self.investigator.username, self.study)
 
 
 class StudyParticipant(models.Model):
@@ -112,45 +58,32 @@ class StudyParticipant(models.Model):
     user = models.ForeignKey(User)
     group = models.ForeignKey(Group)
     
-    #CHOICES = ((1, 'Investigator'),(0, 'Participant'))
-    #role = models.IntegerField("Role", max_length=1, choices=CHOICES)
-    #current_condition = models.ForiengKey(Condition)
-    
-    #current_stage = models.IntegerField('Current Stage', default=1)
-    #current_session = models.IntegerField('Current Session', default=1)
-    #last_action = models.DateTimeField('Last Session Completed')
-
     def participant_stages(self):
         return UserStage.objects.filter(user=self.user).order_by('order')
-
+    
     def number_of_stages(self):
         return self.participant_stages().count()
-        
+    
     def save(self):
         #create timestamps, keep track of user modifying, etc.
         super(StudyParticipant,self).save()
-
+    
     def get_current_stage(self):
         #get the current userstage object
         try:
             current_stage = UserStage.objects.get(user=self.user, study=self.study, status=1)
         except UserStage.DoesNotExist:
             current_stage = None
-            
+        
         return current_stage
-        
-        
-    #def get_current_stages(self):
-        #get the current userstage object
-     #   return UserStage.objects.get(user=self.user, status=1)
-     
+    
     def __unicode__(self):
         return u'%s - %s (Participant)' % (self.user,self.study)        
     
     def log(self):
         return u'%s,%s' % (self.user.username,self.study.stub)
 
-        
+
 class Stage(models.Model):
     name = models.CharField('Stage Name', max_length=300)
     stub = models.CharField('Stage Stub', max_length=3)
@@ -160,13 +93,13 @@ class Stage(models.Model):
     url = models.CharField('Stage URL', max_length=300)
     description = tinymce_models.HTMLField('Stage Description')
     instructions = tinymce_models.HTMLField('Stage Instructions')
-
+    
     def __unicode__(self):
         return unicode("%s (%s)" % (self.name, self.study.stub))       
-
+    
     def display(self):
         return unicode(self.name)
-        
+    
     def avg(self):
         """docstring for avg"""
         stagegroups = StageGroup.objects.filter(stage=self)
@@ -178,12 +111,10 @@ class Stage(models.Model):
     def number_of_users(self):
         return self.users().count()
     
-    
-        
     def users(self):
-        
         return UserStage.objects.filter(stage=self, status=1).order_by('user')
-            
+
+
 class StageGroup(models.Model):
     group = models.ForeignKey(Group)
     stage = models.ForeignKey(Stage)
@@ -196,6 +127,7 @@ class StageGroup(models.Model):
     
     def __unicode__(self):
         return u'%s - %s (%s)' % (self.stage, self.group, self.order)
+
 
 class Data(models.Model):
     """A data object"""
@@ -315,65 +247,7 @@ class UserStage(models.Model):
     def overdue(self):
         if datetime.datetime.now() > self.nextdeadline():
             return True
-        return False        
+        return False
 
 
-class Alert(models.Model):
-    """A message object"""
-
-    subject = models.CharField(max_length=80)
-    date = models.DateField('Date sent')
-    text = models.CharField('Message Text', max_length=350)
-    author = models.ForeignKey(User)
-    
-    def __unicode__(self):
-        """docstring for __unicode__"""
-        return u'%s - %s' % (self.subject, self.date)
-        
-    def recepients(self):
-        """docstring for recepients"""
-        alert_recepients = [x.recepient for x in AlertRecepient.objects.filter(alert=self)]
-        return alert_recepients
-        
-    def recepients_text(self):
-        return ','.join(self.recepients())
-
-    @classmethod
-    def create(cls, subj, content, sender):
-        """docstring for create"""
-
-        a = Alert()
-        a.subject = subj
-        a.text = content
-        a.date = datetime.datetime.now()
-        a.author = sender
-        a.save()
-        return a
-
-
-class AlertRecepient(models.Model):
-    """Join b/w messages and recepients"""
-    
-    recepient = models.ForeignKey(User)
-    alert = models.ForeignKey(Alert)
-    CHOICES = ((0, 'Unread'),(1, 'Read'))
-    read = models.IntegerField('Read?', max_length=1, choices=CHOICES)
-    
-    def __unicode__(self):
-        """docstring for __unicode__"""
-        prefix = ""
-        if self.read == 0:
-            prefix = "UN"
-            
-        return u'%s - %s (%sREAD)' % (self.recepient, self.alert.subject, prefix)
-    
-    @classmethod
-    def associate(cls, a, r):
-        """docstring for associate"""
-        ar = AlertRecepient()
-        ar.alert = a
-        ar.recepient = User.objects.get(id=r)
-        ar.read = 0
-        ar.save()
-        
     

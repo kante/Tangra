@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 import hashlib
 
+
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from models import *
 from forms import *
@@ -221,7 +222,6 @@ def show_task(request, game):
     return render_to_response('study/fitbrains.html', locals(),context_instance=RequestContext(request))
 
 
-
 @login_required
 def finish_session(request):
     study_id = request.session['study_id']
@@ -237,13 +237,6 @@ def finish_session(request):
         #unauthorized URL mucking about with
         return HttpResponseBadRequest()
     return HttpResponseRedirect('/study/0/'+str(study_id))
-    
-
-@login_required
-def finish_task(request,code):
-    log(request,code,"Task Finished")
-    return HttpResponseRedirect('/study/fsess')
-
 
 
 # CLEANUP: How do we want to let the user customize /deal with data collection?
@@ -279,9 +272,8 @@ def save_post_data(request):
 @login_required
 def log_game(request):
     """Logs a single piece of data from an in-house game's POST request"""
-
+    
     if request.method != 'POST': 
-
         return HttpResponseBadRequest()
         
     studyid = request.session['study_id']
@@ -294,10 +286,9 @@ def log_game(request):
         Data.write(studyid, user, timestamp, code, data)
     except Exception:
         HttpResponse(content='FAILED', mimetype=DEFAULT_CONTENT_TYPE)
-
+        
     # User should read this using an ajax request before calling fsess
     return HttpResponse(content="SUCCESS")
-
 
 
 @login_required
@@ -320,7 +311,7 @@ def mark_read(request):
     if request.method != 'POST': 
         return HttpResponseBadRequest()
     print "mark read", request.POST['id']
-
+    
     msgid = int(request.POST['id'])
     
     msg = AlertRecepient.objects.get(id=msgid)
@@ -328,6 +319,7 @@ def mark_read(request):
     msg.read = 1
     msg.save()
     return HttpResponse("YAY!")
+
 
 @login_required
 def send_alert(request):
@@ -351,14 +343,5 @@ def send_alert(request):
         #make alertrecepients
     return HttpResponse("YAY!")
 
-
-
-
-############### StudyUser
-def invite_user(request,study_id):
-    pass
-    
-def remove_user(request,study_id,user_id):
-    pass
 
 

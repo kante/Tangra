@@ -16,7 +16,6 @@ urlpatterns = patterns('',
     
     
     url(r'^fsess$', finish_session, name="finish_session"),
-    url(r'^ftask/([A-Z]+)$', finish_task, name="finish_task"),
     url(r'^(\d+)/(\d+)$', show_one_study, name="show_one_study"),
     
     

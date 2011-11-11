@@ -1,3 +1,0 @@
-BEGIN;
-ALTER TABLE "studies_data" ADD COLUMN "code" char NOT NULL DEFAULT "";
-COMMIT;

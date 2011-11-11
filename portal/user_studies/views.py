@@ -7,7 +7,7 @@ from django.template import Template, Context
 
 @login_required
 def example_study_2_welcome_page(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/example_study_2/stages/welcome_page/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study_2/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -15,7 +15,7 @@ def example_study_2_welcome_page(request):
 
 @login_required
 def example_study_2_simple_task(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/example_study_2/stages/simple_task/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study_2/stages/simple_task/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -23,7 +23,7 @@ def example_study_2_simple_task(request):
 
 @login_required
 def example_study_2_bye_page(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/example_study_2/stages/bye_page/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study_2/stages/bye_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -31,7 +31,7 @@ def example_study_2_bye_page(request):
 
 @login_required
 def example_study_welcome_page(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/example_study/stages/welcome_page/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -39,7 +39,7 @@ def example_study_welcome_page(request):
 
 @login_required
 def example_study_simple_task(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/example_study/stages/simple_task/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/simple_task/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -47,7 +47,7 @@ def example_study_simple_task(request):
 
 @login_required
 def example_study_bye_page(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/example_study/stages/bye_page/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/bye_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -55,7 +55,7 @@ def example_study_bye_page(request):
 
 @login_required
 def shipley_vocabulary_test_welcome_page(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/shipley_vocabulary_test/stages/welcome_page/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/shipley_vocabulary_test/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))
@@ -63,7 +63,7 @@ def shipley_vocabulary_test_welcome_page(request):
 
 @login_required
 def shipley_vocabulary_test_test(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Evaluation-Portal/portal/user_studies/shipley_vocabulary_test/stages/test/template.html", "r")
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/shipley_vocabulary_test/stages/test/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = Context({})
     return HttpResponse(template.render(context))

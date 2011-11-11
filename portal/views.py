@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.template import Context
 
 from portal.users.models import UserRoles
 
@@ -21,9 +22,7 @@ def get_user_redirect(user):
     
 
 def home(request):
-    """docstring for home"""
-    print "tetetetet"
-    
+    """docstring for home"""    
     if request.user.is_authenticated():
         return HttpResponseRedirect(get_user_redirect(request.user))
     else:    
@@ -33,27 +32,26 @@ def home(request):
 def login(request):
     """Try to log in. Redirects to the appropriate error page if something bad
     happens."""
-    print "YYHYHYHYHYHY"
     if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        username = request.POST['username']
+        password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
-        print "ASDFASDFASDFAS", get_user_redirect(user)
         
-        if user is not None and user.is_active:
-            # Correct password, and the user is marked "active"
-            auth.login(request, user)
-            return HttpResponseRedirect(get_user_redirect(user))    
+        if user is not None:
+            if user.is_active:
+                # Correct password, and the user is marked "active"
+                auth.login(request, user)
+                return HttpResponseRedirect(get_user_redirect(user))    
+            else:
+                # DISABLED ACCOUNT
+                return render_to_response("registration/login.html", {"errors":True}, context_instance=RequestContext(request))
         else:
-            # Bad user 
-            print "BADBAD11111"
-            return render_to_response("registration/login.html", locals(), context_instance=RequestContext(request))
+            # Invalid user?
+            return render_to_response("registration/login.html", {"errors":True}, context_instance=RequestContext(request))
     else:
         # Strange request. Send them back to the start
-        print "BADBAD22222"
-        return render_to_response("registration/login.html", locals(), context_instance=RequestContext(request))
-
-
+        return render_to_response("registration/login.html", {"errors":True}, context_instance=RequestContext(request))
+        
 def logout(request):
     auth.logout(request)
     # Redirect to a success page.

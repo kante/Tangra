@@ -13,12 +13,10 @@ urlpatterns = patterns('',
     
     url(r'^$', 'portal.views.home', name="home"),
     (r'^admin/', include(admin.site.urls)),
-    (r'^study/',include('portal.studies.urls')),
-    
+    (r'^study/', include('portal.studies.urls')),
     
     url(r'^accounts/login/$',  login, name="login"),
     url(r'^accounts/logout/$', logout, name="logout"),
-    
     
     # Study builder UI
     url(r'^study_builder/', include('portal.study_builder.urls')),
@@ -30,8 +28,6 @@ urlpatterns = patterns('',
     
     # New investigator interface
     url(r'^investigator/', include('portal.investigator.urls')),
-    
-    
 )
 
 

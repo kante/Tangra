@@ -18,74 +18,32 @@ from django.core.cache import cache
 
 @login_required
 def show_many_studies(request):
-    if StudyParticipant.objects.count > 0:
-        studies_as_participant = StudyParticipant.objects.filter(user=request.user)
-        current_stages = UserStage.objects.filter(user=request.user, status=1)
-        
-    else:
-        studies_as_participant = []
-        current_stages = []
-
-    if StudyInvestigator.objects.count > 0:
-        studies_as_investigator = StudyInvestigator.objects.filter(investigator=request.user)
-    else:
-        studies_as_investigator = []
-        
+    studies_as_participant = StudyParticipant.objects.filter(user=request.user)
+    current_stages = UserStage.objects.filter(user=request.user, status=1)
+    
     return render_to_response('study/show_many_studies.html', locals(), context_instance=RequestContext(request))
 
 
 @login_required
-# TODO: get rid of 90% of this... can do everything just from the request object
-#       since login is required (must be able to quickly get what you want by
-#       username alone, so a couple things will need to be changed to implement
-#       this)
+
 def show_one_study(request,as_inv,s_id):
+    # Find a better way to do the study finding stuff???
     study_id = int(s_id)
-    as_inv = int(as_inv)
     request.session['study_id'] = study_id
     study = Study.objects.get(id=study_id)
-    role = study.role(request.user)
     video_request = True if cache.get(request.user.username + "_has_pending_invite") else False
     username = request.user.username
     
-    if as_inv == 0 and role >= 0:
-        #role >= 0 and as_part == 0
-        #participant
-        studypart = study.get_study_participant(request.user)
-        stages = UserStage.objects.filter(user=request.user, study=study)
-        #stages = studypart.participant_stages()
-        current_stage = studypart.get_current_stage()
-        if current_stage:
-            action = current_stage.stage.url
-        else:
-            action = "study/show_many_studies"
-            
-    else: 
-        #unauthorized URL mucking about with
-        return HttpResponseBadRequest()
+    studypart = study.get_study_participant(request.user)
+    stages = UserStage.objects.filter(user=request.user, study=study)
+    #stages = studypart.participant_stages()
+    current_stage = studypart.get_current_stage()
+    if current_stage:
+        action = current_stage.stage.url
+    else:
+        action = "study/show_many_studies"
     
     return render_to_response('study/show_one_study.html',locals(), context_instance=RequestContext(request))
-
-
-@login_required
-def show_users_in_study(request,study_id):
-    users = Study.objects.get(id=study_id).participants()
-    return render_to_response('study/show_users.html', locals(), context_instance=RequestContext(request))
-
-
-@login_required
-def added_to_study(request, study_id, user_id):
-    """docstring for added_to_study"""
-    useradded = User.objects.get(id=user_id)
-    study = Study.objects.get(id=study_id)
-
-    message = useradded.get_and_delete_messages()
-    if len(message) == 0 :
-        message = None
-    else:
-        message = message[0]
-    new = not (message is None)
-    return render_to_response('study/added_to_study.html',locals(), context_instance=RequestContext(request))
 
 
 ############### Data Collection
@@ -143,99 +101,16 @@ def consented(request):
 
 
 @login_required
-def data_dump(request,study_id):
-    #study_id = int(request.session['study_id'])
-    study = Study.objects.get(id=study_id)
-    study_participants = StudyParticipant.objects.filter(study=study)
-    role = study.role(request.user)
-    if role < 1:
-        #investigator
-        dumpfile = "data/data_study_" + str(study_id) + ".csv"
-        data = []
-        for x in study_participants:
-            obj = Data.objects.filter(studyparticipant=x)
-            for y in obj:
-                data.append(y.data())
-        FILE = open(dumpfile, "w")
-        FILE.write("username,studyid,stage,stageslug,session,year,month,day,hour,minute,second,millisecond,code,datum\n")
-        for line in data:
-            FILE.write(line + "\n")
-        FILE.close()
-        FILE = open(dumpfile, "r")
-        datadump = ""
-        linelist = FILE.readlines()
-        for x in linelist:
-            datadump = datadump + x + "<br/>"
-            
-    else: 
-        #unauthorized URL mucking about with
-        return HttpResponseBadRequest()
-    #return HttpResponseRedirect('/study/1/'+str(study_id))
-    return render_to_response("data.html", locals(), context_instance=RequestContext(request))
-
-
-@login_required
-def choose_assess(request):
-    study_id = request.session['study_id']
-    study = Study.objects.get(id=study_id)
-    sp = StudyParticipant.objects.get(user=request.user, study=study)
-    us = sp.get_current_stage()
-    sc = us.sessions_completed
-    us.start_stage()
-    if sc%2 == 0:
-        return HttpResponseRedirect('/study/assess/setswitch')
-    else:
-        return HttpResponseRedirect('/study/assess/flanker')
-
-
-@login_required
-def choose_task(request):
-    study_id = request.session['study_id']
-    study = Study.objects.get(id=study_id)
-    sp = StudyParticipant.objects.get(user=request.user, study=study)
-    us = sp.get_current_stage()
-    sc = us.sessions_completed
-    us.start_stage()
-    if sc%2 == 0:
-        return HttpResponseRedirect('/study/fitbrains/0')
-    else:
-        return HttpResponseRedirect('/study/fitbrains/1')
-
-
-@login_required
-def show_task(request, game):
-    study_id = request.session['study_id']
-    study = Study.objects.get(id=study_id)
-    sp = StudyParticipant.objects.get(user=request.user, study=study)
-    stage = sp.get_current_stage()
-    sde = study.task_session_dur
-    elapsed = datetime.datetime.now() - stage.curr_session_started
-    sd = sde - elapsed.seconds / 60
-    if game == '1':
-        gametitle = "Wonder-Juice Machine"
-        link = "wonder_juice_machine"
-        code = "WDJ"
-    else:
-        gametitle = "Paradise Island II"
-        link = "paradise_island"
-        code = "PAR"
-    return render_to_response('study/fitbrains.html', locals(),context_instance=RequestContext(request))
-
-
-@login_required
 def finish_session(request):
+    # TODO: Find a better way to determine what session you're in...
     study_id = request.session['study_id']
     study = Study.objects.get(id=study_id)
-    role = study.role(request.user)
-    if role > -1:
-        #participant
-        studypart = StudyParticipant.objects.get(study=study,user=request.user)
-        #stage = studypart.get_current_stage()
-        stage = UserStage.objects.get(user=request.user, study=study, status=1)
-        stage.session_completed()
-    else: 
-        #unauthorized URL mucking about with
-        return HttpResponseBadRequest()
+    
+    studypart = StudyParticipant.objects.get(study=study,user=request.user)
+    #stage = studypart.get_current_stage()
+    stage = UserStage.objects.get(user=request.user, study=study, status=1)
+    stage.session_completed()
+
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 
@@ -304,44 +179,6 @@ def log(request, code, datum):
      #send: studyid, request.user, time, data
     return HttpResponse("YAY!")
 
-
-@login_required
-def mark_read(request):
-    """Marks a message with a particular ID as read"""
-    if request.method != 'POST': 
-        return HttpResponseBadRequest()
-    print "mark read", request.POST['id']
-    
-    msgid = int(request.POST['id'])
-    
-    msg = AlertRecepient.objects.get(id=msgid)
-    #usermsg = AlertRecepient.objects.get(alert=msg, recepient=request.user)
-    msg.read = 1
-    msg.save()
-    return HttpResponse("YAY!")
-
-
-@login_required
-def send_alert(request):
-    """Sends a message"""
-    if request.method != 'POST': 
-        return HttpResponseBadRequest()
-    #print request.POST
-    #create alert
-    try:
-        a = Alert.create(request.POST['subject'], request.POST['body'], request.user)
-    except Exception:
-        print "Alert failed to create"
-    
-    recepients = request.POST.getlist('participants')
-    
-    
-    for x in recepients:
-        #print x, "gets", request.POST.get['body']
-        print x, "gets", request.POST['body']
-        AlertRecepient.associate(a, x)
-        #make alertrecepients
-    return HttpResponse("YAY!")
 
 
 

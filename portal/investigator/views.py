@@ -3,13 +3,21 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from portal.studies.models import User
+from portal.studies.models import User, Study
 from video_conferencing import *
 
 
 @login_required
 def investigator_home(request):
     online_users = get_online_users()
+    
+    # build a dictionary of participants in this investigators studies
+    my_studies = {}
+    for s in Study.objects.all():
+        for i in s.investigators.all():
+            if request.user == i:
+                my_studies[s] = s.participants.all()
+    
     
     # TODO: only users in an investigator's study
     user_status = []
@@ -25,6 +33,6 @@ def investigator_home(request):
         
     request_declined = True if cache.get(request.user.username + "_no_chat_requested") else False
     
-    return render_to_response('basic_test.html', locals(), 
+    return render_to_response('investigator_home.html', locals(), 
                               context_instance=RequestContext(request))
 

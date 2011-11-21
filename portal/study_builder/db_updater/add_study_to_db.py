@@ -9,14 +9,14 @@ def add_study_to_db(study_settings):
     
     study_settings - A StudySettings object to create database entries for.
     """
-    create_studies(study_settings)
-    create_participants(study_settings)
+    study = create_studies(study_settings)
+    create_participants(study_settings, study)
     create_stages(study_settings)
     create_groups(study_settings)
-    create_investigators(study_settings)
+    create_investigators(study_settings, study)
 
 
-def create_participants(study_settings):
+def create_participants(study_settings, study):
     """
         Create user entries in the database for the supplied study_settings
         
@@ -38,8 +38,10 @@ def create_participants(study_settings):
         profile.user_role = UserRoles.PARTICIPANT
         profile.save()
 
+        # add the investigators to the study
+        study.participants.add(user)
 
-def create_investigators(study_settings):
+def create_investigators(study_settings, study):
     """
         Create user entries in the database for the supplied study_settings
 
@@ -59,7 +61,10 @@ def create_investigators(study_settings):
         # now update the user profile (it should be created after the save)
         profile = user.get_profile()
         profile.user_role = UserRoles.INVESTIGATOR
-        profile.save()    
+        profile.save()
+        
+        # add the investigators to the study
+        study.investigators.add(user)
 
 
 
@@ -87,6 +92,8 @@ def create_studies(study_settings):
     study.assess_trials = 1
     
     study.save()
+    
+    return study
   
 
 def create_group(study, group_name):

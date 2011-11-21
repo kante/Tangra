@@ -17,6 +17,10 @@ class Study(models.Model):
     eligibility = tinymce_models.HTMLField('Eligibility Criteria')
     reward = tinymce_models.HTMLField('Compensation and Reward')
     
+    # lists of investigators and participants associated with this study
+    investigators = models.ManyToManyField(User, related_name="investigators")
+    participants = models.ManyToManyField(User, related_name="participants")
+    
     #added to customize durations
     task_session_dur = models.IntegerField("Session Duration (minutes)")
     assess_blocks = models.IntegerField("Number of assessment blocks")
@@ -26,11 +30,6 @@ class Study(models.Model):
     def save(self, *args,**kwargs):    
         #create timestamps, keep track of user
         super(Study, self).save(*args, **kwargs) 
-    
-    
-    def participants(self):
-        """Returns a list of all participants in the Study"""
-        return [x.user for x in StudyParticipant.objects.filter(study=self)]
     
     
     def get_study_participant(self, user):

@@ -145,7 +145,7 @@ class Data(models.Model):
         d.studyparticipant = Study.objects.get(id=studyid).get_study_participant(user) 
         astage = d.studyparticipant.get_current_stage()
         d.stage = astage.order
-
+        
         d.stage_stub = d.studyparticipant.get_current_stage().stage.stub
         d.session = astage.sessions_completed + 1
         d.timestamp = time
@@ -155,15 +155,15 @@ class Data(models.Model):
     
     def __unicode__(self):
         return u'%s,%s,%s,%s,%s,%s,%s' % (self.studyparticipant.log(), self.stage, self.stage_stub, self.session, self.format_timestamp(), self.code, self.datum)
-        
+    
     def data(self):
         return u'%s,%s,%s,%s,%s,%s,%s' % (self.studyparticipant.log(), self.stage, self.stage_stub, self.session, self.format_timestamp(), self.code, self.datum)
-
+        
     def format_timestamp(self):
         t = self.timestamp
         return u'%s,%s,%s,%s,%s,%s,%s' % (t.year, t.month, t.day, t.hour, t.minute, t.second, t.microsecond/1000)
-
-
+    
+    
 class UserStage(models.Model):
     user = models.ForeignKey(User)
     stage = models.ForeignKey(Stage)

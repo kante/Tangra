@@ -25,7 +25,6 @@ def show_many_studies(request):
 
 
 @login_required
-
 def show_one_study(request,as_inv,s_id):
     # Find a better way to do the study finding stuff???
     study_id = int(s_id)

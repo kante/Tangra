@@ -24,77 +24,13 @@
 <!-- Tab content for each study -->
 {% for study, users in my_studies.items %}
     <div id="tab{{forloop.counter}}box" class="tab" {%if forloop.counter != 1%}style="display:none"{%endif%}>
-        
-        <!-- TODO: figure out how to put this in the user_table.html subtemplate -->
-        <div id="user_table_wrapper">
-        <table>
-        	<!-- Header row -->
-        	<tr>
-        		<th scope ="col" class="nobg">users</th> 
-        		<th scope ="col">is active</th> 
-        		<th scope ="col">send chat request</th>
-        	</tr>
-        	
-        	{% for user in users %}
-                
-            <tr>
-                <th scope="row" class={% cycle "spec" "specalt" %}> {{ user }} </th>
-                <td> {{ is_active }} </td>
-                <td> javadilly requestimator? naw link to user page. </td>
-            </tr>
-            {% endfor %}
-            
-        </table>
-        </div> <!--user_table_wrapper-->
+        {% include 'user_table.html' %}
     </div>  
 {% endfor %}
 
 
 
 <br><br>
-
-<div id="user_table_wrapper">
-<table>
-	<!-- Header row -->
-	<tr>
-		<th scope ="col" class="nobg">users</th> 
-		<th scope ="col">is active</th> 
-		<th scope ="col">send chat request</th>
-	</tr>
-
-	<!-- User rows -->
-	{% for user, is_active, has_request in user_status %}
-		<!-- tr -->
-		{% if is_active %} <tr class="online_tr"> {% else %} <tr>{% endif %}
-			<th scope="row" class={% cycle "spec" "specalt" %}> {{ user }} </td>
-
-			<td> {{ is_active }} </td>
-			
-			{% if is_active %} <td style="background-color:red;"> {% else %} <td>{% endif %}
-				{% if is_active %}
-					{% if request_declined %}
-						user declined request
-					{% else %} 
-						{% if has_request %}
-							<a href="#" onclick="javascript:uninvite_user('{{ user }}')">
-								cancel_chat_reuqest
-							</a>
-						{% else %}
-							<a href="#" onclick="javascript:invite_user('{{ user }}')">
-								send_chat_request
-							</a>
-						{% endif %}
-					{% endif %}	
-				{% else %}
-					offline
-				{% endif %}
-			</td>
-			
-		</tr>
-	{% endfor %}
-	
-</table>
-</div> <!--user_table_wrapper-->
 
 
 {% endblock %}

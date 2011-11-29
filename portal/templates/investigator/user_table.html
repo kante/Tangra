@@ -1,12 +1,54 @@
-{% extends 'base.html' %}
 {% block user_table %}
 
-
-blaslalsdf
-{% for user in users %}
-
-    user blikkity block
+<div id="user_table_wrapper">
+    <table>
+        <!-- Header row -->
+        <tr>
+            <th scope ="col" class="nobg">&nbsp;</th> 
+            <th scope ="col">
+                <a style="color:#6D929B;" href="/investigator/is_online">
+                    online
+                </a>
+            </th> 
+            <th scope ="col">send chat request</th>
+            <th scope ="col">
+                <a style="color:#6D929B;" href="/investigator/is_late">
+                    late
+                </a>
+            </th>
+            <th scope ="col">progress</th>
+        </tr>
     
-{% endfor %}
+        {% for user_data in users %}
+            <tr>
+                <th scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
+                <td width="18px"> 
+                    {% if user_data.is_online %}
+                        <img src="../../../media/img/online.gif" width="15" height="15" alt="Online">
+                    {% else %}
+                        <img src="../../../media/img/offline.gif" width="15" height="15" alt="Offline">
+                    {% endif %}
+                    
+                </td>
+                <td> 
+                    <a style="color:#6D929B;" href="/investigator/view_user/{{ user_data.username }}">
+                        link to user page
+                    </a>
+                </td>
+                <td width="18px">
+                    {% if user_data.is_late %}
+                        <img src="../../../media/img/alert.gif" width="15" height="15" alt="Alert">
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                        
+                </td>
+                <td> {% include 'progress_bar.html' %} </td>
+            </tr>
+        {% endfor %}
+    
+    </table>
+</div> <!--user_table_wrapper-->
 
-{% endblock  %}
+
+{% endblock %}

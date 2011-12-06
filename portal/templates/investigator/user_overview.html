@@ -1,0 +1,15 @@
+<div id="study_details">
+	<h2><a href="" onclick="return toggle_detail('d1',$(this));" class="right">User Info</a></h2>
+	<div id="d1" style="display:none;">
+        What goes here? Could be anything!
+    </div>
+	
+	<h2><a href="" onclick="return toggle_detail('d2',$(this));" class="right">Study Progress</a></h2>
+	<div id="d2" style="display:none;">
+	    
+	    {% for stage in user_stages %}
+	        {{stage}}<br>
+	    {% endfor %}
+	    
+	</div>
+</div>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <study>
-	<name name_stub="ex2">example_study_2</name>
+	<name name_stub="ex2">another_example</name>
 	
 	<description>This is an example study</description>
 	<informed_consent>You must consent or else.</informed_consent>

@@ -31,7 +31,7 @@ def build_user_data(participants, study, sort_by):
                     "username":user.username, 
                     "is_online":is_online(user),
                     "progress":get_progress(user, study),
-                    "is_late":user.username == "guy1" or user.username == "mr_A"
+                    "is_late":user.username == "guy_J" or user.username == "mr_A"
                 }
                 
         user_data.append(data)
@@ -64,9 +64,14 @@ def investigator_home(request, sort_by="username"):
     return render_to_response('investigator_home.html', locals(), 
                               context_instance=RequestContext(request))
 
+
 @login_required
 def view_user(request, user):
-    print "fafaf", user
+    user_data = {"username":user}
+    user_object = User.objects.get(username=user)
+    user_stages = UserStage.objects.filter(user=user_object)
+    print user_stages
     return render_to_response('user_viewer.html', locals(), 
                               context_instance=RequestContext(request))
-    
+
+

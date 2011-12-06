@@ -12,6 +12,7 @@ var query_state;
  */
 var Boggle = Class.create({
     initialize: function(node) {
+        this._dice = new BoggleDice();
         this._scores = new Array(0, 0, 0, 1, 1, 2, 3, 5, 11, 11, 11, 11, 11, 11, 11, 11, 11);
         this._node = node;
         this._wordInput = new WordInput(this, this._node.down('#word'));
@@ -146,6 +147,25 @@ var Boggle = Class.create({
     }
 });
 
+var BoggleDice = Class.create({
+    initialize: function() {
+        this._dice = new Array( "AAEEGN", "ELRTTY", "AOOTTW", "ABBJOO",
+                                "EHRTVW", "CIMOTU", "DISTTY", "EIOSST",
+                                "DELRVY", "ACHOPS", "HIMNQU", "EEINSU",
+                                "EEGHNW", "AFFKPS", "HLNNRZ", "DEILRX");
+    },
+    
+    roll: function() {
+        var cells = "";
+        for(var i=0; i<this._dice.length; i++) {
+            var idx = Math.floor(Math.random() * this._dice[i].length);
+            cells = cells + this._dice[i].charAt(idx);
+            if (i<this._dice.length - 1)
+                cells = cells + " ";
+        }
+        return cells;
+    }
+});
 
 var SolutionSet = Class.create({
     // A set of possible solutions for a given sequence of letters.
@@ -281,9 +301,13 @@ var SolutionSetDelta = Class.create({
 
 var Board = Class.create({
     initialize: function(game, node) {
+        node.setAttribute('cells', game._dice.roll());
+        
         this._node = $(node);
         this._makeDOM();
         this._game = game;
+        
+        
         this._cells = this._node.select('.cell').collect(function(node) {return new Cell(this._game, node)}.bind(this));
         // Mapping from cell nodes to Cell objects.
         this._idToCell = $H();
@@ -643,7 +667,7 @@ document.observe('dom:loaded', function(loaded) {
     //query_state = new QueryState($('query-state'));        
     if(boggle_node.down('#board')) {
         boggle = new Boggle(boggle_node);
-        flash = new Flash($('flash-message'));        
+        flash = new Flash($('flash-message'));
     }
 });
 })()

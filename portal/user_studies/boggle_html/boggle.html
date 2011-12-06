@@ -15,37 +15,24 @@
 	<body>
 		<div id="body">
 			<h1>Boggle</h1>
-
-			<div id="actions">
-            	actions huh...	
-			</div>
 			
 			<div id="game">
 				<div id="hud">
 					<div id="flash-message" style="display: none"></div>
-                    <div id="game-state">game state huh</div>
 				</div>				
-				
-                	<div id="game-start"> game huh?</div>
                 	
                 	<div id="your-words">
                 		<div class="container">
                 			<h2>Your words</h2>
                 			<div id="word-list">
-                				<div id="score" class="word">score<span class="score">12</span></div>
-
-                				<div class="word valid" word="hello" score="12">hello<span class="score">12</span></div>
-                				<div class="word valid duplicate" word="hello" score="0">hello<span class="score">0</span></div>
-                				<div class="word invalid" word="hufh" score="0">hufh<span class="score">0</span></div>
-                				<div class="word invalid duplicate" word="hufh" score="0">hufh<span class="score">0</span></div>
-
+                				<div id="score" class="word">score<span class="score">0</span></div>
                 			</div>
                 		</div>
 
                 	</div>
                 	
                     <!-- TODO: randomly generate a board -->
-                	<div id="board" shape="4 4" cells="A B C D E Q G H I J A L M N O P"></div>
+                	<div id="board" shape="4 4"></div>
 
                 	<div id="controls">
                 		<p>Time left in round: <span id="time-left"></span></p>

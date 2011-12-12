@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<script type="text/javascript">
+	
+		// call this when AJAX request returns
+		function complete_task(response,status,xhr)
+		{
+			if (response == "success")
+			{
+				$("#waiting_container").hide();
+				window.location = "/study/fsess";
+			} else {
+				$("#waiting_container").hide();
+				$("#retry_container").show();
+			}
+		}
+
+		// Send arbitrary JSON data to /???/save_data
+		function submit_data()
+		{
+			$("#submit_container").hide();
+			$("#waiting_container").show();
+			
+			var data = $("#shipley_form").serialize();
+			
+			if (data.split('=').length - 1 != 4) {
+				alert("Please answer all questions");
+				$("#submit_container").show();
+				$("#waiting_container").hide();
+				return;
+			}
+			
+			data += "&custom_data=Whatever you want";
+			$.post("/study/save_post_data", data, complete_task);
+		}
+		
+		
+	</script>
+	
+	<style>
+		.shipley_question input {
+			margin:0 5px 0 20px;
+		}
+	</style>
+	
+	<h1>Shipley Vocabulary Test</h1>
+	
+	
+	<form id="shipley_form">
+        <div class="shipley_question">
+            <h3>TALK *</h3>
+            <input type="radio" name="q1" value="draw">draw<br>
+            <input type="radio" name="q1" value="eat">eat<br>
+            <input type="radio" name="q1" value="speak">speak<br>
+            <input type="radio" name="q1" value="sleep">sleep<br>
+        </div>
+
+
+        <div class="shipley_question">
+            <h3>PERMIT *</h3>
+            <input type="radio" name="q2" value="allow">allow<br>
+            <input type="radio" name="q2" value="sew">sew<br>
+            <input type="radio" name="q2" value="cut">cut<br>
+            <input type="radio" name="q2" value="drive">drive<br>
+        </div>
+
+
+        <div class="shipley_question">
+            <h3>PARDON *</h3>
+            <input type="radio" name="q3" value="forgive">forgive<br>
+            <input type="radio" name="q3" value="pound">pound<br>
+            <input type="radio" name="q3" value="divide">divide<br>
+            <input type="radio" name="q3" value="tell">tell<br>
+        </div>
+
+
+        <div class="shipley_question">
+            <h3>COUCH *</h3>
+            <input type="radio" name="q4" value="pin">pin<br>
+            <input type="radio" name="q4" value="eraser">eraser<br>
+            <input type="radio" name="q4" value="sofa">sofa<br>
+            <input type="radio" name="q4" value="glass">glass<br>
+        </div>
+	</form>
+
+
+	<div id="submit_box">
+		<div id="submit_container">
+			<a style="color:blue;" href="#" onclick="submit_data();">sumbit</a> some data
+		</div>
+		<div style="display:none;" id="waiting_container">
+			Request submitted... please wait.
+		</div>
+		<div style="display:none;" id="retry_container">
+			Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+			to try again.
+		</div>
+	</div>
+
+
+{% endblock %}
+
+

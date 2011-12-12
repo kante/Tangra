@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+
+<study>
+	<name name_stub="bog">boggle_html</name>
+	
+	<description>This is a Boggle study</description>
+	<informed_consent>You must consent or else.</informed_consent>
+	<instructions>Click a button or something.</instructions>
+	<eligibility>Can you breathe?</eligibility>
+	<reward>LOL</reward>
+
+	<start_date>2002-09-24</start_date>
+	<end_date>2012-12-12</end_date>
+	
+	<!-- All users who should be able to administer the study. Investigators
+	CANNOT be participants! -->
+	<investigators>
+		<user name="dr_d" password="dr_d"/>
+	</investigators>
+
+	<!-- 
+		List the directories of all stages in your study here (order is not 
+		important in this section)
+	-->
+	<all_stages>
+		<stage directory="boggle"/>
+		<stage directory="shipley"/>
+		<stage directory="consent"/>
+	</all_stages>
+
+	<!-- One entry for each distinct group in the study -->
+	<all_groups>
+		<group name="groupX">
+            <user name="mr_A"/>
+            <user name="mr_B"/>
+            <user name="mr_C"/>
+            <user name="mr_D"/>
+            <user name="mr_E"/>
+            <user name="mr_F"/>
+            <user name="mr_G"/>
+            <user name="mr_H"/>
+			<!-- List the stages you want included in this group IN ORDER -->
+			<stages>
+			    <stage directory="consent"/>
+        		<stage directory="shipley"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="boggle"/>
+				<stage directory="shipley"/>
+        		
+			</stages>
+		</group>
+
+	</all_groups>
+	
+</study>
+
+
+
+
+
+
+

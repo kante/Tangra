@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div style="margin:4em">
+	<h2>Informed consent</h2>
+	
+	
+	<p>Please read the following information before beginning the study.</p>
+
+
+    <p>
+    <b>Principal Investigator</b><br>
+    Dr. D, Ph.D., 555-555-5555 <br>
+    Technologies for Aging Gracefully Lab, University of Toronto, Department of Computer Science <br>
+    </p>
+
+
+    <p>
+    <b>Faculty Supervisor</b><br>
+    Ronald Baecker, Ph.D., Professor, 416-978-6983 <br>
+    Technologies for Aging Gracefully Lab, University of Toronto, Department of Computer Science 
+    </p>
+
+
+    <p>
+    <b>Project Purpose and Procedures</b><br>
+    The purpose of this project is to evaluate the effectiveness of mental fitness interventions 
+    and board games on cognitive performance in older adults. We are also interested in how 
+    the online method of delivery affects participant retention, motivation, and whether data 
+    collected online can serve to validate mental fitness interventions.
+    <p>
+
+    <p>
+    To assist in this regard, you are asked to participate in the following online study. 
+    It will consist of an initial questionnaire and playing games over 12 1-minute sessions 
+    within 30 days. Your cognitive performance will be evaluated using simple online tasks 
+    before and after the experiment. We will maintain contact with you over e-mail. 
+    No other identifying information will be collected, your name or e-mail will 
+    not be associated with your data, and no personally identifying information 
+    will be published. 
+    <p>
+
+
+    <p>
+        <b>Potential Risks </b><br>
+    
+    There are no risks believed to be associated with this project as participation 
+    is voluntary and no individuals will be identified.
+    </p>
+
+
+    <p>
+    <b>Potential Benefits </b><br>
+    Information gathered in this study will contribute to understanding how to evaluate 
+    mental fitness interventions and how participants respond to online experimentation. 
+    This data can make it easier for researchers to conduct studies to validate mental 
+    fitness tasks and provide users with better, more reliable information about the 
+    benefits they can expect. Participants may also experience minor improvements in 
+    executive function, visuo-spatial reasoning and vocabulary.
+    </p>
+
+
+    <p>
+    <b>Remuneration/Compensation</b><br>
+    We are very grateful for your participation. While you will receive no compensation for participating, we will donate 3$ to a registered Canadian charity of your choice for every game-playing session you successfully complete.
+    </p>
+
+    <p>
+    <b>Confidentiality </b><br>
+    No individuals are identified in this study and identifying personal information will be stored separately from data. Documents and electronic data will be securely kept for five years and then destroyed. Identifying details will be destroyed as soon as the study is complete.
+    </p>
+
+
+    <p>
+    <b>
+    Contact information about the study </b><br>
+    If you have questions or desire further information with respect to the study, you may contact Dr. D at dr_d@dmail.com. 
+    </p>
+
+
+    <p>
+        <b>Your participation in this study is voluntary and I understand that I may withdraw at any time.</b>
+    </p>
+    </div>
+    <br>
+    <div align=center>
+    <h1>I agree to participate in the study as outlined above.</h1>
+    
+	<span class="actbutton red" style="padding: 10px; margin-right:60px"><a href="/study/0/{{studynum}}"> I do NOT agree </a></span>
+	<span class="actbutton green" style="padding: 10px"><a href="/study/consented"> I agree </a></span>
+	</div>
+	<br/><br/><br/><br/>
+{% endblock %}

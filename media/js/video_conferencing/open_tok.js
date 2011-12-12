@@ -38,9 +38,6 @@ function connect() {
 
 function disconnect() {
 	session.disconnect();
-	hide('disconnectLink');
-	hide('publishLink');
-	hide('unpublishLink');
 }
 
 // Called when user wants to start publishing to the session
@@ -51,8 +48,7 @@ function startPublishing() {
 		publisherDiv.setAttribute('id', 'opentok_publisher');
 		parentDiv.appendChild(publisherDiv);
 		publisher = session.publish(publisherDiv.id); // Pass the replacement div id to the publish method
-		show('unpublishLink');
-		hide('publishLink');
+
 	}
 }
 
@@ -62,8 +58,7 @@ function stopPublishing() {
 	}
 	publisher = null;
 
-	show('publishLink');
-	hide('unpublishLink');
+
 }
 
 //--------------------------------------
@@ -75,9 +70,6 @@ function sessionConnectedHandler(event) {
 	for (var i = 0; i < event.streams.length; i++) {
 		addStream(event.streams[i]);
 	}
-	show('disconnectLink');
-	show('publishLink');
-	hide('connectLink');
 	startPublishing();
 }
 
@@ -98,10 +90,6 @@ function sessionDisconnectedHandler(event) {
 	// will automatically be removed. This default behaviour can be prevented using event.preventDefault()
 	publisher = null;
 
-	show('connectLink');
-	hide('disconnectLink');
-	hide('publishLink');
-	hide('unpublishLink');
 }
 
 function connectionDestroyedHandler(event) {

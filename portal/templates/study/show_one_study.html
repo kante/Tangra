@@ -5,7 +5,7 @@
 <!-- javascript includes -->
 <script src="{{ MEDIA_URL }}js/video_conferencing/ajax_requests.js" type="text/javascript" charset="utf-8"></script>
 
-<!-- CSS includes -->>
+<!-- CSS includes -->
 <link href="{{ MEDIA_URL }}css/video_conferencing.css" type="text/css" rel="stylesheet" >
 <link href="{{ MEDIA_URL }}css/investigator/user_table.css" type="text/css" rel="stylesheet" >
 <link href="{{ MEDIA_URL }}css/participant/study.css" type="text/css" rel="stylesheet" >
@@ -147,6 +147,24 @@
 {% if video_request %}
 	<link href="{{ MEDIA_URL }}css/video_conferencing.css" type="text/css" rel="stylesheet" >
 	
+	
+	<script>
+	    function accept_video_chat()
+	    {
+	        $('#decline_chat_button').hide()
+	        $('#accept_chat_button').hide()
+	        $('#leave_chat_button').show()
+	        
+	        connect();
+	    }
+	    
+	    function leave_video_chat()
+	    {
+	        decline_video_request('{{ username }}');
+	        window.location.reload()
+	    }
+	</script>
+	
 	<div id="tab3box" class="tab">
 		<div style="width:100%; text-align:center;">
 			<br>
@@ -155,28 +173,24 @@
 				accept this request for a video chat? 
 			<br>
 			
+			<br><br>
 			<div style="display:block;">
-			    <span class="actbutton red" style="padding: 10px; margin-right:60px">
-			        <a href="/study/0/{{studynum}}"> Decline Video Chat Request </a>
+			    <span id="decline_chat_button" class="actbutton red" style="padding: 10px; margin-right:60px">
+			        <a href=# onclick="javascript:decline_video_request('{{ username }}');"> 
+			            Decline Video Chat Request 
+			        </a>
 			    </span>
-        	    <span class="actbutton green" style="padding: 10px">
-        	        <a href="/study/consented"> Accept Video Chat Request </a>
+        	    <span id="accept_chat_button" class="actbutton green" style="padding: 10px">
+        	        <a href=# onclick="javascript:accept_video_chat();"> 
+        	            Accept Video Chat Request 
+        	        </a>
+        	    </span>
+        	    <span id="leave_chat_button" class="actbutton green" style="display:none;padding: 10px">
+        	        <a href=# onclick="javascript:leave_video_chat();"> Leave Video Chat </a>
         	    </span>
 			</div>
 			
-			
-			<div style="display:inline;width:250px;background-color:green;color:black;">
-				<a style="width:200px" href="#" onclick="javascript:connect();">
-					YES
-				</a>
-			</div>
-			
-			<div style="display:inline;width:250px;background-color:red;color:black;">
-				<a href="#" onclick="javascript:decline_video_request('{{ username }}');">
-					NO
-				</a>
-			</div>
-			<br><br><br><br><br>
+			<br><br>
 			<script src="http://staging.tokbox.com/v0.91/js/TB.min.js" type="text/javascript" charset="utf-8"></script>
 			<script>
 				// These are the variables that need to be set in Django using the TokBox 
@@ -231,9 +245,7 @@
 
 				</table>
 			</div>
-			<script>
-				show('connectLink');
-			</script>
+		
 
 		</div>
 

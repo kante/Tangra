@@ -84,6 +84,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.staticfiles',
+    
     'portal.studies',
     
     # UI and modules for creating user generated studies

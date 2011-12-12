@@ -8,7 +8,7 @@ from models import *
 from forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from context_processors import *
+#from context_processors import *
 import datetime
 from django.core.cache import cache
 

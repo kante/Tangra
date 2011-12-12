@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <study>
-	<name name_stub="bog">boggle_html</name>
+	<name name_stub="bog">simple_word_game_study</name>
 	
 	<description>This is a Boggle study</description>
 	<informed_consent>You must consent or else.</informed_consent>

@@ -64,8 +64,7 @@ def investigator_home(request, sort_by="username"):
     request_declined = True if cache.get(request.user.username + "_no_chat_requested") else False
     
     
-    # create a new opentok session 
-    
+   
     
     return render_to_response('investigator_home.html', locals(), 
                               context_instance=RequestContext(request))
@@ -76,7 +75,20 @@ def view_user(request, user):
     user_data = {"username":user}
     user_object = User.objects.get(username=user)
     user_stages = UserStage.objects.filter(user=user_object)
-    print user_stages
+    
+    # create a new opentok session 
+    # TODO: put the below things in settings.py and document how to set them
+    api_key = "9550782"        
+    api_secret = "3a9bc01e5217c49d7f710a1324c4ed520bcdc26c"  
+    session_address = "64.230.48.65" 
+
+    #opentok_sdk = OpenTokSDK.OpenTokSDK(api_key, api_secret)
+    #session_properties = {OpenTokSDK.SessionProperties.p2p_preference: "disabled"}
+    #session = opentok_sdk.create_session(session_address, session_properties)
+    #session_id =  session.session_id
+    #token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
+
+    
     return render_to_response('user_viewer.html', locals(), 
                               context_instance=RequestContext(request))
 

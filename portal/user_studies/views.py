@@ -30,30 +30,6 @@ def another_example_bye_page(request):
 
 
 @login_required
-def boggle_html_boggle(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/boggle_html/stages/boggle/template.html", "r")
-    template = Template("".join(template_file.readlines()))
-    context = RequestContext(request)
-    return HttpResponse(template.render(context))
-
-
-@login_required
-def boggle_html_shipley(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/boggle_html/stages/shipley/template.html", "r")
-    template = Template("".join(template_file.readlines()))
-    context = RequestContext(request)
-    return HttpResponse(template.render(context))
-
-
-@login_required
-def boggle_html_consent(request):
-    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/boggle_html/stages/consent/template.html", "r")
-    template = Template("".join(template_file.readlines()))
-    context = RequestContext(request)
-    return HttpResponse(template.render(context))
-
-
-@login_required
 def example_study_welcome_page(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
@@ -88,6 +64,30 @@ def shipley_vocabulary_test_welcome_page(request):
 @login_required
 def shipley_vocabulary_test_test(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/shipley_vocabulary_test/stages/test/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def simple_word_game_study_boggle(request):
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/simple_word_game_study/stages/boggle/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def simple_word_game_study_shipley(request):
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/simple_word_game_study/stages/shipley/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def simple_word_game_study_consent(request):
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/simple_word_game_study/stages/consent/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = RequestContext(request)
     return HttpResponse(template.render(context))

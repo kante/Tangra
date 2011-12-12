@@ -585,7 +585,7 @@ var TimeLeft = Class.create({
         this._game = game;
         this._timer = null;
         this._value = null;
-        this.setInitialValue(this, 10);
+        this.setInitialValue(this, 15);
         
     },
     setInitialValue: function(transport, initial_value) {

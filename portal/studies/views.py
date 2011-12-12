@@ -86,16 +86,13 @@ def questionnaire(request):
 def consented(request):
     study_id = int(request.session['study_id'])
     study = Study.objects.get(id=study_id)
-    role = study.role(request.user)
-    if role > -1:
-        #participant
-        studypart = study.get_study_participant(request.user)
-        stage = studypart.get_current_stage()
-        log(request, "CON", "Consent Given")
-        stage.session_completed()
-    else: 
-        #unauthorized URL mucking about with
-        return HttpResponseBadRequest()
+    
+    #participant
+    studypart = study.get_study_participant(request.user)
+    stage = studypart.get_current_stage()
+    log(request, "CON", "Consent Given")
+    stage.session_completed()
+    
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 

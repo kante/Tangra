@@ -52,6 +52,7 @@ def build_user_data(participants, study, sort_by):
 def investigator_home(request, sort_by="username"):
     online_users = get_online_users()
     
+    
     # build a dictionary of participants in this investigators studies
     my_studies = {}
     for s in Study.objects.all():
@@ -59,7 +60,12 @@ def investigator_home(request, sort_by="username"):
             if request.user == i:
                 my_studies[s] = build_user_data(s.participants.all(), s, sort_by)
     
+    
     request_declined = True if cache.get(request.user.username + "_no_chat_requested") else False
+    
+    
+    # create a new opentok session 
+    
     
     return render_to_response('investigator_home.html', locals(), 
                               context_instance=RequestContext(request))

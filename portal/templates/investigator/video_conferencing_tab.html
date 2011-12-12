@@ -10,7 +10,25 @@
 	var apiKey = 1127; // OpenTok sample API key. Replace with your own API key.
 	var sessionId = '153975e9d3ecce1d11baddd2c9d8d3c9d147df18'; // Replace with your session ID.
 	var token = 'devtoken'; // Should not be hard-coded. Add via python SSL.
+	
+    function send_invite(user)
+    {
+        $('#invite_button').hide();
+        $('#uninvite_button').show();
+        invite_user(user);
+        connect();
+    }
+    
+    function cancel_invite(user)
+    {
+        disconnect();
+        $('#invite_button').show();
+        $('#uninvite_button').hide();
+        uninvite_user(user);
+    }
+	
 </script>
+
 <script src="{{ MEDIA_URL }}js/video_conferencing/open_tok.js" type="text/javascript" charset="utf-8"></script>
 <script src="{{ MEDIA_URL }}js/video_conferencing/ajax_requests.js" type="text/javascript" charset="utf-8"></script>
 
@@ -20,12 +38,25 @@
 
 <div class="hidden_data" id="ajax_response">HIDDEN!</div>
 
-<a style="color:blue" href="#" onclick="javascript:invite_user('{{ user_data.username }}')">send_chat_request</a>
-
-<br><br>
-<a style="color:blue" href="#" onclick="javascript:uninvite_user('{{ user_data.username }}')">cancel_chat_request</a>
 <br><br>
 
+click below if you want to speak with {{ user_data.username }} with a video chat.
+
+<br><br>
+
+<div align=center style="width:90%;display:block;">
+    <span id="uninvite_button" class="actbutton red" style="width:200px;display:none;padding: 10px;">
+        <a href=# onclick="javascript:cancel_invite('{{ user_data.username }}')"> 
+            Cancel Video Chat Request
+        </a>
+    </span>
+    <span id="invite_button" class="actbutton green" style="width:200px;padding: 10px">
+        <a href=# onclick="javascript:send_invite('{{ user_data.username }}')"> 
+            Send Video Chat Request 
+        </a>
+    </span>
+</div>
+<br>
 
 <div id="admin_video_wrapper">
 	<div id="opentok_console"></div>
@@ -60,8 +91,3 @@
 		
 	</table>
 </div>
-
-
-<script>
-	show('connectLink');
-</script>

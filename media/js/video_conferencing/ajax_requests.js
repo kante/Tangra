@@ -5,7 +5,7 @@ function invite_user(pk)
 
 function invite_complete(responseText, textStatus, XMLHttpRequest)
 {
-	window.location.reload()
+	//window.location.reload()
 }
 
 function uninvite_user(pk)
@@ -15,7 +15,7 @@ function uninvite_user(pk)
 
 function uninvite_complete(responseText, textStatus, XMLHttpRequest)
 {
-	window.location.reload()
+	//window.location.reload()
 }
 
 

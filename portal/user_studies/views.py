@@ -2,14 +2,14 @@
 
 from django.http import *
 from django.contrib.auth.decorators import login_required
-from django.template import Template, Context
+from django.template import Template, Context, RequestContext
 
 
 @login_required
 def another_example_welcome_page(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/another_example/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -17,7 +17,7 @@ def another_example_welcome_page(request):
 def another_example_simple_task(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/another_example/stages/simple_task/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -25,7 +25,31 @@ def another_example_simple_task(request):
 def another_example_bye_page(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/another_example/stages/bye_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def boggle_html_boggle(request):
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/boggle_html/stages/boggle/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def boggle_html_shipley(request):
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/boggle_html/stages/shipley/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def boggle_html_consent(request):
+    template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/boggle_html/stages/consent/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -33,7 +57,7 @@ def another_example_bye_page(request):
 def example_study_welcome_page(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -41,7 +65,7 @@ def example_study_welcome_page(request):
 def example_study_simple_task(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/simple_task/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -49,7 +73,7 @@ def example_study_simple_task(request):
 def example_study_bye_page(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/example_study/stages/bye_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -57,7 +81,7 @@ def example_study_bye_page(request):
 def shipley_vocabulary_test_welcome_page(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/shipley_vocabulary_test/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
@@ -65,6 +89,6 @@ def shipley_vocabulary_test_welcome_page(request):
 def shipley_vocabulary_test_test(request):
     template_file = open("/Users/kante/Documents/work/tangra/Tangra/portal/user_studies/shipley_vocabulary_test/stages/test/template.html", "r")
     template = Template("".join(template_file.readlines()))
-    context = Context({})
+    context = RequestContext(request)
     return HttpResponse(template.render(context))
 

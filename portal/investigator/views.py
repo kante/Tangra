@@ -82,12 +82,14 @@ def view_user(request, user):
     api_secret = "3a9bc01e5217c49d7f710a1324c4ed520bcdc26c"  
     session_address = "64.230.48.65" 
 
-    #opentok_sdk = OpenTokSDK.OpenTokSDK(api_key, api_secret)
+    opentok_sdk = OpenTokSDK.OpenTokSDK(api_key, api_secret)
     #session_properties = {OpenTokSDK.SessionProperties.p2p_preference: "disabled"}
     #session = opentok_sdk.create_session(session_address, session_properties)
     #session_id =  session.session_id
     #token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
 
+    session_id = "1_MX45NTUwNzgyfjY0LjIzMC40OC42NX4yMDExLTEyLTEyIDE5OjA0OjQ2Ljc0NTE1MCswMDowMH4wLjYzOTc2NDcyMjk1MX4"
+    token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
     
     return render_to_response('user_viewer.html', locals(), 
                               context_instance=RequestContext(request))

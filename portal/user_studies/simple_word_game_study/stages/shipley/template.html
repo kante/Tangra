@@ -39,8 +39,14 @@
 	</script>
 	
 	<style>
+		.shipley_question {
+			margin:0 5px 0 100px;
+		}
 		.shipley_question input {
 			margin:0 5px 0 20px;
+		}
+		#submit_box {
+			margin:0 5px 0 100px;
 		}
 	</style>
 	
@@ -84,20 +90,24 @@
         </div>
 	</form>
 
-
+	<br><br>
 	<div id="submit_box">
 		<div id="submit_container">
-			<a style="color:blue;" href="#" onclick="submit_data();">sumbit</a> some data
+			<span class="actbutton green" style="padding: 10px">
+				<a href=# onclick="submit_data();"> Submit </a>
+			</span>
 		</div>
 		<div style="display:none;" id="waiting_container">
 			Request submitted... please wait.
 		</div>
 		<div style="display:none;" id="retry_container">
-			Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+			Submit failed. Please click 
+			<a style="color:blue;" href="#" onclick="submit_data();">here</a> 
 			to try again.
 		</div>
 	</div>
 
+	<br><br>
 
 {% endblock %}
 

@@ -13,6 +13,9 @@ import datetime
 from django.core.cache import cache
 
 
+from portal.investigator.video_conferencing import OpenTokSDK
+
+
 ############### Study
 
 
@@ -33,6 +36,22 @@ def show_one_study(request,as_inv,s_id):
     video_request = True if cache.get(request.user.username + "_has_pending_invite") else False
     username = request.user.username
     
+    (api_key, session_id, token) = ("", "", "")
+    if video_request:
+        # TODO: not repeat this stuff... put it in the video_conferencing module dumbass
+        api_key = "9550782"        
+        api_secret = "3a9bc01e5217c49d7f710a1324c4ed520bcdc26c"  
+        session_address = "64.230.48.65" 
+
+        opentok_sdk = OpenTokSDK.OpenTokSDK(api_key, api_secret)
+        #session_properties = {OpenTokSDK.SessionProperties.p2p_preference: "disabled"}
+        #session = opentok_sdk.create_session(session_address, session_properties)
+        #session_id =  session.session_id
+        #token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
+
+        session_id = "1_MX45NTUwNzgyfjY0LjIzMC40OC42NX4yMDExLTEyLTEyIDE5OjA0OjQ2Ljc0NTE1MCswMDowMH4wLjYzOTc2NDcyMjk1MX4"
+        token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
+        
     studypart = study.get_study_participant(request.user)
     stages = UserStage.objects.filter(user=request.user, study=study)
     #stages = studypart.participant_stages()
@@ -41,6 +60,7 @@ def show_one_study(request,as_inv,s_id):
         action = current_stage.stage.url
     else:
         action = "study/show_many_studies"
+    
     
     return render_to_response('study/show_one_study.html',locals(), context_instance=RequestContext(request))
 

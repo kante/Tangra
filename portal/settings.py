@@ -116,8 +116,8 @@ MEDIA_ROOT = os.path.normpath(os.path.join(ROOT_PATH, "../media"))
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/amedia/'
-
+#ADMIN_MEDIA_PREFIX = '/amedia/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + "/media/admin/" 
 
 # The location of all html/django templates
 TEMPLATE_DIRS = (

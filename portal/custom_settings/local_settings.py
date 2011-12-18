@@ -3,7 +3,7 @@ import os
 ROOT_PATH = '/Users/dr_gonzo/Documents/work/tangra/Tangra'
 
 # The place to serve static files from
-STATIC_URL = '192.168.74.136'
+STATIC_URL = 'http://192.168.74.136'
 STATIC_ROOT = '/Library/WebServer/Documents/media/'
 
 # Make this unique, and don't share it with anybody.

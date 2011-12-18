@@ -2,8 +2,6 @@ var boggle;
 var flash;
 var query_state;
 
-
-
 (function() {
 
 /* The game of Boggle
@@ -157,12 +155,20 @@ var BoggleDice = Class.create({
     
     roll: function() {
         var cells = "";
+        var letters = new Array();
         for(var i=0; i<this._dice.length; i++) {
             var idx = Math.floor(Math.random() * this._dice[i].length);
-            cells = cells + this._dice[i].charAt(idx);
-            if (i<this._dice.length - 1)
+            letters.push(this._dice[i].charAt(idx));
+        }
+        
+        while(letters.length > 0)
+        {
+            var idx = Math.floor(Math.random() * letters.length);
+            cells = cells + letters.pop(idx);
+            if (letters.length > 0)
                 cells = cells + " ";
         }
+            
         return cells;
     }
 });

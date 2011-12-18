@@ -129,8 +129,8 @@ TEMPLATE_DIRS = (
 
 
 # Where we store css/js/images
-#MEDIA_URL = STATIC_URL + '/media/admin/' 
-MEDIA_URL = "/media/"
+MEDIA_URL = STATIC_URL + "/media/" 
+#MEDIA_URL = "/media/"
 
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "paste,searchreplace",

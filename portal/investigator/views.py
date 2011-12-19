@@ -31,7 +31,7 @@ def build_user_data(participants, study, sort_by):
                     "username":user.username, 
                     "is_online":is_online(user),
                     "progress":get_progress(user, study),
-                    "is_late":user.username == "guy_J" or user.username == "mr_A"
+                    "is_late":False # TODO: This... it's just a simple database query...
                 }
                 
         user_data.append(data)

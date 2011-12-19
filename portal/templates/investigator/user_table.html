@@ -10,18 +10,19 @@
                     online
                 </a>
             </th> 
-            <th scope ="col">send chat request</th>
             <th scope ="col">
                 <a style="color:#6D929B;" href="/investigator/is_late">
                     late
                 </a>
             </th>
+            <th scope ="col">send chat request</th>
+
             <th scope ="col">progress</th>
         </tr>
     
         {% for user_data in users %}
             <tr>
-                <th scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
+                <th width="150px" scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
                 <td width="18px"> 
                     {% if user_data.is_online %}
                         <img src="../../../media/img/online.gif" width="15" height="15" alt="Online">
@@ -30,12 +31,8 @@
                     {% endif %}
                     
                 </td>
-                <td> 
-                    <a style="color:#6D929B;" href="/investigator/view_user/{{ user_data.username }}">
-                        link to user page
-                    </a>
-                </td>
-                <td width="18px">
+
+				<td width="18px">
                     {% if user_data.is_late %}
                         <img src="../../../media/img/alert.gif" width="15" height="15" alt="Alert">
                     {% else %}
@@ -43,6 +40,13 @@
                     {% endif %}
                         
                 </td>
+
+                <td width="150px"> 
+                    <a style="color:#6D929B;" href="/investigator/view_user/{{ user_data.username }}">
+                        link to user page
+                    </a>
+                </td>
+                
                 <td> {% include 'progress_bar.html' %} </td>
             </tr>
         {% endfor %}

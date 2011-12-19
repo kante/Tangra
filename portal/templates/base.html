@@ -35,7 +35,7 @@
 
 		  
 			<div id="login_menu" class="supergrey">
-				<img id="logo" src="{{ MEDIA_URL }}img/tangra_logo.png" />
+				<a href="/"><img id="logo" src="{{ MEDIA_URL }}img/tangra_logo.png" /></a>
 				<div id="login_links">
 				{% if user.is_authenticated %}
 					Welcome, <a href="/study/">{{user.username}}</a> |

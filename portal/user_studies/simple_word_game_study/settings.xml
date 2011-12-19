@@ -23,9 +23,9 @@
 		important in this section)
 	-->
 	<all_stages>
-		<stage directory="boggle"/>
-		<stage directory="shipley"/>
-		<stage directory="consent"/>
+		<stage directory="boggle" description="This stage involves playing a short game of boggle."/>
+		<stage directory="shipley" description="This stage involves taking a brief vocabulary test."/>
+		<stage directory="consent" description="Please read and agree to the consent form if you wish to participate in this study."/>
 	</all_stages>
 
 	<!-- One entry for each distinct group in the study -->

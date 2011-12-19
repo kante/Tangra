@@ -164,7 +164,8 @@ def create_stages(study_settings):
     """
 
     study = Study.objects.get(name=study_settings.name)
-    for stage_name in study_settings.stages:
+    
+    for (stage_name, description) in zip(study_settings.stages, study_settings.stage_descriptions):
         try:
             stage = Stage.objects.get(study=study, name=stage_name)
         except Stage.DoesNotExist:
@@ -175,8 +176,8 @@ def create_stages(study_settings):
         
         stage.url = "/user_studies/{0}/{1}".format(study.name, stage.name)
          
-        stage.description = "Stage description goes here :P"
-        stage.instructions = "Stage instructions go here :D"
+        stage.description = description
+        stage.instructions = description
         
         stage.save()
     

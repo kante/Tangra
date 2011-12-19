@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from portal.studies.models import User, Study, UserStage
+from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *
 
 
@@ -63,31 +63,43 @@ def investigator_home(request, sort_by="username"):
     
     request_declined = True if cache.get(request.user.username + "_no_chat_requested") else False
     
-    
-   
-    
     return render_to_response('investigator_home.html', locals(), 
                               context_instance=RequestContext(request))
 
 
-@login_required
+#@login_required
 def view_user(request, user):
-    user_data = {"username":user}
+    username = user
     user_object = User.objects.get(username=user)
-    user_stages = UserStage.objects.filter(user=user_object)
+    sps = StudyParticipant.objects.filter(user=user_object)
+    
+    raw_user_data = []
+    user_data = {}
+    for sp in sps:
+        if sp.study.name not in user_data:
+            user_data[sp.study.name] = []
+        raw_user_data.extend(Data.objects.filter(studyparticipant=sp))
+    
+    for datum in raw_user_data:
+        the_study = datum.studyparticipant.study.name
+        next_data = {"stage":datum.stage, "stub":datum.stage_stub, "timestamp":datum.timestamp, "data":datum.datum}
+        user_data[the_study].append( next_data )
+        
+    
+    print user_data
     
     # create a new opentok session 
     # TODO: put the below things in settings.py and document how to set them
     api_key = "9550782"        
     api_secret = "3a9bc01e5217c49d7f710a1324c4ed520bcdc26c"  
     session_address = "64.230.48.65" 
-
+    
     opentok_sdk = OpenTokSDK.OpenTokSDK(api_key, api_secret)
     #session_properties = {OpenTokSDK.SessionProperties.p2p_preference: "disabled"}
     #session = opentok_sdk.create_session(session_address, session_properties)
     #session_id =  session.session_id
     #token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
-
+    
     session_id = "1_MX45NTUwNzgyfjY0LjIzMC40OC42NX4yMDExLTEyLTEyIDE5OjA0OjQ2Ljc0NTE1MCswMDowMH4wLjYzOTc2NDcyMjk1MX4"
     token = opentok_sdk.generate_token(session_id, OpenTokSDK.RoleConstants.PUBLISHER, None, None)
     

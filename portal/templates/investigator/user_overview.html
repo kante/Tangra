@@ -1,15 +1,37 @@
 <div id="study_details">
-	<h2><a href="" onclick="return toggle_detail('d1',$(this));" class="right">User Info</a></h2>
-	<div id="d1" style="display:none;">
-        What goes here? Could be anything!
-    </div>
 	
-	<h2><a href="" onclick="return toggle_detail('d2',$(this));" class="right">Study Progress</a></h2>
-	<div id="d2" style="display:none;">
-	    
-	    {% for stage in user_stages %}
-	        {{stage}}<br>
-	    {% endfor %}
+	{% ifequal user_data|length 0 %}
+		{{ username }} has not completed any stages in any studies.
+	{% else %}
+		
+		{% for study, data_list in user_data.items %}
+			<h2>
+				<a href="" onclick="return toggle_detail('d{{forloop.counter}}',$(this));" class="right">
+					Overview of {{username}}'s data for: <u>{{study}}</u>
+				</a>
+			</h2>
+			<div id="d{{forloop.counter}}" style="display:none;">	
+				
+				{% ifequal data_list|length 0 %}
+					{{ username }} has not completed any stages in this study.
+				{% else %}
+				
+				
+					{% for entry in data_list %}
+						<div style="border:solid; border-width:1px; padding:5px 5px 5px 5px; margin:0 0 5px 0;">
+							{{ entry.timestamp}} <br>
+							<div style="margin:0 0 0 25px;">
+								{{ entry.data}} 
+							</div>
+						</div>
+					{% endfor %}
+					
+				{% endifequal %}
+				
+			</div>	
+		{% endfor %}
+		
+	{% endifequal %}
 	    
 	</div>
 </div>

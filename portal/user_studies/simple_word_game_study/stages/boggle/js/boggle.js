@@ -565,6 +565,7 @@ var WordList = Class.create({
         data += "\nscore, " + this.getScore() + "\n";
         
         data += "board, " + this._game._board._boardString + "\n"
+        
         return data;
     },
     

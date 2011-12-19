@@ -38,25 +38,24 @@
 
 <div class="hidden_data" id="ajax_response">HIDDEN!</div>
 
-<br><br>
 
-click below if you want to speak with {{ user_data.username }} with a video chat.
 
-<br><br>
+<br><br><br>
 
 <div align=center style="width:90%;display:block;">
-    <span id="uninvite_button" class="actbutton red" style="width:200px;display:none;padding: 10px;">
-        <a href=# onclick="javascript:cancel_invite('{{ user_data.username }}')"> 
+	<a href=# onclick="javascript:cancel_invite('{{ user_data.username }}')">     
+		<span id="uninvite_button" class="actbutton red" style="width:200px;display:none;padding: 10px;">
             Cancel Video Chat Request
-        </a>
-    </span>
-    <span id="invite_button" class="actbutton green" style="width:200px;padding: 10px">
-        <a href=# onclick="javascript:send_invite('{{ user_data.username }}')"> 
+    	</span>
+	</a>
+	<a href=# onclick="javascript:send_invite('{{ user_data.username }}')"> 
+    	<span id="invite_button" class="actbutton green" style="width:200px;padding: 10px">
             Send Video Chat Request 
-        </a>
-    </span>
+    	</span>
+	</a>
 </div>
-<br>
+<br><br><br>
+
 
 <div id="admin_video_wrapper">
 	<div id="opentok_console"></div>

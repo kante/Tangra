@@ -89,6 +89,7 @@ class StudySettings:
         # get the dictionary of stages with each
         all_stages_node = dom.getElementsByTagName("all_stages")[0]
         self.stages = extract_attributes(all_stages_node, "stage", "directory")
+        self.stage_descriptions = extract_attributes(all_stages_node, "stage", "description")
         
         # build the investigators list
         investigator_node = dom.getElementsByTagName("investigators")[0]

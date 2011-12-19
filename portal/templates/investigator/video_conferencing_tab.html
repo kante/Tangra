@@ -25,6 +25,8 @@
         $('#invite_button').show();
         $('#uninvite_button').hide();
         uninvite_user(user);
+	    $("#my_video_status").html("Video request cancelled.");
+	    $("#other_video_status").html("Video request cancelled.");
     }
 	
 </script>
@@ -43,12 +45,12 @@
 <br><br><br>
 
 <div align=center style="width:90%;display:block;">
-	<a href=# onclick="javascript:cancel_invite('{{ user_data.username }}')">     
+	<a href=# onclick="javascript:cancel_invite('{{ username }}')">     
 		<span id="uninvite_button" class="actbutton red" style="width:200px;display:none;padding: 10px;">
             Cancel Video Chat Request
     	</span>
 	</a>
-	<a href=# onclick="javascript:send_invite('{{ user_data.username }}')"> 
+	<a href=# onclick="javascript:send_invite('{{ username }}')"> 
     	<span id="invite_button" class="actbutton green" style="width:200px;padding: 10px">
             Send Video Chat Request 
     	</span>
@@ -76,15 +78,15 @@
 		
 		<tr>
 			<td>
-				<div id="links">
-					<input type="button" value="Connect" id ="connectLink" onClick="javascript:connect()" />
-					<input type="button" value="Leave" id ="disconnectLink" onClick="javascript:disconnect()" />
-					<input type="button" value="Start Publishing" id ="publishLink" onClick="javascript:startPublishing()" />
-					<input type="button" value="Stop Publishing" id ="unpublishLink" onClick="javascript:stopPublishing()" />
-				</div>
+				<span style="display:inline;" id="my_video_status">
+					click the button above to <br> 
+					request a chat with {{ username }}
+				</span>
 			</td>
 			<td>
-				
+				<span style="display:inline;" id="other_video_status">
+					
+				</span>
 			</td>
 		</tr>
 		

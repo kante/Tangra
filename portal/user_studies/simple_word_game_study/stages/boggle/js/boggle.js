@@ -497,10 +497,16 @@ var WordInput = Class.create({
     },
     turnOff: function() {
         document.stopObserving('keydown');
+        document.observe('keydown', this.ignoreBackspace.bindAsEventListener(this));
     },
     /********************************************************/
     /* EVENT HANDLERS                                       */
     /********************************************************/
+    ignoreBackspace: function(event) {
+        if (event.keyCode == Event.KEY_BACKSPACE) {
+            event.stop();
+        }
+    },
     onKey: function(event) {
         if (event.keyCode == Event.KEY_ESC) {
             event.stop();
@@ -661,7 +667,7 @@ var Flash = Class.create({
             this._timer = null;
         }
         this._node.show();
-        this._timer = setTimeout(this.hide.bindAsEventListener(this), 1500);
+        this._timer = setTimeout(this.hide.bindAsEventListener(this), 500);
     },
     hide: function() {        
         this._node.fade();

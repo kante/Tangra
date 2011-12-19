@@ -15,7 +15,7 @@
                     late
                 </a>
             </th>
-            <th scope ="col">send chat request</th>
+            <th scope ="col">user info</th>
 
             <th scope ="col">progress</th>
         </tr>
@@ -23,18 +23,18 @@
         {% for user_data in users %}
             <tr>
                 <th width="150px" scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
-                <td width="18px"> 
+                <td width="22px"> 
                     {% if user_data.is_online %}
-                        <img src="../../../media/img/online.gif" width="15" height="15" alt="Online">
+                        <img src="../../../media/img/online.gif" width="22" height="22" alt="Online">
                     {% else %}
-                        <img src="../../../media/img/offline.gif" width="15" height="15" alt="Offline">
+                        <img src="../../../media/img/offline.gif" width="22" height="22" alt="Offline">
                     {% endif %}
                     
                 </td>
 
 				<td width="18px">
                     {% if user_data.is_late %}
-                        <img src="../../../media/img/alert.gif" width="15" height="15" alt="Alert">
+                        <img src="../../../media/img/alert.gif" width="22" height="22" alt="Alert">
                     {% else %}
                         &nbsp;
                     {% endif %}

@@ -1,8 +1,29 @@
 var boggle;
 var flash;
 var query_state;
+var data_submitter;
 
 (function() {
+
+var DataSubmitter = Class.create({
+    initialize: function() {
+        
+    },
+    
+    submitData: function()
+	{
+		var data = boggle._wordList.compileData();
+		//data += "&custom_data=Whatever you want";
+		jQuery.post("/study/save_post_data", data, this.completeTask);
+	},
+	
+	completeTask:function(response,status,xhr)
+	{
+	    // TODO: Error checking damn son
+		//if (response == "success")
+			window.location = "/study/fsess";
+	}
+});
 
 /* The game of Boggle
  * Contains the game logic and components including the board,
@@ -307,8 +328,8 @@ var SolutionSetDelta = Class.create({
 
 var Board = Class.create({
     initialize: function(game, node) {
-        node.setAttribute('cells', game._dice.roll());
-        
+        this._boardString = game._dice.roll();
+        node.setAttribute('cells', this._boardString);
         this._node = $(node);
         this._makeDOM();
         this._game = game;
@@ -333,7 +354,7 @@ var Board = Class.create({
         var height = new Number(shape[1]);
         this._node.insert({top: '<div class="container"></div>'});
         var container = this._node.down('.container');
-        container.insert({top: '<div id="board-blocker"><h1>Round finished!</h1><h1>Click on <span style="padding: 3px; background-color:#369; color:white"><a href=# onclick="javascript:window.location = \'/study/fsess\';">Next Round</a></span> <br/>to continue</h1></div>'});
+        container.insert({top: '<div id="board-blocker"><h1>Round finished!</h1><h1>Click on <span style="padding: 3px; background-color:#369; color:white"><a href=# onclick="javascript:data_submitter.submitData();">Next Round</a></span> <br/>to continue</h1></div>'});
         var row, col;
         for (var rowIndex=0; rowIndex<height; rowIndex++) {
             row = new Element('div', {
@@ -534,6 +555,19 @@ var WordList = Class.create({
     containsWord: function(word) {
         return this._words[word.toLowerCase()] == true;
     },
+    
+    compileData: function() {
+        var data = "words";
+        for(var word in this._words)
+        {
+            data += ", " + word;
+        }
+        data += "\nscore, " + this.getScore() + "\n";
+        
+        data += "board, " + this._game._board._boardString + "\n"
+        return data;
+    },
+    
     /********************************************************/
     /* COMMANDS                                             */
     /********************************************************/
@@ -670,6 +704,7 @@ var QueryState = Class.create({
 
 document.observe('dom:loaded', function(loaded) {
     var boggle_node = $('game');
+    data_submitter = new DataSubmitter();
     //query_state = new QueryState($('query-state'));        
     if(boggle_node.down('#board')) {
         boggle = new Boggle(boggle_node);

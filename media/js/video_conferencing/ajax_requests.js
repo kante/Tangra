@@ -5,6 +5,8 @@ function invite_user(pk)
 
 function invite_complete(responseText, textStatus, XMLHttpRequest)
 {
+    $("#my_video_status").html("Request sent. Initializing video.");
+    $("#other_video_status").html("Waiting for participant to respond...");
 	//window.location.reload()
 }
 

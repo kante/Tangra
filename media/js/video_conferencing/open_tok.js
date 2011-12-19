@@ -71,6 +71,7 @@ function sessionConnectedHandler(event) {
 		addStream(event.streams[i]);
 	}
 	startPublishing();
+	$("#my_video_status").html("Your chat session is now ready.");
 }
 
 function streamCreatedHandler(event) {

@@ -130,7 +130,6 @@ def finish_session(request):
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 
-# CLEANUP: How do we want to let the user customize /deal with data collection?
 @login_required
 def save_post_data(request):
     """Saves arbitrary POST data from a user stage and responds with a 
@@ -150,12 +149,9 @@ def save_post_data(request):
     
     dt = datetime.datetime.now()    
     code = "CSV"
-
-    try:
-        Data.write(studyid, request.user, dt, code, data)
-    except Exception:
-        return HttpResponse("couldn't save")
-        
+    
+    log(request, code, data)
+    
     #send: studyid, request.user, time, data
     return HttpResponse("success")
 

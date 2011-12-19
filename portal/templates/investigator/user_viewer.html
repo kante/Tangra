@@ -7,27 +7,32 @@
 <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" type="text/javascript" charset="utf-8"></script>
 <div class="hidden_data" id="ajax_response">HIDDEN!</div>
 
+
 <br><br>
+
 
 <!-- Tabs for viewing users in each study separately -->
 <div id="supertabs">
     <ul>
         <li class="tablink on" id="tab1">
-            User Overview for {{ user_data.username }}
+            User Overview for {{ username }}
         </li>
         
         <li class="tablink" id="tab2">
-            Video Chat with {{ user_data.username }}
+            Video Chat with {{ username }}
         </li>
     </ul>
 </div>
+
 
 <div id="tab1box" class="tab">
     {% include 'user_overview.html' %}
 </div>
 
+
 <div id="tab2box" class="tab" style="display:none">
     {% include 'video_conferencing_tab.html' %}
 </div>
+
 
 {% endblock %}

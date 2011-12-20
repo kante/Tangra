@@ -92,7 +92,6 @@
 
 	        {{astage.stage.instructions|safe}}
 
-			<h2>Status</h2>
 	        <h2 class="stage_status">
 	        	{%ifequal astage.status 1 %}
 					{%if astage.overdue%}
@@ -110,8 +109,6 @@
 
 	        </h2>
 	      </td><td width="20%">
-	      <span style="display: block"><p style="font-weight: bold;">Sessions Completed:</p>
-		<h2> {{astage.sessions_completed}} (of {{astage.stage.sessions}})</h2></span>
 		<div style="height:80px;">
 		{%ifequal astage.status 1 %}
 			{%if astage.overdue %}
@@ -119,7 +116,9 @@
 			{%else %}
 				<a href="{{action}}" class="actbutton green">Start Session</a>
 			{% endif %}
-		{% endifequal%}</div>
+		{% endifequal%}
+		
+		</div>
 		</td></tr></table>
 	    </div></div>
 	  {% endfor %}

@@ -464,7 +464,10 @@ p.error {
 }
 .micro_study_options{
   text-align: right;
-  padding: 10px 5px;
+  padding: 20px 0 20px 0;
+ 
+  text-align:center;
+  
 }
 
 .micro_stages{

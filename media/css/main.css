@@ -494,6 +494,7 @@ p.error {
 
 .table_stage_info {
   border-top: solid 1px #ccc;
+  spacing: 20px;
 }
 
 .table_label {

@@ -34,16 +34,20 @@
 	        {% endif %}
         </td>
       </tr>
+
+
+	  <tr>
+        <td height="80px" style="text-align:center;" colspan=2>
+			<a href="{% url show_one_study 0 user_stage.stage.study.id%}">
+		 		<span class="actbutton green" >
+					Click Here to Participate in This Study
+				</span>
+			</a>
+		</td>
+	  </tr>
     </table>
-    
-    <div class="micro_study_options">
-      	<a href="{% url show_one_study 0 user_stage.stage.study.id%}">
-	 		<span class="actbutton green" >
-				Click Here to Participate in This Study
-			</span>
-		</a>
-    </div>
   </li>
+	<br>
   {% endfor %}
 </ul>
 {% else %}

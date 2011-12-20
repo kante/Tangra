@@ -23,7 +23,7 @@ from portal.investigator.video_conferencing import OpenTokSDK
 def show_many_studies(request):
     studies_as_participant = StudyParticipant.objects.filter(user=request.user)
     current_stages = UserStage.objects.filter(user=request.user, status=1)
-    
+        
     return render_to_response('study/show_many_studies.html', locals(), context_instance=RequestContext(request))
 
 
@@ -57,12 +57,9 @@ def show_one_study(request,as_inv,s_id):
     #stages = studypart.participant_stages()
     current_stage = studypart.get_current_stage()
     if current_stage:
-        action = current_stage.stage.url
+        return render_to_response('study/show_one_study.html',locals(), context_instance=RequestContext(request))
     else:
-        action = "study/show_many_studies"
-    
-    
-    return render_to_response('study/show_one_study.html',locals(), context_instance=RequestContext(request))
+        return HttpResponseRedirect('/study/')
 
 
 ############### Data Collection
@@ -154,28 +151,6 @@ def save_post_data(request):
     
     #send: studyid, request.user, time, data
     return HttpResponse("success")
-
-
-@login_required
-def log_game(request):
-    """Logs a single piece of data from an in-house game's POST request"""
-    
-    if request.method != 'POST': 
-        return HttpResponseBadRequest()
-        
-    studyid = request.session['study_id']
-    user = request.user
-    timestamp = datetime.datetime.now()
-    data = request.POST['data'] # CLEANUP: This is the user's data. Think about how to let them change this...
-    code = request.POST['code']
-    
-    try:
-        Data.write(studyid, user, timestamp, code, data)
-    except Exception:
-        HttpResponse(content='FAILED', mimetype=DEFAULT_CONTENT_TYPE)
-        
-    # User should read this using an ajax request before calling fsess
-    return HttpResponse(content="SUCCESS")
 
 
 @login_required

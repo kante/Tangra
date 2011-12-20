@@ -241,7 +241,7 @@ class UserStage(models.Model):
 
     def nextdeadline(self):
         ahead = datetime.timedelta(days=self.stage.deadline)
-        return self.last_session_completed + ahead
+        return self.start_date + ahead
         
     def overdue(self):
         if datetime.datetime.now() > self.nextdeadline():

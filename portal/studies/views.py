@@ -54,9 +54,10 @@ def show_one_study(request,as_inv,s_id):
         
     studypart = study.get_study_participant(request.user)
     stages = UserStage.objects.filter(user=request.user, study=study)
-    #stages = studypart.participant_stages()
+    
     current_stage = studypart.get_current_stage()
     if current_stage:
+        action = current_stage.stage.url
         return render_to_response('study/show_one_study.html',locals(), context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/study/')

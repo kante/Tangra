@@ -6,24 +6,24 @@ from django.template import Template, Context, RequestContext
 
 
 @login_required
-def another_example_welcome_page(request):
-    template_file = open("/Users/dr_gonzo/Documents/work/tangra/Tangra/portal/user_studies/another_example/stages/welcome_page/template.html", "r")
+def another_study_welcome_page(request):
+    template_file = open("/Users/dr_gonzo/Documents/work/tangra/Tangra/portal/user_studies/another_study/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
 @login_required
-def another_example_simple_task(request):
-    template_file = open("/Users/dr_gonzo/Documents/work/tangra/Tangra/portal/user_studies/another_example/stages/simple_task/template.html", "r")
+def another_study_simple_task(request):
+    template_file = open("/Users/dr_gonzo/Documents/work/tangra/Tangra/portal/user_studies/another_study/stages/simple_task/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = RequestContext(request)
     return HttpResponse(template.render(context))
 
 
 @login_required
-def another_example_bye_page(request):
-    template_file = open("/Users/dr_gonzo/Documents/work/tangra/Tangra/portal/user_studies/another_example/stages/bye_page/template.html", "r")
+def another_study_bye_page(request):
+    template_file = open("/Users/dr_gonzo/Documents/work/tangra/Tangra/portal/user_studies/another_study/stages/bye_page/template.html", "r")
     template = Template("".join(template_file.readlines()))
     context = RequestContext(request)
     return HttpResponse(template.render(context))

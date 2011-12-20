@@ -108,13 +108,13 @@
 				{% endifequal %}
 
 	        </h2>
-	      </td><td width="20%">
-		<div style="height:80px;">
+	      </td><td width="40%">
+		<div style="height:100px;padding:20px 0 0 0;">
 		{%ifequal astage.status 1 %}
 			{%if astage.overdue %}
-				<a href="{{action}}" class="actbutton red">Start Session</a>
+				<a href="{{action}}" class="actbutton red">Click Here to Start the Session</a>
 			{%else %}
-				<a href="{{action}}" class="actbutton green">Start Session</a>
+				<a href="{{action}}" class="actbutton green">Click Here to Start the Session</a>
 			{% endif %}
 		{% endifequal%}
 		

@@ -177,7 +177,7 @@ def create_stages(study_settings):
             stage = Stage(study=study, name=stage_name)
         stage.stub = stage_name[0:3]
         stage.sessions = 1
-        stage.deadline = 10
+        stage.deadline = 7
         
         stage.url = "/user_studies/{0}/{1}".format(study.name, stage.name)
          

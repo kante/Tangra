@@ -24,6 +24,8 @@ def show_many_studies(request):
     studies_as_participant = StudyParticipant.objects.filter(user=request.user)
     current_stages = UserStage.objects.filter(user=request.user, status=1)
         
+    print current_stages
+    
     return render_to_response('study/show_many_studies.html', locals(), context_instance=RequestContext(request))
 
 

@@ -1,0 +1,98 @@
+<link href="{{ MEDIA_URL }}css/video_conferencing.css" type="text/css" rel="stylesheet" >
+
+<script>
+    function accept_video_chat()
+    {
+        $('#decline_chat_button').hide()
+        $('#accept_chat_button').hide()
+        $('#leave_chat_button').show()
+
+        $("#my_video_status").html("Please wait one moment while we <br> initialize your video.");
+	    
+        connect();
+    }
+    
+    function leave_video_chat()
+    {
+        decline_video_request('{{ username }}');
+    }
+</script>
+
+<div style="width:100%; text-align:center;">
+	<br>
+		Hello there! One of our investigators would appreciate the 
+		opportunity to speak to about your study. Would you like to 
+		accept this request for a video chat? 
+	<br>
+	
+	<br><br>
+	<div style="display:block;">
+		<a href=# onclick="javascript:accept_video_chat();">
+	    	<span id="accept_chat_button" class="actbutton green" style="padding: 10px; margin-right:60px">
+	            Accept Video Chat Request 
+	    	</span>
+		</a>
+		<a href=# onclick="javascript:decline_video_request('{{ username }}');"> 
+	    	<span id="decline_chat_button" class="actbutton red" style="padding: 10px;">
+	            Decline Video Chat Request 
+	    	</span>
+		</a>
+		<a href=# onclick="javascript:leave_video_chat();">
+	    	<span id="leave_chat_button" class="actbutton red" style="display:none;padding: 10px">
+				Leave Video Chat 
+	    	</span>
+		</a>
+	</div>
+	
+	<br><br>
+	<script src="http://staging.tokbox.com/v0.91/js/TB.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		// These are the variables that need to be set in Django using the TokBox 
+		// server-side API. 
+		// It is important that they are set BEFORE you include the video_div.js 
+		// script below.
+		var apiKey = "{{ api_key }}"; 
+        var sessionId = "{{ session_id }}";
+        var token = "{{token}}";
+	</script>
+	<script src="{{ MEDIA_URL }}js/video_conferencing/open_tok.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+	<div id="opentok_console"></div>
+	
+	
+
+	<div id="admin_video_wrapper">
+		<table class="video_table" style="width:90%">
+			<tr>
+				<th> Participant Video </th>
+				<th> Investigator Video </th>
+			</tr>
+
+			<tr>
+				<td class="video_table">
+					<div id="myCamera" class="publisherContainer"></div>
+				</td>
+				<td class="video_table">
+					<div id="subscribers"></div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<span style="display:inline;" id="my_video_status">
+						Click accept if you would like an opportunity <br>
+						to speak with an investigator
+					</span>
+				</td>
+				<td>
+					<span style="display:inline;" id="other_video_status">
+
+					</span>
+				</td>
+			</tr>
+
+		</table>
+	</div>
+</div>

@@ -1,101 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Studies</h1>
-
-
-
-{% if studies_as_investigator %}
-<h2>As Investigator</h2>
-<a href="/admin/studies/study/add/" class="button">Create New Study</a>
-
-<ul class="many_studies">
-  {% for study_inv in studies_as_investigator %}
-  <li>
-    <h3>{{ study_inv.study.name }}
-	<!--><span class="study_status">Status</span></h3>-->
-	</h3>
-
-    <table class="micro_stages" cellspacing="0">
-      <tr>
-
-      {% for stage in study_inv.stages %}
-        <td>
-          <div class="micro_stage_box">
-            {{stage.number_of_users}}
-          </div>
-          <div class="clear"></div>
-          <div class="micro_stage_name">
-            {{stage.name}}
-          </div>
-        </td>
-
-      {% endfor %}
-
-      </tr>
-    </table>
-    <div class="micro_study_options">
-      <a href="/study/datadump/{{study_inv.study.id}}" class="actbutton grey">Export Data</a>
-      <a href="{% url show_one_study 1 study_inv.study.id%}" class="actbutton grey"> Study Home</a>
-    </div>
-  </li>
-  {% endfor %}
-</ul>
-{% endif %}
-
 
 <!-- Participant -->
-{% if studies_as_participant %}
-<h2>As Participant</h2>
-<ul class="many_studies">
-  {% for user_stage in current_stages %}
-  <li>
-    <h3>{{ user_stage.stage.study.name }}<span class="study_status">
-			{% if user_stage.overdue %} <span class="red right_float">Overdue!</span>
-			{% else %} <span class="green right_float">Active</span>
-			{% endif %}
-	</span></h3>
-    <table class="table_stage_info" cellspacing="0">
-      <tr>
-        <td class="table_label">Current stage</td>
-        <td>{{user_stage.stage.name}}</td>
-      </tr>
-      <tr>
-        <td class="table_label">Stage Description</td>
-        <td>{{user_stage.stage.description|safe}}</td>
-      </tr>
-      <tr>
-        <td class="table_label"></td>
-        <td>
-          {%if user_stage.overdue%}
-		        <span class="red">You're overdue! Last session was due: {{user_stage.nextdeadline|date:"d M Y"}}</span>
-	        {% else %}
-		        Complete session by: {{user_stage.nextdeadline|date:"d M Y"}}
-	        {% endif %}
-        </td>
-      </tr>
-    </table>
-    
-    <div class="micro_study_options">
-      <a href="" class="disable">Act</a>
-      <a href="/feedback" class="disable">Feedback</a>
-      <a href="{% url show_one_study 0 user_stage.stage.study.id%}" class="button"> Study Home</a>
-    </div>
-  </li>
-  {% endfor %}
-</ul>
-{% endif %}
+{% ifnotequal current_stages|length 0 %}
+
+	<h2>Welcome to Tangra! You are a participant in the following studies:</h2>
+
+	<ul class="many_studies">
+	  {% for user_stage in current_stages %}
+	  <li>
+	    <h3>{{ user_stage.stage.study.name }}<span class="study_status">
+				{% if user_stage.overdue %} <span class="red right_float">Overdue!</span>
+				{% else %} <span class="green right_float">Active</span>
+				{% endif %}
+		</span></h3>
+	    <table class="table_stage_info" cellspacing="0">
+	      <tr>
+	        <td class="table_label">Current stage</td>
+	        <td>{{user_stage.stage.name}}</td>
+	      </tr>
+	      <tr>
+	        <td class="table_label">Stage Description</td>
+	        <td>{{user_stage.stage.description|safe}}</td>
+	      </tr>
+	      <tr>
+	        <td class="table_label"></td>
+	        <td>
+	          {%if user_stage.overdue%}
+			        <span class="red">You're overdue! Last session was due: {{user_stage.nextdeadline|date:"d M Y"}}</span>
+		        {% else %}
+			        Complete session by: {{user_stage.nextdeadline|date:"d M Y"}}
+		        {% endif %}
+	        </td>
+	      </tr>
+
+
+		  <tr>
+	        <td height="80px" style="text-align:center;" colspan=2>
+				<a href="{% url show_one_study 0 user_stage.stage.study.id%}">
+			 		<span class="actbutton green" >
+						Click Here to Participate in This Study
+					</span>
+				</a>
+			</td>
+		  </tr>
+	    </table>
+	  </li>
+		<br>
+	  {% endfor %}
+	</ul>
+{% else %}
+	<h2>You have completed all of your studies. Thank you!</h2>
+{% endifnotequal %}
 
 
  
 {% endblock %}
 
 
-{% comment %}
-keeping this here for reference
-			<li><a href="{% url show_one_study study.id%}">{{study}}</a>
-				 (<a href="{% url add_participant_to_study study.id %}">add participant</a> | 
-				<a href="{% url show_users_in_study study.id %}">add participant</a> | 
-				<a href="{% url edit_one_study study.id %}">edit</a> |<a href="{% url edit_one_study study.id %}">edit</a>
-{% endcomment%} |
-				  <a href="{% url remove_one_study study.id %}" onclick="confirm('Are you sure?')">Delete</a>)</li>
+

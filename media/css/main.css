@@ -464,7 +464,10 @@ p.error {
 }
 .micro_study_options{
   text-align: right;
-  padding: 10px 5px;
+  padding: 20px 0 20px 0;
+ 
+  text-align:center;
+  
 }
 
 .micro_stages{
@@ -491,6 +494,7 @@ p.error {
 
 .table_stage_info {
   border-top: solid 1px #ccc;
+  spacing: 20px;
 }
 
 .table_label {

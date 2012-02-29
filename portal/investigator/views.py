@@ -23,15 +23,19 @@ def get_progress(user, study):
 def is_online(user):
     return True if cache.get(user.username) else False
 
+def is_late(user):
+    current_stages = UserStage.objects.filter(user=user, status=1)
+    return reduce(lambda x, y : x or y.overdue(), current_stages, False)
 
 def build_user_data(participants, study, sort_by):
     user_data = []
     for user in participants:
+        
         data = {
                     "username":user.username, 
                     "is_online":is_online(user),
                     "progress":get_progress(user, study),
-                    "is_late":False # TODO: This... it's just a simple database query...
+                    "is_late":is_late(user)
                 }
                 
         user_data.append(data)

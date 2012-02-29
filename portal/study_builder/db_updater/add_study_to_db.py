@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 
 from studies.models import Study, Group, Stage, StageGroup, StudyParticipant, UserStage
 from users.models import UserRoles
+import datetime
+
+
 
 def add_study_to_db(study_settings):
     """
@@ -152,7 +155,9 @@ def create_groups(study_settings):
                 # set all status to incomplete
                 user_stage.status = 1 if stage_index == 0 else 2
                 user_stage.sessions_completed = 0
+                user_stage.start_date = datetime.datetime.now()
                 user_stage.save()
+                
                 
             stage_index = stage_index + 1
             
@@ -172,7 +177,7 @@ def create_stages(study_settings):
             stage = Stage(study=study, name=stage_name)
         stage.stub = stage_name[0:3]
         stage.sessions = 1
-        stage.deadline = 10
+        stage.deadline = 7
         
         stage.url = "/user_studies/{0}/{1}".format(study.name, stage.name)
          

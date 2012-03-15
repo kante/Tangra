@@ -1,6 +1,8 @@
 import os
 # point this to the Tangra directory on your server
+
 ROOT_PATH = 'c:/Users/kante/Desktop/Tangra/'
+
 
 # The place to serve static files from
 #STATIC_URL = 'http://192.168.74.136'

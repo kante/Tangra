@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+	Please watch the following instructional video and click proceed. 
+	
+	<br><br>
+	
+	<div id="player"></div>
+
+    <script type="text/javascript" src="http://www.youtube.com/player_api"></script>
+
+    <script>
+
+        // create youtube player
+        var player;
+        function onYouTubePlayerAPIReady() {
+            player = new YT.Player('player', {
+              height: '390',
+              width: '640',
+              videoId: '0JfuUIDdDmE',
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+        }
+
+        // autoplay video
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        // when video ends
+        function onPlayerStateChange(event) {        
+            if(event.data === 0) {          
+                $('#proceed_link').show();
+            }
+        }
+
+    </script>
+    
+    
+	<br><br>
+		
+	<a id="proceed_link" style="display:none;" href="/study/fsess"><span  class="actbutton green" style="padding: 10px"> Proceed </span></a>
+	</div>
+	<br/><br/><br/><br/>
+{% endblock %}

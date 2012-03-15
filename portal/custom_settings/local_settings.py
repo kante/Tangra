@@ -1,13 +1,13 @@
 import os
 # point this to the Tangra directory on your server
-ROOT_PATH = '/Users/dr_gonzo/Documents/work/tangra/Tangra'
+ROOT_PATH = 'c:/Users/kante/Desktop/Tangra/'
 
 # The place to serve static files from
-STATIC_URL = 'http://192.168.74.136'
-STATIC_ROOT = '/Library/WebServer/Documents/media/'
-STATICFILES_DIRS = (
-    ROOT_PATH + "/media/",
-)
+#STATIC_URL = 'http://192.168.74.136'
+#STATIC_ROOT = '/Library/WebServer/Documents/media/'
+#STATICFILES_DIRS = (
+#    ROOT_PATH + "/media/",
+#)
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '4=ic*0&yk7rh@zyxbrq*-+&i9tqj16j%m4@0sbwe%plxw(%%3b'

@@ -22,6 +22,7 @@
 		important in this section)
 	-->
 	<all_stages>
+	    <stage directory="consent"/>
 		<stage directory="instructions"/>
 		<stage directory="aiming_task"/>
 		<stage directory="continuation"/>
@@ -42,6 +43,7 @@
             
 			<!-- List the stages you want included in this group IN ORDER -->
 			<stages>
+			    <stage directory="consent"/>
 				<stage directory="instructions"/>
 				<stage directory="aiming_task"/>
 				<stage directory="aiming_task"/>

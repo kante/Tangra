@@ -6,6 +6,38 @@ from django.template import Template, Context, RequestContext
 
 
 @login_required
+def aiming_test_study_consent(request):
+    template_file = open("C:\Users\kante\Desktop\Tangra\portal/user_studies/aiming_test_study/stages/consent/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def aiming_test_study_instructions(request):
+    template_file = open("C:\Users\kante\Desktop\Tangra\portal/user_studies/aiming_test_study/stages/instructions/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def aiming_test_study_aiming_task(request):
+    template_file = open("C:\Users\kante\Desktop\Tangra\portal/user_studies/aiming_test_study/stages/aiming_task/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def aiming_test_study_continuation(request):
+    template_file = open("C:\Users\kante\Desktop\Tangra\portal/user_studies/aiming_test_study/stages/continuation/template.html", "r")
+    template = Template("".join(template_file.readlines()))
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
+
+@login_required
 def another_study_welcome_page(request):
     template_file = open("C:\Users\kante\Desktop\Tangra\portal/user_studies/another_study/stages/welcome_page/template.html", "r")
     template = Template("".join(template_file.readlines()))

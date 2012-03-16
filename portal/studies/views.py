@@ -119,15 +119,35 @@ def consented(request):
 @login_required
 def finish_session(request):
     # TODO: Find a better way to determine what session you're in...
+    print 'AAAAAA', request.session['study_id']
+    print 'BBBBBB', request.user
+
     study_id = request.session['study_id']
     study = Study.objects.get(id=study_id)
     
+    print dir(request.user)
+
+    print request.user.pk, request.user.id
+
     studypart = StudyParticipant.objects.get(study=study,user=request.user)
     #stage = studypart.get_current_stage()
     stage = UserStage.objects.get(user=request.user, study=study, status=1)
     stage.session_completed()
 
     return HttpResponseRedirect('/study/0/'+str(study_id))
+
+
+def cheat_finish_session(request):
+    study_id = request.GET['study_id']
+    study = Study.objects.get(id=study_id)
+    
+    studypart = StudyParticipant.objects.get(study=study,user=request.GET['user_id'])
+    #stage = studypart.get_current_stage()
+    stage = UserStage.objects.get(user=request.user, study=study, status=1)
+    stage.session_completed()
+
+    return HttpResponseRedirect('/study/0/'+str(study_id))
+
 
 
 @login_required

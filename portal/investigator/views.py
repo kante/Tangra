@@ -79,18 +79,22 @@ def view_user(request, user):
     
     raw_user_data = []
     user_data = {}
+    
+    # for each study-participant entry
+    # - ensure study's name has a placeholder in user_data dict
+    # - dump raw data in raw_user_data list
     for sp in sps:
         if sp.study.name not in user_data:
             user_data[sp.study.name] = []
         raw_user_data.extend(Data.objects.filter(studyparticipant=sp))
     
+    # go over raw data and organize it in user_data dict by study name
     for datum in raw_user_data:
         the_study = datum.studyparticipant.study.name
         next_data = {"stage":datum.stage, "stub":datum.stage_stub, "timestamp":datum.timestamp, "data":datum.datum}
         user_data[the_study].append( next_data )
-        
     
-    print user_data
+    # print user_data
     
     # create a new opentok session 
     # TODO: put the below things in settings.py and document how to set them

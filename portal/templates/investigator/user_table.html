@@ -1,23 +1,32 @@
 {% block user_table %}
 
 <script language="JavaScript">
-function toggle(source) {
-  checkboxes = document.getElementsByName('downloadUserData');
-  for(var i in checkboxes)
-    checkboxes[i].checked = source.checked;
+function toggle_{{study}}(source) {
+	checkboxes = document.getElementsByName("downloadUserData_{{study}}");
+	for(var i in checkboxes)
+		checkboxes[i].checked = source.checked;
 }
+
+
+function getUserData_{{study}}(){
+	checkedBoxes = document.getElementsByName("downloadUserData_{{study}}")
+	for (var i in checkedBoxes)
+		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined)
+			alert(checkedBoxes[i].value);
+}
+
 </script>
 
 <div id="user_table_wrapper">
     <table>
 
-		
+
         <!-- Button row -->
 		<tr class"noFormat">
 			<td class="noFormat">&nbsp;</td>
 
 			<td class="noFormat" style="text-align:center">
-				<button>Download</button>
+				<input type="button" onclick="getUserData_{{study}}()" value="Download"/>
 			</td>
 			
 			<td class="noFormat">&nbsp;</td>
@@ -34,7 +43,7 @@ function toggle(source) {
             <th scope ="col" style="text-align:center">
 				get data?
 				</br>
-				all: <input type="checkbox" onClick="toggle(this)"/>
+				all: <input type="checkbox" onClick="toggle_{{study}}(this)"/>
 			</th>
 			
             <th scope ="col">
@@ -59,7 +68,7 @@ function toggle(source) {
 
                 <td width="10px"> 
                     <div style="color:#6D929B; text-align: center">
-                        <input type="checkbox" name="downloadUserData" value="{{user_data.username}}"/>
+                        <input type="checkbox" name="downloadUserData_{{study}}" value="{{user_data.username}}"/>
                     </div>
                 </td>
                 

@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *
@@ -26,6 +27,20 @@ def is_online(user):
 def is_late(user):
     current_stages = UserStage.objects.filter(user=user, status=1)
     return reduce(lambda x, y : x or y.overdue(), current_stages, False)
+    
+def get_data(request):
+    results = {'success':False}
+    if request.method == u'GET':
+        GET = request.GET
+        if GET.has_key(u'users') and GET.has_key(u'study'):
+            users = GET.getlist(u'users')
+            study = GET[u'study']
+            
+            # get pertinent user data, serialize it and offer file to download
+            
+            results = {'success':True}
+    json = simplejson.dumps(results)
+    return HttpResponse(json, mimetype='application/json')
 
 def build_user_data(participants, study, sort_by):
     user_data = []

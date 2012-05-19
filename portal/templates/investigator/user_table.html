@@ -10,9 +10,27 @@ function toggle_{{study}}(source) {
 
 function getUserData_{{study}}(){
 	checkedBoxes = document.getElementsByName("downloadUserData_{{study}}")
+	
+	var users = new Array();
+	
 	for (var i in checkedBoxes)
 		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined)
-			alert(checkedBoxes[i].value);
+			users.push(checkedBoxes[i].value);
+		
+	
+	$.getJSON("/investigator/get_data", 
+				{ users: users, study: "{{study}}" },
+				function(json){
+					alert("Was successful?: " + json['success']);
+				}
+	);
+	
+	/*
+	$.get("/investigator/get_data",
+		{test:"test"}
+	)
+	*/
+			
 }
 
 </script>

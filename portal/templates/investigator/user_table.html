@@ -1,35 +1,32 @@
 {% block user_table %}
 
 <script language="JavaScript">
-function toggle_{{study}}(source) {
-	checkboxes = document.getElementsByName("downloadUserData_{{study}}");
+function toggle_{{study.id}}(source) {
+	checkboxes = document.getElementsByName("downloadUserData_{{study.id}}");
 	for(var i in checkboxes)
 		checkboxes[i].checked = source.checked;
 }
 
 
-function getUserData_{{study}}(){
-	checkedBoxes = document.getElementsByName("downloadUserData_{{study}}")
+function getUserData_{{study.id}}(){
+	checkedBoxes = document.getElementsByName("downloadUserData_{{study.id}}");
 	
 	var users = new Array();
 	
-	for (var i in checkedBoxes)
-		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined)
+	for (var i in checkedBoxes) {
+		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined) {
 			users.push(checkedBoxes[i].value);
+		}
+	}
 		
 	
 	$.getJSON("/investigator/get_data", 
-				{ users: users, study: "{{study}}" },
+				{ users: users, study: "{{study.id}}" } ,
 				function(json){
-					alert("Was successful?: " + json['success']);
+					alert('wa!');
+					alert(json);
 				}
 	);
-	
-	/*
-	$.get("/investigator/get_data",
-		{test:"test"}
-	)
-	*/
 			
 }
 
@@ -44,7 +41,7 @@ function getUserData_{{study}}(){
 			<td class="noFormat">&nbsp;</td>
 
 			<td class="noFormat" style="text-align:center">
-				<input type="button" onclick="getUserData_{{study}}()" value="Download"/>
+				<input type="button" onclick="getUserData_{{study.id}}()" value="Download"/>
 			</td>
 			
 			<td class="noFormat">&nbsp;</td>
@@ -61,7 +58,7 @@ function getUserData_{{study}}(){
             <th scope ="col" style="text-align:center">
 				get data?
 				</br>
-				all: <input type="checkbox" onClick="toggle_{{study}}(this)"/>
+				all: <input type="checkbox" onClick="toggle_{{study.id}}(this)"/>
 			</th>
 			
             <th scope ="col">
@@ -86,7 +83,7 @@ function getUserData_{{study}}(){
 
                 <td width="10px"> 
                     <div style="color:#6D929B; text-align: center">
-                        <input type="checkbox" name="downloadUserData_{{study}}" value="{{user_data.username}}"/>
+                        <input type="checkbox" name="downloadUserData_{{study.id}}" value="{{user_data.username}}"/>
                     </div>
                 </td>
                 

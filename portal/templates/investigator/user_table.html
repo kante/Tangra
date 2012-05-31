@@ -1,10 +1,66 @@
 {% block user_table %}
 
+<script language="JavaScript">
+function toggle_{{study.id}}(source) {
+	checkboxes = document.getElementsByName("downloadUserData_{{study.id}}");
+	for(var i in checkboxes)
+		checkboxes[i].checked = source.checked;
+}
+
+
+function getUserData_{{study.id}}(){
+	checkedBoxes = document.getElementsByName("downloadUserData_{{study.id}}");
+	
+	var users = new Array();
+	
+	for (var i in checkedBoxes) {
+		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined) {
+			users.push(checkedBoxes[i].value);
+		}
+	}
+		
+	
+	$.getJSON("/investigator/get_data", 
+				{ users: users, study: "{{study.id}}" } ,
+				function(json){
+					alert('wa!');
+					alert(json);
+				}
+	);
+			
+}
+
+</script>
+
 <div id="user_table_wrapper">
     <table>
+
+
+        <!-- Button row -->
+		<tr class"noFormat">
+			<td class="noFormat">&nbsp;</td>
+
+			<td class="noFormat" style="text-align:center">
+				<input type="button" onclick="getUserData_{{study.id}}()" value="Download"/>
+			</td>
+			
+			<td class="noFormat">&nbsp;</td>
+			<td class="noFormat">&nbsp;</td>
+			<td class="noFormat">&nbsp;</td>
+			<td class="noFormat">&nbsp;</td>
+		</tr>
+		
+		
         <!-- Header row -->
         <tr>
-            <th scope ="col" class="nobg">&nbsp;</th> 
+            <th scope ="col" class="nobg">&nbsp;</th>
+
+            <th scope ="col" style="text-align:center">
+				get data?
+				</br>
+				all: <input type="checkbox" onClick="toggle_{{study.id}}(this)"/>
+			</th>
+			
             <th scope ="col">
                 <a style="color:#6D929B;" href="/investigator/is_online">
                     online
@@ -22,7 +78,15 @@
     
         {% for user_data in users %}
             <tr>
-                <th width="150px" scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
+                <th width="140px" scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
+
+
+                <td width="10px"> 
+                    <div style="color:#6D929B; text-align: center">
+                        <input type="checkbox" name="downloadUserData_{{study.id}}" value="{{user_data.username}}"/>
+                    </div>
+                </td>
+                
                 <td width="22px"> 
                     {% if user_data.is_online %}
                         <img src="../../../media/img/online.gif" width="22" height="22" alt="Online">
@@ -50,6 +114,23 @@
                 <td> {% include 'progress_bar.html' %} </td>
             </tr>
         {% endfor %}
+
+		
+        <!-- Select all row -->
+		<!--
+		<tr class"noFormat">
+			<td class="noFormat">&nbsp;</td>
+
+			<td class="noFormat" style="text-align:center">
+				<input type="checkbox" onClick="toggle(this)"><br/>Select All</input>
+			</td>
+			
+			<td class="noFormat">&nbsp;</td>
+			<td class="noFormat">&nbsp;</td>
+			<td class="noFormat">&nbsp;</td>
+			<td class="noFormat">&nbsp;</td>
+		</tr>
+		-->
     
     </table>
 </div> <!--user_table_wrapper-->

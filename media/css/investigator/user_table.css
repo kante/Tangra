@@ -15,7 +15,7 @@
 #user_table_wrapper {
     margin:20px 10px 10px 10px;
     align:center;
-    height:400px;
+    /* height:400px; */
     overflow: -moz-scrollbars-vertical; 
     overflow-y: auto;
     
@@ -76,4 +76,12 @@ td {
 td.alt {
 	background: #F5FAFA;
 	color: #B4AA9D;
+}
+
+.noFormat {
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 0;
+	background: none;
 }

@@ -4,8 +4,6 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
-from django.core.servers.basehttp import FileWrapper
-import cStringIO
 import json
 
 from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
@@ -34,8 +32,6 @@ def is_late(user):
     
 def get_data(request):
     
-    # results = {'success':False}
-    
     study_data = {}
     
     if request.method == u'GET':
@@ -47,22 +43,11 @@ def get_data(request):
             
             # get pertinent user data, serialize it and offer file to download
             study_data = get_study_data(study, users)
-            
-            # results = {'success':True}
-            # print study_data
         
-    jsonResponse = json.dumps(study_data, cls=DjangoJSONEncoder)
+    jsonResponse = json.dumps(study_data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
 
-    jsonFile = cStringIO.StringIO()
-    jsonFile.write(jsonResponse)
-
-    response = HttpResponse(jsonFile, mimetype='application/json')
+    response = HttpResponse(jsonResponse, mimetype='application/json')
     response['Content-Disposition'] = 'attachment; filename=study_data.txt'
-
-    # print response
-
-    # jsonFile.close()
-    
     return response
         
 

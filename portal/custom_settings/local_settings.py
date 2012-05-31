@@ -1,6 +1,10 @@
 import os
 
 # point this to the Tangra directory on your server
+ROOT_PATH = '/Users/kante/Documents/work/tangra/Tangra'
+
+
+# point this to the Tangra directory on your server
 # ROOT_PATH = 'c:/Users/kante/Desktop/Tangra/'
 # more general version, but assumes a specific directory structure
 ROOT_PATH = os.path.join(

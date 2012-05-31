@@ -3,8 +3,9 @@
 <script language="JavaScript">
 function toggle_{{study.id}}(source) {
 	checkboxes = document.getElementsByName("downloadUserData_{{study.id}}");
-	for(var i in checkboxes)
+	for(var i in checkboxes) {
 		checkboxes[i].checked = source.checked;
+	}
 }
 
 
@@ -18,16 +19,16 @@ function getUserData_{{study.id}}(){
 			users.push(checkedBoxes[i].value);
 		}
 	}
-		
 	
-	$.getJSON("/investigator/get_data", 
-				{ users: users, study: "{{study.id}}" } ,
-				function(json){
-					alert('wa!');
-					alert(json);
-				}
-	);
-			
+	if (users.length === 0) { 
+		alert("You have not selected any users! Please try again.");
+	}
+	else{	
+		var data = { users: users, study: "{{study.id}}" };
+	    $(function(){
+	        $("body").append('<iframe src="/investigator/get_data?'+ $.param(data) + '" style="display: none;" ></iframe>');
+	    });
+	}	
 }
 
 </script>

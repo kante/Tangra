@@ -1,7 +1,7 @@
 import os
 # point this to the Tangra directory on your server
 
-ROOT_PATH = 'c:/Users/kante/Desktop/Tangra/'
+ROOT_PATH = '/Users/kante/Documents/work/tangra/Tangra'
 
 
 # The place to serve static files from

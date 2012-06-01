@@ -7,6 +7,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.servers.basehttp import FileWrapper
 import json
 import os
+from portal.custom_settings.local_settings import *
 
 from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *
@@ -55,8 +56,6 @@ def get_data(request):
 
     
 def download_file(request):
-    
-    print "here"
     
     if request.method == u'GET':
         
@@ -124,7 +123,7 @@ def view_user(request, user):
     
     username = user
     user_data = get_user_data(user)
-    user_files = get_user_files(user)
+    user_files = list_user_files(user)
     
     # create a new opentok session 
     # TODO: put the below things in settings.py and document how to set them
@@ -198,13 +197,15 @@ def get_study_data(study, users):
             
     return study_data
     
-def get_user_files(user):
-    # does not (yet?) implement validation to ensure that only files are listed
+def list_user_files(user):
     
-    userPath = "users/files/" + user
+    userPath = USER_FILES + user
     
     if os.path.isdir(userPath):
         filesDir = os.listdir(userPath)
+        
+        # remove if directory or hidden file
+        filesDir = [x for x in filesDir if not (x.startswith('.') or os.path.isdir(x))]
     else:
         filesDir = []
         

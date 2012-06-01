@@ -20,6 +20,9 @@ ROOT_PATH = os.path.join(
 #    ROOT_PATH + "/media/",
 #)
 
+# User files
+USER_FILES = "users/files/"
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '4=ic*0&yk7rh@zyxbrq*-+&i9tqj16j%m4@0sbwe%plxw(%%3b'
 

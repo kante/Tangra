@@ -1,11 +1,10 @@
 <script language="JavaScript">
-	function getFile(fileUser, fileName){
-		var data = { fileUser: fileUser, fileName: fileName };
-	    $(function(){
-	        $("body").append('<iframe src="/investigator/download_file?'+ $.param(data) + '" style="display: none;" ></iframe>');
-		});
-	}
-	
+	// function getFile(fileUser, fileName){
+	// 	var data = { fileUser: fileUser, fileName: fileName };
+	//     $(function(){
+	//         $("body").append('<iframe src="/investigator/download_file?'+ $.param(data) + '" style="display: none;" ></iframe>');
+	// 	});
+	// }
 </script>
 
 
@@ -27,9 +26,13 @@
 			{% for currentFile in user_files %}
 		
 					<div>
-						<button type="button" onclick="getFile('{{username}}', '{{currentFile}}');">
+						<!-- <button type="button" onclick="getFile('{{username}}', '{{currentFile}}');">
 							{{currentFile}}
-						</button>
+						</button> -->
+						<a style="color:#6D929B;" href="../download_file?fileUser={{username}}&fileName={{currentFile}}">
+							{{currentFile}}
+						</a>
+						
 					</div>
 
 			{% endfor %}

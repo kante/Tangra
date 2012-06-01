@@ -1,30 +1,51 @@
 {% block user_table %}
 
 <script language="JavaScript">
-function toggle_{{study.id}}(source) {
-	checkboxes = document.getElementsByName("downloadUserData_{{study.id}}");
+function toggle_progress_{{study.id}}(source) {
+	checkboxes = document.getElementsByName("downloadUserProgress_{{study.id}}");
+	for(var i in checkboxes) {
+		checkboxes[i].checked = source.checked;
+	}
+}
+
+function toggle_files_{{study.id}}(source) {
+	checkboxes = document.getElementsByName("downloadUserFiles_{{study.id}}");
 	for(var i in checkboxes) {
 		checkboxes[i].checked = source.checked;
 	}
 }
 
 
-function getUserData_{{study.id}}(){
-	checkedBoxes = document.getElementsByName("downloadUserData_{{study.id}}");
+function getUserFiles_{{study.id}}(){
+	checkedBoxes = document.getElementsByName("downloadUserFiles_{{study.id}}");
 	
-	var users = new Array();
+	var fileUsers = new Array();
 	
 	for (var i in checkedBoxes) {
 		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined) {
-			users.push(checkedBoxes[i].value);
+			fileUsers.push(checkedBoxes[i].value);
 		}
 	}
 	
-	if (users.length === 0) { 
+	alert("Getting user files for " + fileUsers + "!");
+}
+
+function getUserData_{{study.id}}(){
+	checkedBoxes = document.getElementsByName("downloadUserProgress_{{study.id}}");
+	
+	var progressUsers = new Array();
+	
+	for (var i in checkedBoxes) {
+		if (checkedBoxes[i].checked == true && checkedBoxes[i].value !== undefined) {
+			progressUsers.push(checkedBoxes[i].value);
+		}
+	}
+	
+	if (progressUsers.length === 0) { 
 		alert("You have not selected any users! Please try again.");
 	}
 	else{	
-		var data = { users: users, study: "{{study.id}}" };
+		var data = { progressUsers: progressUsers, study: "{{study.id}}" };
 	    $(function(){
 	        $("body").append('<iframe src="/investigator/get_data?'+ $.param(data) + '" style="display: none;" ></iframe>');
 	    });
@@ -42,10 +63,13 @@ function getUserData_{{study.id}}(){
 			<td class="noFormat">&nbsp;</td>
 
 			<td class="noFormat" style="text-align:center">
-				<input type="button" onclick="getUserData_{{study.id}}()" value="Download"/>
+				<input type="button" onclick="getUserData_{{study.id}}()" value="Get Progress"/>
+			</td>
+
+			<td class="noFormat" style="text-align:center">
+				<input type="button" onclick="getUserFiles_{{study.id}}()" value="Get Files"/>
 			</td>
 			
-			<td class="noFormat">&nbsp;</td>
 			<td class="noFormat">&nbsp;</td>
 			<td class="noFormat">&nbsp;</td>
 			<td class="noFormat">&nbsp;</td>
@@ -54,12 +78,20 @@ function getUserData_{{study.id}}(){
 		
         <!-- Header row -->
         <tr>
-            <th scope ="col" class="nobg">&nbsp;</th>
+            <!-- <th scope ="col" class="nobg">&nbsp;</th> -->
+
+            <th scope ="col">user info</th>
 
             <th scope ="col" style="text-align:center">
-				get data?
-				</br>
-				all: <input type="checkbox" onClick="toggle_{{study.id}}(this)"/>
+				<!-- get progress?
+								</br> -->
+				all: <input type="checkbox" onClick="toggle_progress_{{study.id}}(this)"/>
+			</th>
+
+            <th scope ="col" style="text-align:center">
+				<!-- get files?
+								</br> -->
+				all: <input type="checkbox" onClick="toggle_files_{{study.id}}(this)"/>
 			</th>
 			
             <th scope ="col">
@@ -72,19 +104,29 @@ function getUserData_{{study.id}}(){
                     late
                 </a>
             </th>
-            <th scope ="col">user info</th>
+			
+            <!-- <th scope ="col">user info</th> -->
 
             <th scope ="col">progress</th>
         </tr>
     
         {% for user_data in users %}
             <tr>
-                <th width="140px" scope="row" class={% cycle "spec" "specalt" %}> {{ user_data.username }} </th>
-
+                <th width="140px" scope="row" class={% cycle "spec" "specalt" %}>
+                    <a style="color:#6D929B;" href="/investigator/view_user/{{ user_data.username }}">
+						{{ user_data.username }}
+                    </a>
+				</th>
 
                 <td width="10px"> 
                     <div style="color:#6D929B; text-align: center">
-                        <input type="checkbox" name="downloadUserData_{{study.id}}" value="{{user_data.username}}"/>
+                        <input type="checkbox" name="downloadUserProgress_{{study.id}}" value="{{user_data.username}}"/>
+                    </div>
+                </td>
+
+                <td width="10px"> 
+                    <div style="color:#6D929B; text-align: center">
+                        <input type="checkbox" name="downloadUserFiles_{{study.id}}" value="{{user_data.username}}"/>
                     </div>
                 </td>
                 
@@ -106,11 +148,11 @@ function getUserData_{{study.id}}(){
                         
                 </td>
 
-                <td width="150px"> 
+                <!-- <td width="150px"> 
                     <a style="color:#6D929B;" href="/investigator/view_user/{{ user_data.username }}">
                         link to user page
                     </a>
-                </td>
+                </td> -->
                 
                 <td> {% include 'progress_bar.html' %} </td>
             </tr>

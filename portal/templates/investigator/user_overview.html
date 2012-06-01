@@ -1,4 +1,44 @@
+<script language="JavaScript">
+	function getFile(fileUser, fileName){
+		var data = { fileUser: fileUser, fileName: fileName };
+	    $(function(){
+	        $("body").append('<iframe src="/investigator/download_file?'+ $.param(data) + '" style="display: none;" ></iframe>');
+		});
+	}
+	
+</script>
+
+
+
 <div id="study_details">
+	
+	<h2>
+		<a href="" onclick="return toggle_detail('user_files',$(this));" class="right">
+			{{username}}'s files
+		</a>
+	</h2>
+	
+	<div id='user_files' style="display:none;">
+		{% ifequal user_files|length 0 %}
+			{{ username }} does not have any files.
+		{% else %}
+	
+		
+			{% for currentFile in user_files %}
+		
+					<div>
+						<button type="button" onclick="getFile('{{username}}', '{{currentFile}}');">
+							{{currentFile}}
+						</button>
+					</div>
+
+			{% endfor %}
+		
+		{% endifequal %}
+	
+	</div>
+
+	
 	
 	{% ifequal user_data|length 0 %}
 		{{ username }} has not completed any stages in any studies.

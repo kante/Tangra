@@ -4,7 +4,9 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.servers.basehttp import FileWrapper
 import json
+import os
 
 from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *
@@ -37,19 +39,43 @@ def get_data(request):
     if request.method == u'GET':
         GET = request.GET
         
-        if GET.has_key(u'users') and GET.has_key(u'study'):
-            users = GET.getlist(u'users')
+        if GET.has_key(u'progressUsers') and GET.has_key(u'study'):
+            progressUsers = GET.getlist(u'progressUsers')
             study = GET[u'study']
             
             # get pertinent user data, serialize it and offer file to download
-            study_data = get_study_data(study, users)
+            study_data = get_study_data(study, progressUsers)
         
     jsonResponse = json.dumps(study_data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
 
     response = HttpResponse(jsonResponse, mimetype='application/json')
     response['Content-Disposition'] = 'attachment; filename=study_data.txt'
     return response
+    
+
+    
+def download_file(request):
+    
+    print "here"
+    
+    if request.method == u'GET':
         
+        GET = request.GET
+        
+        if GET.has_key(u'fileUser') and GET.has_key(u'fileName'):
+            fileUser = GET[u'fileUser']
+            fileName = GET[u'fileName']
+            
+            filePath = "users/files/" + fileUser + "/" + fileName
+            
+            if os.path.isfile(filePath):
+                wrapper = FileWrapper(file(filePath))
+                response = HttpResponse(wrapper, mimetype='application/octet-stream')
+                response['Content-Disposition'] = 'attachment; filename=' + fileName
+                return response
+                
+            else:
+                print "No file called '" + fileName + "' found for user '" + fileUser + "'."
 
 def build_user_data(participants, study, sort_by):
     user_data = []
@@ -98,6 +124,7 @@ def view_user(request, user):
     
     username = user
     user_data = get_user_data(user)
+    user_files = get_user_files(user)
     
     # create a new opentok session 
     # TODO: put the below things in settings.py and document how to set them
@@ -170,3 +197,15 @@ def get_study_data(study, users):
             study_data[the_user.username].append( next_data )
             
     return study_data
+    
+def get_user_files(user):
+    # does not (yet?) implement validation to ensure that only files are listed
+    
+    userPath = "users/files/" + user
+    
+    if os.path.isdir(userPath):
+        filesDir = os.listdir(userPath)
+    else:
+        filesDir = []
+        
+    return filesDir

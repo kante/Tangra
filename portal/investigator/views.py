@@ -204,8 +204,6 @@ def list_user_files(user):
     
     userPath = os.path.join(USER_FILES, user)
     
-    print userPath
-    
     if os.path.isdir(userPath):
         filesDir = os.listdir(userPath)
         
@@ -248,9 +246,13 @@ def upload_file(request, user):
                               context_instance=RequestContext(request))
                               
 def put_file_in_place(uploaded_file, user):
-    file_path = os.path.join(USER_FILES, 
-                            user, 
-                            uploaded_file.name)
+    dir_path = os.path.join(USER_FILES, user)
+    
+    # create user's file directory if it does not exist
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+        
+    file_path = os.path.join(dir_path, uploaded_file.name)
     with open(file_path, 'wb+') as destination:
         for chunk in uploaded_file.chunks():
             destination.write(chunk)

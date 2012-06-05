@@ -1,20 +1,33 @@
 {% block user_table %}
 
 <script language="JavaScript">
-function toggle_progress_{{study.id}}(source) {
-	checkboxes = document.getElementsByName("downloadUserProgress_{{study.id}}");
-	for(var i in checkboxes) {
-		checkboxes[i].checked = source.checked;
-	}
-}
 
-function toggle_files_{{study.id}}(source) {
-	checkboxes = document.getElementsByName("downloadUserFiles_{{study.id}}");
-	for(var i in checkboxes) {
-		checkboxes[i].checked = source.checked;
-	}
-}
+$(document).ready(function(){
+    
+    $(':checkbox.selectall').on('click', function(){
+        $(':checkbox[name=' + $(this).data('checkbox-name') + ']').prop("checked", $(this).prop("checked"));
+    });
+    // Individual checkboxes
+    $(':checkbox.checkme').on('click', function(){ // 1
 
+        var _this = $(this); // 2
+        var _selectall = _this.prop("checked"); //3
+
+        if ( _selectall ) { // 4
+            // 5
+            $( ':checkbox[name=' + _this.attr('name') + ']' ).each(function(i){
+                // 6
+                _selectall = $(this).prop("checked");
+                return _selectall; // 7
+            });
+
+        }
+        
+        // 8
+        $(':checkbox[name=' + $(this).data('select-all') + ']').prop("checked", _selectall);
+    });
+    
+});
 
 function getUserFiles_{{study.id}}(){
 	checkedBoxes = document.getElementsByName("downloadUserFiles_{{study.id}}");
@@ -78,20 +91,17 @@ function getUserData_{{study.id}}(){
 		
         <!-- Header row -->
         <tr>
-            <!-- <th scope ="col" class="nobg">&nbsp;</th> -->
 
             <th scope ="col">user info</th>
 
             <th scope ="col" style="text-align:center">
-				<!-- get progress?
-								</br> -->
-				all: <input type="checkbox" onClick="toggle_progress_{{study.id}}(this)"/>
+				all: 
+				<input type="checkbox" id="sa_downloadUserProgress_{{study.id}}" name="sa_downloadUserProgress_{{study.id}}" data-checkbox-name="downloadUserProgress_{{study.id}}" class="selectall" />
 			</th>
 
             <th scope ="col" style="text-align:center">
-				<!-- get files?
-								</br> -->
-				all: <input type="checkbox" onClick="toggle_files_{{study.id}}(this)"/>
+				all: 
+				<input type="checkbox" id="sa_downloadUserFiles_{{study.id}}" name="sa_downloadUserFiles_{{study.id}}" data-checkbox-name="downloadUserFiles_{{study.id}}" class="selectall" />
 			</th>
 			
             <th scope ="col">
@@ -105,7 +115,6 @@ function getUserData_{{study.id}}(){
                 </a>
             </th>
 			
-            <!-- <th scope ="col">user info</th> -->
 
             <th scope ="col">progress</th>
         </tr>
@@ -120,13 +129,14 @@ function getUserData_{{study.id}}(){
 
                 <td width="10px"> 
                     <div style="color:#6D929B; text-align: center">
-                        <input type="checkbox" name="downloadUserProgress_{{study.id}}" value="{{user_data.username}}"/>
+						<input type="checkbox" id="downloadUserProgress_{{study.id}}_{{forloop.counter}}" name="downloadUserProgress_{{study.id}}" value="{{forloop.counter}}" data-select-all="sa_downloadUserProgress_{{study.id}}" class="checkme" />
                     </div>
                 </td>
 
                 <td width="10px"> 
                     <div style="color:#6D929B; text-align: center">
-                        <input type="checkbox" name="downloadUserFiles_{{study.id}}" value="{{user_data.username}}"/>
+						<input type="checkbox" id="downloadUserFiles_{{study.id}}_{{forloop.counter}}" name="downloadUserFiles_{{study.id}}" value="{{forloop.counter}}" data-select-all="sa_downloadUserFiles_{{study.id}}" class="checkme" />
+						
                     </div>
                 </td>
                 
@@ -148,32 +158,12 @@ function getUserData_{{study.id}}(){
                         
                 </td>
 
-                <!-- <td width="150px"> 
-                    <a style="color:#6D929B;" href="/investigator/view_user/{{ user_data.username }}">
-                        link to user page
-                    </a>
-                </td> -->
+
                 
                 <td> {% include 'progress_bar.html' %} </td>
             </tr>
         {% endfor %}
 
-		
-        <!-- Select all row -->
-		<!--
-		<tr class"noFormat">
-			<td class="noFormat">&nbsp;</td>
-
-			<td class="noFormat" style="text-align:center">
-				<input type="checkbox" onClick="toggle(this)"><br/>Select All</input>
-			</td>
-			
-			<td class="noFormat">&nbsp;</td>
-			<td class="noFormat">&nbsp;</td>
-			<td class="noFormat">&nbsp;</td>
-			<td class="noFormat">&nbsp;</td>
-		</tr>
-		-->
     
     </table>
 </div> <!--user_table_wrapper-->

@@ -232,20 +232,20 @@ def upload_file(request, user):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            put_file_in_place(request.FILES['file'], user)
+            handle_uploaded_file(request.FILES['file'], user)
             return HttpResponseRedirect('/investigator/view_user/' + user)
         else:
             successful = False
     else:
         form = UploadFileForm()
     
-    # done so variable is in locals
+    # adds 'user' to locals
     user = user
     
     return render_to_response('upload.html', locals(),
                               context_instance=RequestContext(request))
                               
-def put_file_in_place(uploaded_file, user):
+def handle_uploaded_file(uploaded_file, user):
     dir_path = os.path.join(USER_FILES, user)
     
     # create user's file directory if it does not exist

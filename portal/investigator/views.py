@@ -3,14 +3,17 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.servers.basehttp import FileWrapper
+from portal.custom_settings.local_settings import *
+from django import forms
 import json
 import os
-from portal.custom_settings.local_settings import *
 
 from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *
+
 
 
 def get_progress(user, study):
@@ -65,7 +68,7 @@ def download_file(request):
             fileUser = GET[u'fileUser']
             fileName = GET[u'fileName']
             
-            filePath = "users/files/" + fileUser + "/" + fileName
+            filePath = USER_FILES + fileUser + "/" + fileName
             
             if os.path.isfile(filePath):
                 wrapper = FileWrapper(file(filePath))
@@ -199,7 +202,9 @@ def get_study_data(study, users):
     
 def list_user_files(user):
     
-    userPath = USER_FILES + user
+    userPath = os.path.join(USER_FILES, user)
+    
+    print userPath
     
     if os.path.isdir(userPath):
         filesDir = os.listdir(userPath)
@@ -210,3 +215,42 @@ def list_user_files(user):
         filesDir = []
         
     return filesDir
+    
+class UploadFileForm(forms.Form):
+    # title = forms.CharField(max_length=50)
+    file  = forms.FileField(
+        help_text='Upload user data',
+        error_messages={
+            'required': 'Required',
+            'invalid': 'Invalid', 
+            'missing': 'Missing', 
+            'empty': 'Empty', 
+            'max_length': 'Maximum length'
+            }
+    )
+
+def upload_file(request, user):
+    successful = True
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            put_file_in_place(request.FILES['file'], user)
+            return HttpResponseRedirect('/investigator/view_user/' + user)
+        else:
+            successful = False
+    else:
+        form = UploadFileForm()
+    
+    # done so variable is in locals
+    user = user
+    
+    return render_to_response('upload.html', locals(),
+                              context_instance=RequestContext(request))
+                              
+def put_file_in_place(uploaded_file, user):
+    file_path = os.path.join(USER_FILES, 
+                            user, 
+                            uploaded_file.name)
+    with open(file_path, 'wb+') as destination:
+        for chunk in uploaded_file.chunks():
+            destination.write(chunk)

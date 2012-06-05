@@ -1,14 +1,3 @@
-<script language="JavaScript">
-	// function getFile(fileUser, fileName){
-	// 	var data = { fileUser: fileUser, fileName: fileName };
-	//     $(function(){
-	//         $("body").append('<iframe src="/investigator/download_file?'+ $.param(data) + '" style="display: none;" ></iframe>');
-	// 	});
-	// }
-</script>
-
-
-
 <div id="study_details">
 	
 	<h2>
@@ -38,6 +27,10 @@
 			{% endfor %}
 		
 		{% endifequal %}
+	
+		<br/>
+		<br/>
+		<a style="color:#6D929B;" href="../upload_file/{{username}}">Click here to upload a file for {{username}}</a>
 	
 	</div>
 

@@ -1,8 +1,7 @@
 import os
 
 # point this to the Tangra directory on your server
-ROOT_PATH = '/Users/kante/Documents/work/tangra/Tangra'
-
+# ROOT_PATH = '/Users/arturomp/Documents/Tareas/TAGlab/tangra'
 
 # point this to the Tangra directory on your server
 # ROOT_PATH = 'c:/Users/kante/Desktop/Tangra/'
@@ -12,6 +11,7 @@ ROOT_PATH = os.path.join(
                         os.path.pardir, 
                         os.path.pardir
                         )
+                        
 
 # The place to serve static files from
 #STATIC_URL = 'http://192.168.74.136'
@@ -21,7 +21,8 @@ ROOT_PATH = os.path.join(
 #)
 
 # User files
-USER_FILES = "users/files/"
+# starts from 'portal' directory
+USER_FILES = "../media/user_files/"
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '4=ic*0&yk7rh@zyxbrq*-+&i9tqj16j%m4@0sbwe%plxw(%%3b'

@@ -7,7 +7,9 @@ from django.http import HttpResponseRedirect
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.servers.basehttp import FileWrapper
 from portal.custom_settings.local_settings import *
-from django import forms
+from django import forms        
+from zipfile import ZipFile
+from StringIO import StringIO
 import json
 import os
 
@@ -43,8 +45,8 @@ def get_data(request):
     if request.method == u'GET':
         GET = request.GET
         
-        if GET.has_key(u'progressUsers') and GET.has_key(u'study'):
-            progressUsers = GET.getlist(u'progressUsers')
+        if GET.has_key(u'progressUsers[]') and GET.has_key(u'study'):
+            progressUsers = GET.getlist(u'progressUsers[]')
             study = GET[u'study']
             
             # get pertinent user data, serialize it and offer file to download
@@ -68,7 +70,7 @@ def download_file(request):
             fileUser = GET[u'fileUser']
             fileName = GET[u'fileName']
             
-            filePath = USER_FILES + fileUser + "/" + fileName
+            filePath = os.path.join(USER_FILES, fileUser, fileName)
             
             if os.path.isfile(filePath):
                 wrapper = FileWrapper(file(filePath))
@@ -78,6 +80,74 @@ def download_file(request):
                 
             else:
                 print "No file called '" + fileName + "' found for user '" + fileUser + "'."
+                
+def download_files(request):
+    
+    if request.method == u'POST':
+        
+        POST = request.POST
+        
+        print POST
+        
+        postDict = post2dict(POST)
+        
+        print 'postDict:', postDict
+        
+        # create file in memory and create a zip file with it
+        inMemoryOutputFile = StringIO()
+        zipFileMem = ZipFile(inMemoryOutputFile, 'w') 
+        zipFileMem.writestr('testFile.txt', 'hello world')
+        zipFile = ZipFile(os.path.join(USER_FILES, 'test.zip'), 'w') 
+        
+        for user in postDict:
+            # find user file dir
+            userPath = os.path.join(USER_FILES, user)
+            print 'userPath:', userPath 
+            
+            # if all and if user directory exists, include all files
+            if postDict[user]['all'] == 1:
+            
+                # initialize fileList to empty list
+                postDict[user]['fileList'] = []
+            
+                # if directory exists
+                if os.path.isdir(userPath):
+                    # list all files
+                    userFiles = os.listdir(userPath)
+        
+                    # remove from list if directory or hidden file
+                    userFiles = [x for x in userFiles if not (x.startswith('.') or os.path.isdir(x))]
+                    print 'userFiles:', userFiles
+                
+                    # substitute fileList with files in user dir
+                    postDict[user]['fileList'] = userFiles
+                    print 'postDict:', postDict
+                    
+                
+            # include files in fileList
+            for f in postDict[user]['fileList']:
+                
+                # put each file in user dir
+                filePath = os.path.join(userPath, f)
+                zipPath = os.path.join(user , f)
+                
+                print 'f', f
+                print 'filePath', filePath
+                print 'zipPath:', zipPath
+                
+                zipFile.write(filePath, zipPath)
+                
+        zipFile.close()
+
+        # return zip
+        wrapper = FileWrapper(file(os.path.join(USER_FILES, 'test.zip')))
+        # response = HttpResponse()
+        response = HttpResponse(wrapper, mimetype='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename=userFiles.zip'
+        return response
+        
+            
+    return HttpResponse()
 
 def build_user_data(participants, study, sort_by):
     user_data = []
@@ -199,6 +269,39 @@ def get_study_data(study, users):
             study_data[the_user.username].append( next_data )
             
     return study_data
+    
+def post2dict(post):
+    
+    postDict = {}
+    
+    for userKey, data in post.lists():
+        
+        # cleanup percent encoding
+        userKey = userKey.replace('%5B', '[')
+        print userKey, data
+        userKey = userKey.replace('%5D', ']')
+        print userKey, data
+        
+        userKeySplit = str(userKey).split('[')
+        
+        # first split string is always user
+        user = userKeySplit[0]
+        
+        # second split string is always key and a closing bracket
+        key = userKeySplit[1][:-1]
+        
+        # add user to dictionary if not already there
+        if user not in postDict:
+            postDict[user] = {}
+        
+        # turn data into integer
+        if key == 'all':
+            data = int(data[0])
+            
+        # create user subdictionary entry 
+        postDict[user][key] = data
+        
+    return postDict
     
 def list_user_files(user):
     

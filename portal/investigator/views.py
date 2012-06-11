@@ -87,17 +87,13 @@ def download_files(request):
         
         POST = request.POST
         
+        # process querydict to a regular dictionary
         postDict = post2dict(POST)
-        
         
         # create file in memory and create a zip file with it
         inMemoryOutputFile = StringIO()
-        
-        # working from disk - REQUIRES CLEANUP IN ANOTHER REQUEST
-        # zipFile = ZipFile(os.path.join(USER_FILES, 'temp.zip'), 'w') 
-        
+                
         # working from memory
-        # with ZipFile(inMemoryOutputFile, 'w') as zipFileMem:
         zipFile = ZipFile(inMemoryOutputFile, 'w')
         
         for user in postDict:
@@ -121,25 +117,27 @@ def download_files(request):
                     # substitute fileList with files in user dir
                     postDict[user]['fileList'] = userFiles
                     
-                
-            # include files in fileList
+            # zip files in fileList
             for f in postDict[user]['fileList']:
                 
-                # put each file in user dir
+                # put each file in a user dir
                 filePath = os.path.join(userPath, f)
                 zipPath = os.path.join(user , f)
                 zipFile.write(filePath, zipPath)
-                
+        
+        # close zip
         zipFile.close()
-
         
-        # only if working from disk
-        # wrapper = FileWrapper(file(os.path.join(USER_FILES, 'temp.zip')))        
-        
-        # only if working from memory
+        # rewind memory stringIO
         inMemoryOutputFile.seek(0)
+        
+        # use file wrapper for response
         wrapper = FileWrapper(inMemoryOutputFile)
         
+        # no file wrapper
+        # response = HttpResponse(inMemoryOutputFile, mimetype='application/octet-stream')
+        
+        # form and return response
         response = HttpResponse(wrapper, mimetype='application/octet-stream')
         response['Content-Disposition'] = 'attachment; filename=user_files.zip'
         return response

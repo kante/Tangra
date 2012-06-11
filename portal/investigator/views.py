@@ -87,22 +87,22 @@ def download_files(request):
         
         POST = request.POST
         
-        print POST
-        
         postDict = post2dict(POST)
         
-        print 'postDict:', postDict
         
         # create file in memory and create a zip file with it
         inMemoryOutputFile = StringIO()
-        zipFileMem = ZipFile(inMemoryOutputFile, 'w') 
-        zipFileMem.writestr('testFile.txt', 'hello world')
-        zipFile = ZipFile(os.path.join(USER_FILES, 'test.zip'), 'w') 
+        
+        # working from disk - REQUIRES CLEANUP IN ANOTHER REQUEST
+        # zipFile = ZipFile(os.path.join(USER_FILES, 'temp.zip'), 'w') 
+        
+        # working from memory
+        # with ZipFile(inMemoryOutputFile, 'w') as zipFileMem:
+        zipFile = ZipFile(inMemoryOutputFile, 'w')
         
         for user in postDict:
             # find user file dir
             userPath = os.path.join(USER_FILES, user)
-            print 'userPath:', userPath 
             
             # if all and if user directory exists, include all files
             if postDict[user]['all'] == 1:
@@ -117,11 +117,9 @@ def download_files(request):
         
                     # remove from list if directory or hidden file
                     userFiles = [x for x in userFiles if not (x.startswith('.') or os.path.isdir(x))]
-                    print 'userFiles:', userFiles
                 
                     # substitute fileList with files in user dir
                     postDict[user]['fileList'] = userFiles
-                    print 'postDict:', postDict
                     
                 
             # include files in fileList
@@ -130,24 +128,21 @@ def download_files(request):
                 # put each file in user dir
                 filePath = os.path.join(userPath, f)
                 zipPath = os.path.join(user , f)
-                
-                print 'f', f
-                print 'filePath', filePath
-                print 'zipPath:', zipPath
-                
                 zipFile.write(filePath, zipPath)
                 
         zipFile.close()
 
-        # return zip
-        wrapper = FileWrapper(file(os.path.join(USER_FILES, 'test.zip')))
-        # response = HttpResponse()
-        response = HttpResponse(wrapper, mimetype='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename=userFiles.zip'
-        return response
         
-            
-    return HttpResponse()
+        # only if working from disk
+        # wrapper = FileWrapper(file(os.path.join(USER_FILES, 'temp.zip')))        
+        
+        # only if working from memory
+        inMemoryOutputFile.seek(0)
+        wrapper = FileWrapper(inMemoryOutputFile)
+        
+        response = HttpResponse(wrapper, mimetype='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename=user_files.zip'
+        return response
 
 def build_user_data(participants, study, sort_by):
     user_data = []
@@ -278,9 +273,7 @@ def post2dict(post):
         
         # cleanup percent encoding
         userKey = userKey.replace('%5B', '[')
-        print userKey, data
         userKey = userKey.replace('%5D', ']')
-        print userKey, data
         
         userKeySplit = str(userKey).split('[')
         

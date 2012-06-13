@@ -1,0 +1,30 @@
+<study>
+    <name name_stub="java_check">java_check_study</name>
+    <description>Java check</description>
+    <informed_consent>Do you consent to check whether Java is installed? (Java is necessary to play Space Fortress.)</informed_consent>
+    <instructions>Instructions TBD</instructions>
+    <eligibility>No eligibility constraints.</eligibility>
+    <reward>Play space fortress!</reward>
+    <start_date>2012-01-01</start_date>
+    <end_date>2021-12-31</end_date>
+ 
+    <investigators>
+        <user name="dr_d" password="dr_d"/>
+    </investigators>
+ 
+    <all_stages>
+        <stage directory="java_check"/>
+    </all_stages>
+ 
+ 	<all_groups>
+ 	
+ 		<group name="participants">
+ 			<user name="participant" password="participant"/>
+ 
+ 			<stages>
+ 				<stage directory="java_check"/>
+ 			</stages>
+ 		</group>
+ 		
+ 	</all_groups>
+</study>

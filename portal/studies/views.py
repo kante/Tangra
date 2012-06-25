@@ -127,7 +127,7 @@ def finish_session(request):
     #stage = studypart.get_current_stage()
     stage = UserStage.objects.get(user=request.user, study=study, status=1)
     stage.session_completed()
-
+    
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 

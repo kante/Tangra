@@ -1,5 +1,38 @@
 <div id="study_details">
 	
+	<h2>
+		<a href="" onclick="return toggle_detail('user_files',$(this));" class="right">
+			{{username}}'s files
+		</a>
+	</h2>
+	
+	<div id='user_files' style="display:none;">
+		{% ifequal user_files|length 0 %}
+			{{ username }} does not have any files.
+		{% else %}
+	
+		
+			{% for currentFile in user_files %}
+		
+					<div>
+						<a style="color:#6D929B;" href="../download_file?fileUser={{username}}&fileName={{currentFile}}">
+							{{currentFile}}
+						</a>
+						
+					</div>
+
+			{% endfor %}
+		
+		{% endifequal %}
+	
+		<br/>
+		<br/>
+		<a style="color:#6D929B;" href="../upload_file/{{username}}">Click here to upload a file for {{username}}</a>
+	
+	</div>
+
+	
+	
 	{% ifequal user_data|length 0 %}
 		{{ username }} has not completed any stages in any studies.
 	{% else %}

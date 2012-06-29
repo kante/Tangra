@@ -1,5 +1,34 @@
 <html>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}js/PluginDetect_Java/PluginDetect_Java.js"></script>
+
+<script language="JavaScript">
+	function javaCheck(){
+		
+		// from http://www.pinlady.net/PluginDetect/Java/
+		
+		// Tests whether Java is installed
+		var Java0Status = PluginDetect.isMinVersion('Java', '0', 'getJavaInfo.jar');
+		var Java0Installed = Java0Status >=0 ? true : false;
+		alert("Java0Installed: " + Java0Installed);
+
+		// Tests whether JRE is greater than some version
+		var Java15Status = PluginDetect.isMinVersion('Java', '1.5', 'getJavaInfo.jar');
+		var Java15Installed = Java15Status == 1 ? true : false;
+		alert("Java15Installed: " + Java15Installed);
+		
+		// Gets version number
+		var JavaVersion = PluginDetect.getVersion('Java', 'getJavaInfo.jar');
+		alert("JavaVersion: " + JavaVersion);
+   }
+</script>
 	<body>
+	   You have completed this stage x times.
+	   <br/>
+	   xx times left.
+	   <br/>
+	   <button onclick="javaCheck()">Click here to check for Java</button>
+	   <br/>
 	   <a href="/study/fsess">Click to complete this stage</a>
 	</body>
 </html>

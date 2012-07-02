@@ -22,7 +22,11 @@
  			<user name="participant" password="participant"/>
  
  			<stages>
+ 				<stage times="-100000" directory="java_check"/>
+ 				<stage times="-1" directory="java_check"/>
  				<stage directory="java_check"/>
+ 				<stage times="10" directory="java_check"/>
+ 				<stage times="100000" directory="java_check"/>
  			</stages>
  		</group>
  		

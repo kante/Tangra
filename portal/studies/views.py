@@ -125,7 +125,14 @@ def finish_session(request):
     studypart = StudyParticipant.objects.get(study=study,user=request.user)
     #stage = studypart.get_current_stage()
     stage = UserStage.objects.get(user=request.user, study=study, status=1)
-    stage.session_completed()
+    if stage.stage_times_total < 0:
+        # implement infinite repetitions here; only one run is done for now
+        stage.session_completed()
+    elif stage.stage_times_total == 1:
+        stage.session_completed()
+    else:
+        # increase number of stages completed 
+        stage.increase_stage_count()
     
     return HttpResponseRedirect('/study/0/'+str(study_id))
 

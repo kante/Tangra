@@ -152,6 +152,7 @@ def extract_groups(groups_node):
         
         stages_node = group_node.getElementsByTagName("stages")[0]
         group_dict[group_name]["stages"] = extract_attributes(group_node, "stage", "directory")
+        group_dict[group_name]["times"] = extract_attributes(group_node, "stage", "times")
     
     return group_dict
 

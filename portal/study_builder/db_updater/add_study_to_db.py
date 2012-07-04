@@ -124,12 +124,27 @@ def create_groups(study_settings):
     for group_name in study_settings.groups.keys():
         users = study_settings.groups[group_name]['users']
         stages = study_settings.groups[group_name]['stages']
+        times = study_settings.groups[group_name]['times']
         
         group = create_group(study, group_name)
         
         # specify the order that the stages appear for this group
         stage_index = 0
-        for stage_name in stages:
+        # for stage_name in stages:
+        for i in range(len(stages)):
+            stage_name = stages[i]
+            
+            stage_times_total = times[i]
+            if stage_times_total == '':
+                stage_times_total = 1
+                stage_times_completed = 0
+            else:
+                stage_times_total = int(stage_times_total)
+                if stage_times_total < 0:
+                    stage_times_completed = -1
+                else:
+                    stage_times_completed = 0
+                
             stage = Stage.objects.get(name=stage_name, study=study)
             try:
                 stage_group = StageGroup.objects.get(group=group, stage=stage, order=stage_index)
@@ -151,7 +166,8 @@ def create_groups(study_settings):
                 try:
                     user_stage = UserStage.objects.get(stage=stage, user=user, order=stage_index, study=study)
                 except UserStage.DoesNotExist:
-                    user_stage = UserStage(stage=stage, user=user, order=stage_index, study=study)  
+                    user_stage = UserStage(stage=stage, user=user, order=stage_index, \
+                        study=study, stage_times_completed=0, stage_times_total = stage_times_total)  
                 # set all status to incomplete
                 user_stage.status = 1 if stage_index == 0 else 2
                 user_stage.sessions_completed = 0

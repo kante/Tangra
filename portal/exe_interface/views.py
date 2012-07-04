@@ -7,6 +7,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from studies.models import *
 
 
 def login(request):
@@ -41,7 +42,17 @@ def testing(request):
 
 
 
+@login_required
+def get_current_stage_info(request):
+    user = request.user
+    current_stages = UserStage.objects.filter(user=request.user, status=1)
 
+    # assuming one user per study now... make things easy on ourselves for this
+    # project. generalize this after we've tested it on space fortress
+    stage = current_stages[0]
+    print "ASDF", stage
+    return HttpResponse("stage_name:"+stage.stage.name+
+        ",stage_times_completed"+str(stage.stage_times_completed))
 
 
 

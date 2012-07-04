@@ -167,6 +167,8 @@ class Data(models.Model):
 class UserStage(models.Model):
     user = models.ForeignKey(User)
     stage = models.ForeignKey(Stage)
+    stage_times_completed = models.IntegerField('Times stage completed')
+    stage_times_total = models.IntegerField('Total times for stage')
     order = models.IntegerField('Order', editable=False)
     CHOICES = ((0, 'Completed'),(1, 'Active'),(2, 'Future'))
     status = models.IntegerField('Status', max_length=1, choices=CHOICES)
@@ -206,7 +208,13 @@ class UserStage(models.Model):
                 #end of study
                 pass
                 
-        self.save()       
+        self.save()
+    
+    def increase_stage_count(self):
+        self.stage_times_completed += 1
+        self.save()
+        if self.stage_times_completed == self.stage_times_total:
+            self.session_completed()
 
     def stage_completed(self):
         self.sessions_completed = self.stage.sessions

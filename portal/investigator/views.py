@@ -72,6 +72,8 @@ def download_file(request):
             
             filePath = os.path.join(USER_FILES, fileUser, fileName)
             
+            print "ASDFASDF", filePath
+
             if os.path.isfile(filePath):
                 wrapper = FileWrapper(file(filePath))
                 response = HttpResponse(wrapper, mimetype='application/octet-stream')
@@ -325,10 +327,12 @@ def upload_file(request, user):
     successful = True
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
+        print "AAA", request.POST, request.FILES
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'], user)
             return HttpResponseRedirect('/investigator/view_user/' + user)
         else:
+            print "Invalid form in upload_file()"
             successful = False
     else:
         form = UploadFileForm()

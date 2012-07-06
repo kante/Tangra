@@ -57,7 +57,7 @@
 						{{ astage.stage.display }}
 						{% if astage.stage_times_total > 1 %}
 							({{ astage.stage_times_completed }} / {{ astage.stage_times_total }})
-						{% elif astage.stage_times_total < 0 %}
+						{% elif astage.stage_times_total < 1 %}
 							(&#8734;)
 						{% endif %}
 					</a>
@@ -69,7 +69,7 @@
 							{{ astage.stage.display }}
 							{% if astage.stage_times_total > 1 %}
 								({{ astage.stage_times_completed }} / {{ astage.stage_times_total }})
-							{% elif astage.stage_times_total < 0 %}
+							{% elif astage.stage_times_total < 1 %}
 								(&#8734;)
 							{% endif %}
 						</a>
@@ -80,7 +80,7 @@
 							{{ astage.stage.display }}
 							{% if astage.stage_times_total > 1 %}
 								({{ astage.stage_times_completed }} / {{ astage.stage_times_total }})
-							{% elif astage.stage_times_total < 0 %}
+							{% elif astage.stage_times_total < 1 %}
 								(&#8734;)
 							{% endif %}
 						</a>
@@ -90,6 +90,17 @@
 		{% endfor%}
 	</ul>
 </div>
+
+<!-- Show option to complete stage if the active stage repeats infinitely -->
+{% for cur_stage in stages %}
+	{% ifequal cur_stage.status 1  %}
+		{% if cur_stage.stage_times_total < 1 %}
+			<br/>
+			<a style="color:blue" href="/study/finfsess">Click to complete this (infinite) stage</a>
+			<br/><br/>
+		{% endif %}
+	{% endifequal %}
+{% endfor %}
 
 
 <!-- 

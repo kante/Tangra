@@ -59,6 +59,10 @@ def get_current_stage_info(request):
 
 @login_required
 def fsess(request):
-    finish_session(request)
-
+    # assuming one user per study now... make things easy on ourselves for this
+    # project. generalize this after we've tested it on space fortress    user = request.user
+    current_stages = UserStage.objects.filter(user=request.user, status=1)
+    stage = current_stages[0]
+    stage.increase_stage_count()
+    
     return HttpResponse("OK")

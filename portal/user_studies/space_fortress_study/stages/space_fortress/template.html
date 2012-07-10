@@ -1,8 +1,26 @@
-<html>
-	<body>
-	   Something here about how many times it's been completed<br>
-	   Link to download the space fortress executable<br>
-	   what else<br>
-	   <a href="/study/fsess">test stage completion</a>
-	</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+
+
+<center>
+      <br/><br/><br/><br/><br/>
+      
+      <div id="message" width="100%">
+            Click the button below if you need to 
+            download the SpaceFortress program.
+      </div>
+      
+      
+      <br/><br>
+      
+       <a id="sf_button"  href="{{MEDIA_URL}}/misc/spaceFortress.exe">     
+           <span class="actbutton green" style="width:200px;padding: 10px;">
+               Download SpaceFortress
+           </span>
+       </a>
+       
+       
+   </center>
+
+
+{% endblock %}

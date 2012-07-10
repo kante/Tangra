@@ -27,8 +27,13 @@ def get_progress(user, study):
     current_stage = studypart.get_current_stage()
     
     #print stages, current_stage
+    
     colors = ["green", "orange", "grey"]
-    return [colors[stage.status] for stage in stages]
+    return [
+        [colors[stage.status], stage.stage_times_completed, stage.stage_times_total] 
+        for stage in stages
+        ]
+        
 
 
 def is_online(user):

@@ -189,6 +189,9 @@ class UserStage(models.Model):
     def group(self):
         return StudyParticipant.objects.get(user=self.user).group       
 
+    def infinite_session_completed(self):
+        self.session_completed(self)
+
     def session_completed(self):
         self.sessions_completed += 1
         self.last_session_completed = datetime.datetime.now()

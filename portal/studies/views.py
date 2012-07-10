@@ -126,28 +126,30 @@ def finish_session(request):
     studypart = StudyParticipant.objects.get(study=study,user=request.user)
     #stage = studypart.get_current_stage()
     stage = UserStage.objects.get(user=request.user, study=study, status=1)
-    if stage.stage_times_total < 0:
-        # implement infinite repetitions here; only one run is done for now
-        stage.session_completed()
-    elif stage.stage_times_total == 1:
-        stage.session_completed()
-    else:
-        # increase number of stages completed 
-        stage.increase_stage_count()
+    stage.increase_stage_count()
+    
+    return HttpResponseRedirect('/study/0/'+str(study_id))
+
+@login_required
+def finish_infinite_session(request):
+    study_id = request.session['study_id']
+    study = Study.objects.get(id=study_id)
+    stage = UserStage.objects.get(user=request.user, study=study, status=1)
+    stage.session_completed()
     
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 
-def cheat_finish_session(request):
-    study_id = request.GET['study_id']
-    study = Study.objects.get(id=study_id)
-
-    studypart = StudyParticipant.objects.get(study=study,user=request.GET['user_id'])
-    #stage = studypart.get_current_stage()
-    stage = UserStage.objects.get(user=request.user, study=study, status=1)
-    stage.session_completed()
-
-    return HttpResponseRedirect('/study/0/'+str(study_id))
+# def cheat_finish_session(request):
+#     study_id = request.GET['study_id']
+#     study = Study.objects.get(id=study_id)
+# 
+#     studypart = StudyParticipant.objects.get(study=study,user=request.GET['user_id'])
+#     #stage = studypart.get_current_stage()
+#     stage = UserStage.objects.get(user=request.user, study=study, status=1)
+#     stage.session_completed()
+# 
+#     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 
 

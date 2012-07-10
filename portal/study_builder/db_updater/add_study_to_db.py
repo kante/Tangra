@@ -137,13 +137,9 @@ def create_groups(study_settings):
             stage_times_total = times[i]
             if stage_times_total == '':
                 stage_times_total = 1
-                stage_times_completed = 0
             else:
                 stage_times_total = int(stage_times_total)
-                if stage_times_total < 0:
-                    stage_times_completed = -1
-                else:
-                    stage_times_completed = 0
+            stage_times_completed = 0
                 
             stage = Stage.objects.get(name=stage_name, study=study)
             try:

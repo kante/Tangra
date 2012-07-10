@@ -8,7 +8,10 @@ urlpatterns = patterns('',
     url(r'^quest$', questionnaire, name="questionnaire"),
     
     url(r'^fsess$', finish_session, name="finish_session"),
-    url(r'^cheat_fsess$', cheat_finish_session, name="cheat_finish_session"),
+    url(r'^finfsess$', finish_infinite_session, name="finish_infinite_session"),
+    
+    # can remove this one after replacing cheat_fsess references
+    url(r'^cheat_fsess$', finish_infinite_session, name="cheat_finish_session"),
     url(r'^(\d+)/(\d+)$', show_one_study, name="show_one_study"),
     
     # General function to store arbitrary JSON strings from a user study

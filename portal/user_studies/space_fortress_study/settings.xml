@@ -29,7 +29,7 @@
 
  			<stages>
  			    <stage times="1" directory="java_check"/>
- 		         <stage times="100000" directory="space_fortress"/>
+ 		        <stage times="1000" directory="space_fortress"/>
  			</stages>
  		</group>
  		

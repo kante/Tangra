@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from studies.models import *
-
+from studies.views import finish_session
 
 def login(request):
     """Try to log in."""
@@ -52,8 +52,13 @@ def get_current_stage_info(request):
     stage = current_stages[0]
     print "ASDF", stage
     return HttpResponse("stage_name:"+stage.stage.name+
-        ",stage_times_completed"+str(stage.stage_times_completed))
+        ",stage_times_completed:"+str(stage.stage_times_completed))
 
 
 
 
+@login_required
+def fsess(request):
+    finish_session(request)
+
+    return HttpResponse("OK")

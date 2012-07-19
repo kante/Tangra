@@ -24,7 +24,7 @@ def show_many_studies(request):
     studies_as_participant = StudyParticipant.objects.filter(user=request.user)
     current_stages = UserStage.objects.filter(user=request.user, status=1)
         
-    print current_stages
+    print >>sys.stderr,  current_stages
     
     return render_to_response('study/show_many_studies.html', locals(), context_instance=RequestContext(request))
 
@@ -170,7 +170,7 @@ def save_post_data(request):
     for key in request.POST:
         data = data + "{0},{1}\n".format(key, request.POST[key])
     
-    print data
+    print >>sys.stderr, data
     
     dt = datetime.datetime.now()    
     code = "CSV"
@@ -184,7 +184,7 @@ def save_post_data(request):
 @login_required
 def log(request, code, datum):
     """Logs things"""
-    #print "logging"
+    #print >>sys.stderr, "logging"
     studyid = request.session['study_id']
     
     try:

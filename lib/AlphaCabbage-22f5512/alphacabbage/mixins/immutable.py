@@ -3,7 +3,7 @@ class Immutable(object):
     >>> class Foo(Immutable):
     ...     @mutator
     ...     def change(self):
-    ...         print 'Changing...'
+    ...         print >>sys.stderr, 'Changing...'
     >>> foo = Foo()
     >>> foo.change()
     Changing...
@@ -11,7 +11,7 @@ class Immutable(object):
     >>> try:
     ...     foo.change()
     ... except Immutable.MutatorCalledOnFrozenObject:
-    ...     print 'Exception raised'
+    ...     print >>sys.stderr, 'Exception raised'
     Exception raised
     '''
     

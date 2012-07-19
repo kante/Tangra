@@ -9,7 +9,7 @@ from custom_settings import *
 ROOT_PATH = os.path.dirname(__file__)
 sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH, "../lib")))
 sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH,"..")))
-#print sys.path
+#print >>sys.stderr,  sys.path
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SESSION_COOKIE_AGE = 1209600

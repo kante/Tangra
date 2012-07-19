@@ -26,7 +26,7 @@ def get_progress(user, study):
     #stages = studypart.participant_stages()
     current_stage = studypart.get_current_stage()
     
-    #print stages, current_stage
+    #print >>sys.stderr, stages, current_stage
     
     colors = ["green", "orange", "grey"]
     return [
@@ -77,7 +77,7 @@ def download_file(request):
             
             filePath = os.path.join(USER_FILES, fileUser, fileName)
             
-            print "ASDFASDF", filePath
+            print >>sys.stderr,  "ASDFASDF", filePath
 
             if os.path.isfile(filePath):
                 wrapper = FileWrapper(file(filePath))
@@ -86,7 +86,7 @@ def download_file(request):
                 return response
                 
             else:
-                print "No file called '" + fileName + "' found for user '" + fileUser + "'."
+                print >>sys.stderr,  "No file called '" + fileName + "' found for user '" + fileUser + "'."
                 
 def download_files(request):
     
@@ -238,7 +238,7 @@ def get_user_data(user):
         next_data = {"stage":datum.stage, "stub":datum.stage_stub, "timestamp":datum.timestamp, "data":datum.datum}
         user_data[the_study].append( next_data )
     
-    # print user_data
+    # print >>sys.stderr,  user_data
     return user_data
     
     
@@ -251,7 +251,7 @@ def get_study_data(study, users):
 
         raw_study_data = []
         
-        # print u
+        # print >>sys.stderr,  u
         
         user_object = User.objects.get(username=u)
         
@@ -332,12 +332,12 @@ def upload_file(request, user):
     successful = True
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
-        print "AAA", request.POST, request.FILES
+        print >>sys.stderr,  "AAA", request.POST, request.FILES
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'], user)
             return HttpResponseRedirect('/investigator/view_user/' + user)
         else:
-            print "Invalid form in upload_file()"
+            print >>sys.stderr,  "Invalid form in upload_file()"
             successful = False
     else:
         form = UploadFileForm()

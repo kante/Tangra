@@ -58,7 +58,7 @@ def decline_video_request(request):
     username = request.GET.get("pk", None)
     cache.delete(username + "_has_pending_invite")
     cache.set(username + "_no_chat_requested", True, settings.VIDEO_REJECTED_TIMEOUT)
-    print cache.get(username + "_no_chat_requested")
+    print >>sys.stderr, cache.get(username + "_no_chat_requested")
     
 
 

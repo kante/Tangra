@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <study>
-	<name name_stub="shi">shipley_vocabulary_test</name>
+	<name name_stub="rmq">rural_medicine_questionairre</name>
 	
 	<description>An example using the Shipley Vocabulary Test</description>
 	<informed_consent>Do you wish to be tested?</informed_consent>
@@ -20,8 +20,9 @@
 	<!-- All users who should be able to administer the study. Investigators
 	CANNOT be participants! -->
 	<investigators>
-		<user name="dr_d" password="dr_d1"/>
-		<user name="pappa_smurf" password="pappa_smurf1"/>
+		<user name="kante" password="temp1234"/>
+		<user name="natalie" password="temp1234"/>
+		<user name="yasmin" password="temp1234"/>
 	</investigators>
 
 	<!-- 
@@ -30,13 +31,16 @@
 	-->
 	<all_stages>
 		<stage directory="welcome_page"/>
-		<stage directory="test"/>
+		<stage directory="consent"/>
+		<stage directory="nutrition"/>
+		<stage directory="physical_activity"/>
+		
 	</all_stages>
 
 
 	<!-- One entry for each distinct group in the study -->
 	<all_groups>
-		<group name="shipley_participants">
+		<group name="everyone">
 			<user name="jim1"/>
 			<user name="jill1"/>
 			<user name="jim2"/>
@@ -50,13 +54,8 @@
 			<!-- List the stages you want included in this group IN ORDER -->
 			<stages>
 				<stage directory="welcome_page"/>
-				<stage directory="test"/>
-				<stage directory="test"/>
-				<stage directory="test"/>
-				<stage directory="test"/>
-				<stage directory="test"/>
-				<stage directory="test"/>
-				
+				<stage directory="nutrition"/>
+				<stage directory="physical_activity"/>
 			</stages>
 		</group>
 	</all_groups>

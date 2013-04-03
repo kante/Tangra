@@ -24,7 +24,7 @@
 			
 			var data = $("#shipley_form").serialize();
 			
-			if (data.split('=').length - 1 != 40) {
+			if (data.split('=').length - 1 != 5) {
 				alert("Please answer all questions");
 				$("#submit_container").show();
 				$("#waiting_container").hide();
@@ -92,7 +92,7 @@
             <input type="radio" name="q5" value="defy">defy<br>
         </div>
 
-
+        <!--
         <div class="shipley_question">
             <h3>TUMBLE *</h3>
             <input type="radio" name="q6" value="drink">drink<br>
@@ -406,12 +406,18 @@
             <input type="radio" name="q40" value="first">first<br>
             <input type="radio" name="q40" value="level">level<br>
         </div>
+        -->
 	</form>
 
+    <br><br><br>
 
 	<div id="submit_box">
 		<div id="submit_container">
-			<a style="color:blue;" href="#" onclick="submit_data();">sumbit</a> some data
+			<a style="color:blue;" href="#" onclick="submit_data();">
+		    	<span class="actbutton green" style="width:200px;padding: 10px;">
+                       Submit Answers
+                </span>
+            </a>
 		</div>
 		<div style="display:none;" id="waiting_container">
 			Request submitted... please wait.

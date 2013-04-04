@@ -31,7 +31,6 @@
 	-->
 	<all_stages>
 		<stage directory="welcome_page"/>
-		<stage directory="consent"/>
 		<stage directory="nutrition"/>
 		<stage directory="physical_activity"/>
 		

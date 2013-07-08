@@ -1,21 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tinymce import models as tinymce_models
 import datetime
 from operator import attrgetter
 
+# TODO: determine if removing all the tinymce.HTML fields made a difference/problem
 
 class Study(models.Model):
     name = models.CharField('Study Name', max_length=300)
     stub = models.CharField('Study Stub', max_length=3)
-    description = tinymce_models.HTMLField('Description')
+    description = models.CharField('Description', max_length=5000)
     start_date = models.DateField('Starting Date', blank=True, null=True)
     end_date = models.DateField('End Date', blank=True, null=True)
     started =  models.BooleanField('Started', default=False)
-    consent = tinymce_models.HTMLField('Informed Consent Form')
-    instructions = tinymce_models.HTMLField('Study Instructions')
-    eligibility = tinymce_models.HTMLField('Eligibility Criteria')
-    reward = tinymce_models.HTMLField('Compensation and Reward')
+
+    consent = models.CharField('Informed Consent Form', max_length=5000)
+    instructions = models.CharField('Study Instructions', max_length=5000)
+    eligibility = models.CharField('Eligibility Criteria', max_length=5000)
+    reward = models.CharField('Compensation and Reward', max_length=5000)
     
     # lists of investigators and participants associated with this study
     investigators = models.ManyToManyField(User, related_name="investigators")
@@ -90,8 +91,8 @@ class Stage(models.Model):
     sessions = models.IntegerField('Number of sessions')
     deadline = models.IntegerField('Time to finish session (in days)')
     url = models.CharField('Stage URL', max_length=300)
-    description = tinymce_models.HTMLField('Stage Description')
-    instructions = tinymce_models.HTMLField('Stage Instructions')
+    description = models.CharField('Stage Description', max_length=5000)
+    instructions = models.CharField('Stage Instructions', max_length=5000)
     
     def __unicode__(self):
         return unicode("%s (%s)" % (self.name, self.study.stub))       

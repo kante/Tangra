@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-{% load helpers %}
 <html>
 	<head>
 		<title>{% block title %}{% endblock %}</title>
@@ -42,7 +41,7 @@
 				<div id="login_links">
 				{% if user.is_authenticated %}
 					Welcome, <a href="/study/">{{user.username}}</a> |
-           <a href="{% url logout %}">Logout</a>
+           <a href="{% url 'logout' %}">Logout</a>
 				{% else %}
 					Welcome to Tangra: The Mental Fitness Evaluation Portal
 				{% endif%}

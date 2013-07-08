@@ -17,6 +17,4 @@ urlpatterns = patterns('',
     # General function to store arbitrary JSON strings from a user study
     url(r'^save_post_data$', save_post_data, name="save_post_data"),
     
-    (r'^tinymce/', include('tinymce.urls')), 
-
 )

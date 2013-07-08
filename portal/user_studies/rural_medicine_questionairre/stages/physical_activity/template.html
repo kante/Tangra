@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<script type="text/javascript">
+	
+		// call this when AJAX request returns
+		function complete_task(response,status,xhr)
+		{
+			if (response == "success")
+			{
+				$("#waiting_container").hide();
+				window.location = "/study/fsess";
+			} else {
+				$("#waiting_container").hide();
+				$("#retry_container").show();
+			}
+		}
+
+		// Send arbitrary JSON data to /???/save_data
+		function submit_data()
+		{
+			$("#submit_container").hide();
+			$("#waiting_container").show();
+			
+			var data = $("#shipley_form").serialize();
+			
+			if (data.split('=').length - 1 != 8) {
+				alert("Please answer all questions");
+				$("#submit_container").show();
+				$("#waiting_container").hide();
+				return;
+			}
+			
+			data += "&custom_data=Whatever you want";
+			$.post("/study/save_post_data", data, complete_task);
+		}
+		
+		
+	</script>
+	
+	<style>
+		
+		.question_container 
+		{
+		    
+		}
+		
+		.the_question 
+		{
+		    width:70%;
+		    margin:0 auto;
+		    text-align:justify;
+		}
+		
+		.the_answers 
+		{
+		    width:20%;
+		    margin-left: auto;
+            margin-right: auto;
+		}
+		
+		.yes_box, .no_box 
+		{
+		    width:48%;
+		    display:inline-block;
+		    height:30px;
+		    text-align:center;
+		    font-size:150%;
+		    margin-bottom:20px;
+		}
+	</style>
+	
+	
+	<h1>Facilitation of Physical Activity</h1>
+	
+	
+	<form id="shipley_form">
+      
+        
+        <script>
+            var questions = new Array(
+                "Does your community have an active transportation plan addressing roads, public transit, cycling and walking facilities, and public parking?",
+                "Does your community connect neighborhoods to key destinations by sidewalks or walkways?",
+                "Does your community have bike paths and lanes that connect neighborhoods with key destinations?",
+                "Does your community have public transit that connects neighborhoods with key destinations?",
+                "Are homes in your community within walking distance to shopping, grocery stores, services (doctor, dentists, bank), schools, parks and playgrounds, recreation facilities, and workplaces?",
+                "Are pedestrian crossings well marked and signals allow enough time to cross street?",
+                "Are sidewalks and bike lanes separated from traffic by grass, trees, or pavement?",
+                "Are walking and cycling routes well lit at night?");
+            
+            
+            function write_question(number, with_text) 
+            {
+                document.write('<div class="question_container">');
+                document.write('    <div class="the_question">')
+                document.write('        <h3>' + with_text + "</h3>");
+                document.write('     </div>');
+                document.write('     <div class="the_answers">');
+                document.write('        <div class="yes_box">');
+                document.write('            <input type="radio" name="q'+number+'" value="yes">yes');
+                document.write('        </div>');
+                document.write('        <div class="no_box">');
+                document.write('            <input type="radio" name="q'+number+'" value="no">no');
+                document.write('       </div>');
+                document.write('    </div>');
+                document.write('</div>');
+            }
+            
+            for (var i=0; i<questions.length; i++)
+            {
+                write_question(i, questions[i]);
+            }
+        </script>
+        
+    
+
+
+	</form>
+
+    <br>
+    <center>
+	    <div style="margin:0 0 100px 0;" id="submit_box">
+    		<div id="submit_container">
+    			<a style="color:blue;" href="#" onclick="submit_data();">
+    		    	<span class="actbutton green" style="width:200px;padding: 10px;">
+                           Submit Answers
+                    </span>
+                </a>
+    		</div>
+    		<div style="display:none;" id="waiting_container">
+    			Request submitted... please wait.
+    		</div>
+    		<div style="display:none;" id="retry_container">
+    			Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+    			to try again.
+    		</div>
+    	</div>
+    </center>
+    
+
+{% endblock %}
+
+

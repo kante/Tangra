@@ -9,7 +9,6 @@ from portal.views import *
 
 urlpatterns = patterns('',
     # Libraries
-    (r'^tinymce/', include('tinymce.urls')),
     
     url(r'^$', 'portal.views.home', name="home"),
     (r'^admin/', include(admin.site.urls)),

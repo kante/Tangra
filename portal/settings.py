@@ -99,10 +99,8 @@ INSTALLED_APPS = (
     'portal.users',
     
     # Libraries
-    'tinymce',
 #   'lockdown',
-    'alphacabbage.django.helpers',
-    'alphacabbage.django.choices',
+
 )
 
 

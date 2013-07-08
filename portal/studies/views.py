@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 import hashlib
 
+from sys import stderr 
 
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from models import *
@@ -25,7 +26,7 @@ def show_many_studies(request):
     studies_as_participant = StudyParticipant.objects.filter(user=request.user)
     current_stages = UserStage.objects.filter(user=request.user, status=1)
         
-    print >>sys.stderr,  current_stages
+    print >>stderr,  current_stages
     
     return render_to_response('study/show_many_studies.html', locals(), context_instance=RequestContext(request))
 
@@ -171,7 +172,9 @@ def save_post_data(request):
     for key in request.POST:
         data = data + "{0},{1}\n".format(key, request.POST[key])
     
-    print >>sys.stderr, data
+    #print >>sys.stderr, data
+    #TODO: how to print to stderr without crashing shit?
+    print data
     
     dt = datetime.datetime.now()    
     code = "CSV"

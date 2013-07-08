@@ -93,7 +93,8 @@ class Stage(models.Model):
     url = models.CharField('Stage URL', max_length=300)
     description = models.CharField('Stage Description', max_length=5000)
     instructions = models.CharField('Stage Instructions', max_length=5000)
-    
+
+
     def __unicode__(self):
         return unicode("%s (%s)" % (self.name, self.study.stub))       
     
@@ -179,6 +180,8 @@ class UserStage(models.Model):
     last_session_completed = models.DateTimeField('Last session completed', blank=True, null=True)
     curr_session_started = models.DateTimeField('Current session started', blank=True, null=True)
     study = models.ForeignKey(Study)
+    custom_data = models.CharField('Custom Data', max_length=5000)
+    
 
     def __unicode__(self):
         return u'%s - %s (%s)' % (self.user, self.stage, self.order)

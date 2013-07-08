@@ -50,8 +50,9 @@ def get_current_stage_info(request):
     # assuming one user per study now... make things easy on ourselves for this
     # project. generalize this after we've tested it on space fortress
     stage = current_stages[0]
-    return HttpResponse("stage_name:"+stage.stage.name+
-        ",stage_times_completed:"+str(stage.stage_times_completed))
+    return HttpResponse("stage_name:" + stage.stage.name +
+                        ",stage_times_completed:"+str(stage.stage_times_completed) +
+                        ",stage_custom_data:" + str(stage.custom_data))
 
 
 

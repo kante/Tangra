@@ -44,6 +44,7 @@ def create_participants(study_settings, study):
         # add the investigators to the study
         study.participants.add(user)
 
+
 def create_investigators(study_settings, study):
     """
         Create user entries in the database for the supplied study_settings
@@ -68,7 +69,6 @@ def create_investigators(study_settings, study):
         
         # add the investigators to the study
         study.investigators.add(user)
-
 
 
 
@@ -125,7 +125,8 @@ def create_groups(study_settings):
         users = study_settings.groups[group_name]['users']
         stages = study_settings.groups[group_name]['stages']
         times = study_settings.groups[group_name]['times']
-        
+        custom_data = study_settings.groups[group_name]['custom_data']
+
         group = create_group(study, group_name)
         
         # specify the order that the stages appear for this group
@@ -163,7 +164,9 @@ def create_groups(study_settings):
                     user_stage = UserStage.objects.get(stage=stage, user=user, order=stage_index, study=study)
                 except UserStage.DoesNotExist:
                     user_stage = UserStage(stage=stage, user=user, order=stage_index, \
-                        study=study, stage_times_completed=0, stage_times_total = stage_times_total)  
+                        study=study, stage_times_completed=0, stage_times_total = stage_times_total, \
+						custom_data=custom_data[i])
+						  
                 # set all status to incomplete
                 user_stage.status = 1 if stage_index == 0 else 2
                 user_stage.sessions_completed = 0
@@ -198,3 +201,7 @@ def create_stages(study_settings):
         
         stage.save()
     
+
+
+
+

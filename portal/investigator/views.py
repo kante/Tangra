@@ -12,6 +12,7 @@ from zipfile import ZipFile
 from StringIO import StringIO
 import json
 import os
+import sys 
 
 from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *

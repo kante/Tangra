@@ -31,12 +31,8 @@
 			<user name='participant_8' password='8'/>
 			<user name='participant_9' password='9'/>
 			<user name='participant_10' password='10'/>
-	
-
-
+            
  			<stages>
- 				<stage times="1" directory="java_check"/>
-
 				<!-- One aiming session with three aiming tasks -->
  		        <stage times="1" directory="space_fortress" custom_data="AAA"/>
 

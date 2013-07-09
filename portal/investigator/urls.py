@@ -9,4 +9,5 @@ urlpatterns = patterns('',
                        url(r'^upload_file/(?P<user>[a-zA-Z0-9_]+)(/)?$', upload_file, name='upload_file'),
                        url(r'^(?P<sort_by>[a-z_]+)$', investigator_home, name='investigator_home'),
                        url(r'^view_user/(?P<user>[a-zA-Z0-9_]+)$', view_user, name='user_inspector'),
+                       url(r'^add_users/(?P<study_id>[0-9]+)$', add_users, name='add_users'),
                       )

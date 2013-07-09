@@ -18,6 +18,15 @@ from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
 from video_conferencing import *
 
 
+def add_users(request, study_id):
+    study_object = Study.objects.get(id=study_id)
+    study_name = study_object.name
+    study_id = study_id
+    
+    
+    return render_to_response('add_users.html', locals(), 
+                              context_instance=RequestContext(request))
+
 
 def get_progress(user, study):
     """
@@ -40,10 +49,12 @@ def get_progress(user, study):
 def is_online(user):
     return True if cache.get(user.username) else False
 
+
 def is_late(user):
     current_stages = UserStage.objects.filter(user=user, status=1)
     return reduce(lambda x, y : x or y.overdue(), current_stages, False)
-    
+
+
 def get_data(request):
     
     study_data = {}
@@ -59,12 +70,11 @@ def get_data(request):
             study_data = get_study_data(study, progressUsers)
         
     jsonResponse = json.dumps(study_data, sort_keys=True, indent=4, cls=DjangoJSONEncoder)
-
+    
     response = HttpResponse(jsonResponse, mimetype='application/json')
     response['Content-Disposition'] = 'attachment; filename=study_data.txt'
     return response
     
-
     
 def download_file(request):
     
@@ -88,7 +98,8 @@ def download_file(request):
                 
             else:
                 print >>sys.stderr,  "No file called '" + fileName + "' found for user '" + fileUser + "'."
-                
+
+
 def download_files(request):
     
     if request.method == u'POST':
@@ -149,6 +160,7 @@ def download_files(request):
         response = HttpResponse(wrapper, mimetype='application/octet-stream')
         response['Content-Disposition'] = 'attachment; filename=user_files.zip'
         return response
+
 
 def build_user_data(participants, study, sort_by):
     user_data = []
@@ -241,15 +253,15 @@ def get_user_data(user):
     
     # print >>sys.stderr,  user_data
     return user_data
-    
-    
+
+
 def get_study_data(study, users):
 
     study_object = Study.objects.get(id = study)
     study_data = {}
     
     for u in users:
-
+        
         raw_study_data = []
         
         # print >>sys.stderr,  u
@@ -270,7 +282,8 @@ def get_study_data(study, users):
             study_data[the_user.username].append( next_data )
             
     return study_data
-    
+
+
 def post2dict(post):
     
     postDict = {}
@@ -301,7 +314,8 @@ def post2dict(post):
         postDict[user][key] = data
         
     return postDict
-    
+
+
 def list_user_files(user):
     
     userPath = os.path.join(USER_FILES, user)
@@ -315,7 +329,8 @@ def list_user_files(user):
         filesDir = []
         
     return filesDir
-    
+
+
 class UploadFileForm(forms.Form):
     # title = forms.CharField(max_length=50)
     file  = forms.FileField(
@@ -328,6 +343,7 @@ class UploadFileForm(forms.Form):
             'max_length': 'Maximum length'
             }
     )
+
 
 def upload_file(request, user):
     successful = True
@@ -348,7 +364,8 @@ def upload_file(request, user):
     
     return render_to_response('upload.html', locals(),
                               context_instance=RequestContext(request))
-                              
+
+
 def handle_uploaded_file(uploaded_file, user):
     dir_path = os.path.join(USER_FILES, user)
     

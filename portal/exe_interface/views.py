@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from studies.models import *
 from studies.views import finish_session
 
+
 def login(request):
     """Try to log in."""
     if request.method == 'POST':
@@ -33,13 +34,10 @@ def login(request):
         return HttpResponse("Strange request... not POST!?")    
 
 
-
 @login_required
 def testing(request):
     #send: studyid, request.user, time, data
     return HttpResponse("bwwaaahahaha! awww yeah!")
-
-
 
 
 @login_required
@@ -53,8 +51,6 @@ def get_current_stage_info(request):
     return HttpResponse("stage_name:" + stage.stage.name +
                         ",stage_times_completed:"+str(stage.stage_times_completed) +
                         ",stage_custom_data:" + str(stage.custom_data))
-
-
 
 
 @login_required

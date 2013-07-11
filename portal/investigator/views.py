@@ -20,15 +20,8 @@ from users.models import UserRoles
 import datetime
 
 
-
-def add_user_to_db(study_id, group, username, password):
+def add_user_to_db(study_id, group, user, password):
     study = Study.objects.get(id=study_id)
-    
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        user = User(username=username)
-    
     user.set_password(password)
     user.save()
     
@@ -39,7 +32,6 @@ def add_user_to_db(study_id, group, username, password):
     study.participants.add(user)
     group = Group.objects.get(study=study_id, name=group)
     
-    
     try:
         study_participant = StudyParticipant.objects.get(study=study, user=user, group=group)
     except StudyParticipant.DoesNotExist:
@@ -49,7 +41,6 @@ def add_user_to_db(study_id, group, username, password):
     stagegroups = StageGroup.objects.filter(group=group)
     
     for stagegroup in stagegroups:
-        print stagegroup, "bitches!"
         stage = stagegroup.stage
         
         #add a UserStage for each user/stage pair
@@ -57,9 +48,9 @@ def add_user_to_db(study_id, group, username, password):
             user_stage = UserStage.objects.get(stage=stagegroup.stage, user=user, order=stagegroup.order, study=study_id)
         except UserStage.DoesNotExist:
             user_stage = UserStage(stage=stagegroup.stage, user=user, order=stagegroup.order, \
-                study=study, stage_times_completed=0, stage_times_total=1, \
-                custom_data="fuck need to get this into the stagegroup")
-      
+                study=study, stage_times_completed=0, stage_times_total=stagegroup.stage_times_total, \
+                custom_data=stagegroup.custom_data)
+        
         # set all status to incomplete
         user_stage.status = 1 if stagegroup.order == 0 else 2
         user_stage.sessions_completed = 0
@@ -68,6 +59,7 @@ def add_user_to_db(study_id, group, username, password):
 
 
 def add_user(request, study_id):
+    alert = ""
     
     if request.method == 'POST':
         username = request.POST['username']
@@ -77,21 +69,25 @@ def add_user(request, study_id):
         # Strange request. Send them back to the start
         return HttpResponse("Strange request... not POST!?")
         
-    study_object = Study.objects.get(id=study_id)
-    study_name = study_object.name
-    study_id = study_id
     
-    add_user_to_db(study_id, group, username, password)
+    # check to see if the user exists, retry if it does
+    try:
+        user = User.objects.get(username=username)
+        alert = "User already exists. Try a different username."
+        groups = [g.name for g in Group.objects.filter(study=study_id)]
+        
+        return render_to_response('add_user_form.html', locals(), context_instance=RequestContext(request))
+    except User.DoesNotExist:
+        user = User(username=username)
     
-    return render_to_response('something_lol.html', locals(), 
-                              context_instance=RequestContext(request))
+    
+    add_user_to_db(study_id, group, user, password)
+    
+    return HttpResponseRedirect('/investigator/', locals())
+    
 
 
 def add_user_form(request, study_id):
-    study_object = Study.objects.get(id=study_id)
-    study_name = study_object.name
-    study_id = study_id
-    
     groups = [g.name for g in Group.objects.filter(study=study_id)]
     
     return render_to_response('add_user_form.html', locals(), 

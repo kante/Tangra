@@ -120,6 +120,9 @@ class StageGroup(models.Model):
     group = models.ForeignKey(Group)
     stage = models.ForeignKey(Stage)
     order = models.IntegerField()
+    custom_data = models.CharField('Custom Data', max_length=5000)
+    stage_times_total = models.IntegerField('Total times for stage')
+    
     
     
     
@@ -171,8 +174,6 @@ class Data(models.Model):
 class UserStage(models.Model):
     user = models.ForeignKey(User)
     stage = models.ForeignKey(Stage)
-    stage_times_completed = models.IntegerField('Times stage completed')
-    stage_times_total = models.IntegerField('Total times for stage')
     order = models.IntegerField('Order', editable=False)
     CHOICES = ((0, 'Completed'),(1, 'Active'),(2, 'Future'))
     status = models.IntegerField('Status', max_length=1, choices=CHOICES)
@@ -183,13 +184,15 @@ class UserStage(models.Model):
     curr_session_started = models.DateTimeField('Current session started', blank=True, null=True)
     study = models.ForeignKey(Study)
     
-    
+    # some of this is copied over from StageGroup... do we need this?
+    stage_times_completed = models.IntegerField('Times stage completed')
     custom_data = models.CharField('Custom Data', max_length=5000)
+    stage_times_total = models.IntegerField('Total times for stage')
     
-
+    
     def __unicode__(self):
         return u'%s - %s (%s)' % (self.user, self.stage, self.order)
-
+    
     def save(self, *args,**kwargs):
         super(UserStage, self).save(*args, **kwargs)
         #self.set_order()

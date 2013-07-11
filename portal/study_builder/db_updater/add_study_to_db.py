@@ -145,9 +145,10 @@ def create_groups(study_settings):
             try:
                 stage_group = StageGroup.objects.get(group=group, stage=stage, order=stage_index)
             except StageGroup.DoesNotExist:
-                stage_group = StageGroup(group=group, stage=stage, order=stage_index)
+                stage_group = StageGroup(group=group, stage=stage, order=stage_index, stage_times_total=stage_times_total, \
+                                         custom_data=custom_data[i])
             stage_group.save()
-        
+            
             
             # add study participants for the group
             for username in users:
@@ -163,9 +164,9 @@ def create_groups(study_settings):
                     user_stage = UserStage.objects.get(stage=stage, user=user, order=stage_index, study=study)
                 except UserStage.DoesNotExist:
                     user_stage = UserStage(stage=stage, user=user, order=stage_index, \
-                        study=study, stage_times_completed=0, stage_times_total = stage_times_total, \
-						custom_data=custom_data[i])
-						  
+                                            study=study, stage_times_completed=0, stage_times_total=stage_times_total, \
+                                            custom_data=custom_data[i])
+                
                 # set all status to incomplete
                 user_stage.status = 1 if stage_index == 0 else 2
                 user_stage.sessions_completed = 0

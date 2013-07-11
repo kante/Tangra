@@ -62,8 +62,17 @@
 
     <div id="login_outer">
         <div id="login_inner">
-            <form >
-
+            
+            <form action="/investigator/add_user/{{study_id}}/"  method="post">
+                <div style="width:100%;border:solid;border-width:1px;padding:3px;">
+                    <label for="group">Select Group</label><br>
+                
+                    {% for group in groups %}
+                        <input type="radio" name="group" value="{{group}}">{{group}}<br>
+                    
+                    {% endfor %}
+                </div><br>
+                
                 <label for="username">Username</label>
                 <input class="login_input" type="text" name="username" value="" id="username">
 
@@ -73,7 +82,7 @@
                 <label for="verify_password">Verify Password</label>
                 <input class="login_input" type="password" name="verify_password" value="fff" id="verify_password">
 
-                <input onclick="submit_add_user_request();" id="add_user_submit" type="button" value="Add User" />
+                <input id="add_user_submit" type="submit" value="Add User" />
 
             </form>
             <div class="clear"></div>

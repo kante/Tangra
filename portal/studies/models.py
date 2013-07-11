@@ -121,6 +121,8 @@ class StageGroup(models.Model):
     stage = models.ForeignKey(Stage)
     order = models.IntegerField()
     
+    
+    
     @classmethod
     def stages_in_group(cls, group):
         """docstring for stages_in_group"""
@@ -180,6 +182,8 @@ class UserStage(models.Model):
     last_session_completed = models.DateTimeField('Last session completed', blank=True, null=True)
     curr_session_started = models.DateTimeField('Current session started', blank=True, null=True)
     study = models.ForeignKey(Study)
+    
+    
     custom_data = models.CharField('Custom Data', max_length=5000)
     
 

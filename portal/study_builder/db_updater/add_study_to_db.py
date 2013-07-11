@@ -9,7 +9,6 @@ import datetime
 
 def add_study_to_db(study_settings):
     """
-    
     study_settings - A StudySettings object to create database entries for.
     """
     study = create_studies(study_settings)
@@ -26,7 +25,7 @@ def create_participants(study_settings, study):
         This will override any existing users password with the one that is
         supplied in settings.xml
     """
-
+    
     for username in study_settings.participants:
         try:
             user = User.objects.get(username=username)
@@ -40,7 +39,7 @@ def create_participants(study_settings, study):
         profile = user.get_profile()
         profile.user_role = UserRoles.PARTICIPANT
         profile.save()
-
+        
         # add the investigators to the study
         study.participants.add(user)
 

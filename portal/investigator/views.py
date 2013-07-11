@@ -14,18 +14,79 @@ import json
 import os
 import sys 
 
-from portal.studies.models import User, Study, UserStage, Data, StudyParticipant
+from portal.studies.models import User, Study, UserStage, Data, StudyParticipant, Group
+
+
 from video_conferencing import *
 
+from users.models import UserRoles
 
-def add_users(request, study_id):
+def add_user_to_db(study_id, username, password):
+    study = Study.objects.get(id=study_id)
+    
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = User(username=username)
+    
+    user.set_password(password)
+    user.save()
+    
+    # now update the user profile (it should be created after the save)
+    profile = user.get_profile()
+    profile.user_role = UserRoles.PARTICIPANT
+    profile.save()
+    
+    study.participants.add(user)
+    
+    
+            #     
+            #     try:
+            #         study_participant = StudyParticipant.objects.get(study=study, user=user, group=group)
+            #     except StudyParticipant.DoesNotExist:
+            #         study_participant = StudyParticipant(study=study, user=user, group=group)
+            #     study_participant.save()
+            #     
+            #     # add a UserStage for each user/stage pair
+            #     try:
+            #         user_stage = UserStage.objects.get(stage=stage, user=user, order=stage_index, study=study)
+            #     except UserStage.DoesNotExist:
+            #         user_stage = UserStage(stage=stage, user=user, order=stage_index, \
+            #             study=study, stage_times_completed=0, stage_times_total = stage_times_total, \
+            # custom_data=custom_data[i])
+            #   
+            #     # set all status to incomplete
+            #     user_stage.status = 1 if stage_index == 0 else 2
+            #     user_stage.sessions_completed = 0
+            #     user_stage.start_date = datetime.datetime.now()
+            #     user_stage.save()
+    
+    
+
+
+def add_user(request, study_id, username, password):
     study_object = Study.objects.get(id=study_id)
     study_name = study_object.name
     study_id = study_id
     
+    add_user_to_db(study_id, username, password)
     
-    return render_to_response('add_users.html', locals(), 
+    
+    return render_to_response('something_lol.html', locals(), 
                               context_instance=RequestContext(request))
+
+
+
+def add_user_form(request, study_id):
+    study_object = Study.objects.get(id=study_id)
+    study_name = study_object.name
+    study_id = study_id
+    
+    groups = Group.objects.get(study=study_id)
+    
+    return render_to_response('add_user_form.html', locals(), 
+                              context_instance=RequestContext(request))
+
 
 
 def get_progress(user, study):

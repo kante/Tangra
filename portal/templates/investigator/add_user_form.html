@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<script language="JavaScript">
+    
+       function submit_add_user_request()
+       {
+           // check for good password
+           
+           var pass1 = $('#password').val();
+           var pass2 = $('#verify_password').val();
+           
+           if (pass1 != pass2) {
+               alert("Passwords don't match, please try again.");
+               $('#password').val("");
+               $('#verify_password').val("");
+               return false;
+           } 
+           
+           window.location = "/investigator/add_user/{{study_id}}/" +  $('#username').val() + "/" +  $('#password').val();
+           
+           return false;
+       }
+
+</script>
+
+
+<br><br>
+
+
+<div id="supertabs">
+    <ul>
+        <li class="tablink on" id="tab1">
+            Add some users
+        </li>
+        
+        <li class="tablink" id="tab2">
+            Summ Summ
+        </li>
+    </ul>
+</div>
+
+
+<div id="tab1box" class="tab">
+    <br>
+    dinguses with {{study_name}} and id {{study_id}}
+    <br>
+    
+    <br>
+    TODO: first just add a user with the supplied name to the study
+    
+    <br>
+    TODO: add a check for existing username
+    
+    <br>
+    TODO: add to an arbitrary stage
+    
+    <br>
+    Groups: {{groups}}
+   <br>
+
+    <div id="login_outer">
+        <div id="login_inner">
+            <form >
+
+                <label for="username">Username</label>
+                <input class="login_input" type="text" name="username" value="" id="username">
+
+                <label for="password">Password</label>
+                <input class="login_input" type="password" name="password" value="fff" id="password">
+
+                <label for="verify_password">Verify Password</label>
+                <input class="login_input" type="password" name="verify_password" value="fff" id="verify_password">
+
+                <input onclick="submit_add_user_request();" id="add_user_submit" type="button" value="Add User" />
+
+            </form>
+            <div class="clear"></div>
+
+        </div>
+    </div>    
+    
+</div>
+
+
+<div id="tab2box" class="tab" style="display:none">
+    plapp plapp
+</div>
+
+
+{% endblock %}

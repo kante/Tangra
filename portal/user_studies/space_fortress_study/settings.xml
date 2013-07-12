@@ -1,64 +1,70 @@
 <study>
     <name name_stub="space_fortress">space_fortress_study</name>
     <description>Space Fortress</description>
-    <informed_consent>Do you consent to check whether Java is installed? (Java is necessary to play Space Fortress.)</informed_consent>
-    <instructions>Instructions TBD</instructions>
+    <informed_consent>Please see </informed_consent>
+    <instructions>Please read the instructions in the Space Fortress game.</instructions>
     <eligibility>No eligibility constraints.</eligibility>
     <reward>Play space fortress!</reward>
-    <start_date>2012-01-01</start_date>
+    <start_date>2013-01-01</start_date>
     <end_date>2021-12-31</end_date>
- 
+    
     <investigators>
-        <user name="dr_d" password="dr_d"/>
+        <user name="dr_d" password="columbia_24_sf"/>
     </investigators>
- 
+    
     <all_stages>
         <stage directory="java_check"/>
         <stage directory="space_fortress"/>
-
     </all_stages>
- 
-    <all_groups>
     
+    <all_groups>
+        
         <group name="full_study">
-            <user name='participant_1' password='1'/>
-            <user name='participant_2' password='2'/>
-            <user name='participant_3' password='3'/>
-            <user name='participant_4' password='4'/>
-            <user name='participant_5' password='5'/>
+            <user name='participant_1' password='sf_participant_1'/>
             
             <stages>
                 <!-- One aiming session with three aiming tasks -->
                 <stage times="1" directory="space_fortress" custom_data="AAA"/>
-
                 <!-- Twelve ship handling with 2 active controls -->
                 <stage times="12" directory="space_fortress" custom_data="SSSSSSSSSSTT"/>
-               
                 <!-- Six mine handling with two active controls -->
                 <stage times="6" directory="space_fortress" custom_data="MMMMMMMMMMTT"/>
-                
                 <!-- Just do a random sequence of mine/ship control with two active controls -->
                 <stage times="1000" directory="space_fortress" custom_data="mixed"/>
-                
             </stages>
         </group>
         
-         <group name="stage_3_start">
-                <user name='participant_6' password='6'/>
-                <user name='participant_7' password='7'/>
-                <user name='participant_8' password='8'/>
-                <user name='participant_9' password='9'/>
-                <user name='participant_10' password='10'/>
-                
-                <stages>
-                    <!-- Six mine handling with two active controls -->
-                    <stage times="6" directory="space_fortress" custom_data="MMMMMMMMMMTT"/>
-                    
-                    <!-- Just do a random sequence of mine/ship control with two active controls -->
-                    <stage times="1000" directory="space_fortress" custom_data="mixed"/>
-                    
-                </stages>
-            </group>
+        <group name="stage_2_start">
+            <user name='participant_2' password='sf_participant_2'/>
+            
+            <stages>
+                <stage times="12" directory="space_fortress" custom_data="SSSSSSSSSSTT"/>
+                <!-- Six mine handling with two active controls -->
+                <stage times="6" directory="space_fortress" custom_data="MMMMMMMMMMTT"/>
+                <!-- Just do a random sequence of mine/ship control with two active controls -->
+                <stage times="1000" directory="space_fortress" custom_data="mixed"/>
+            </stages>
+        </group>
+        
+        <group name="stage_3_start">
+            <user name='participant_3' password='sf_participant_3'/>
+            
+            <stages>
+                <!-- Six mine handling with two active controls -->
+                <stage times="6" directory="space_fortress" custom_data="MMMMMMMMMMTT"/>
+                <!-- Just do a random sequence of mine/ship control with two active controls -->
+                <stage times="1000" directory="space_fortress" custom_data="mixed"/>
+            </stages>
+        </group>
+        
+        <group name="stage_4_start">
+            <user name='participant_4' password='sf_participant_4'/>
+            
+            <stages>
+                <!-- Just do a random sequence of mine/ship control with two active controls -->
+                <stage times="1000" directory="space_fortress" custom_data="mixed"/>
+            </stages>
+        </group>
         
     </all_groups>
 </study>

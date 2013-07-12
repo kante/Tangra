@@ -73,13 +73,12 @@ def add_user(request, study_id):
     # check to see if the user exists, retry if it does
     try:
         user = User.objects.get(username=username)
-        alert = "User already exists. Try a different username."
-        groups = [g.name for g in Group.objects.filter(study=study_id)]
-        
+        error = True
+        error_msg = "User already exists. Try a different username."
+        groups = [group]
         return render_to_response('add_user_form.html', locals(), context_instance=RequestContext(request))
     except User.DoesNotExist:
         user = User(username=username)
-    
     
     add_user_to_db(study_id, group, user, password)
     

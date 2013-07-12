@@ -1,13 +1,6 @@
 <participants>
- 	<user name='participant_1' password='1'/>
-	<user name='participant_2' password='2'/>
-	<user name='participant_3' password='3'/>
-	<user name='participant_4' password='4'/>
-	<user name='participant_5' password='5'/>
-	<user name='participant_6' password='6'/>
-	<user name='participant_7' password='7'/>
-	<user name='participant_8' password='8'/>
-	<user name='participant_9' password='9'/>
-	<user name='participant_10' password='10'/>
-
+	<user name='participant_1' password='sf_participant_1'/>
+	<user name='participant_2' password='sf_participant_2'/>
+	<user name='participant_3' password='sf_participant_3'/>
+	<user name='participant_4' password='sf_participant_4'/>
 </participants>

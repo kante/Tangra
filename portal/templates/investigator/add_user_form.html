@@ -3,25 +3,49 @@
 
 
 <script language="JavaScript">
-    
-       function submit_add_user_request()
-       {
-           // check for good password
-           
-           var pass1 = $('#password').val();
-           var pass2 = $('#verify_password').val();
-           
-           if (pass1 != pass2) {
-               alert("Passwords don't match, please try again.");
-               $('#password').val("");
-               $('#verify_password').val("");
-               return false;
-           } 
-           
-           window.location = "/investigator/add_user/{{study_id}}/" +  $('#username').val() + "/" +  $('#password').val();
-           
-           return false;
-       }
+    function try_again()
+    {
+        $('#password').val("");
+        $('#verify_password').val("");
+        return false;
+    }
+        
+    function validate_form()
+    {
+        // check for good password
+        var Exp = /^[0-9a-zA-z_]*$/; // alphanumeric
+        
+        var pass1 = $('#password').val();
+        var pass2 = $('#verify_password').val();
+        var username = $('#username').val();
+        
+        if(username.length < 3) {
+            alert("Passwords must be at least 3 characters, please try again.");
+            return try_again();
+        }
+        
+        if(!username.match(Exp)) {
+            alert("Passwords must contain only numbers, letters and underscore characters. Please try again.");
+            return try_again();
+        }
+        
+        if(!pass1.match(Exp)) {
+            alert("Passwords must contain only numbers, letters and underscore characters. Please try again.");
+            return try_again();
+        }
+        
+        if (pass1 != pass2) {
+            alert("Passwords don't match, please try again.");
+            return try_again();
+        }
+        
+        if(pass1.length < 7) {
+            alert("Passwords must be at least 8 characters, please try again.");
+            return try_again();
+        }
+        
+        return true;
+    }
 
 </script>
 
@@ -32,11 +56,7 @@
 <div id="supertabs">
     <ul>
         <li class="tablink on" id="tab1">
-            Add some users
-        </li>
-        
-        <li class="tablink" id="tab2">
-            Summ Summ
+            Add a user
         </li>
     </ul>
 </div>
@@ -44,32 +64,20 @@
 
 <div id="tab1box" class="tab">
     <br>
-    dinguses with {{study_name}} and id {{study_id}}
-    <br>
-    
-    <br>
-    TODO: first just add a user with the supplied name to the study
-    
-    <br>
-    TODO: add a check for existing username
-    
-    <br>
-    TODO: add to an arbitrary stage
-    
-    <br>
-    Groups: {{groups}}
-   <br>
 
     <div id="login_outer">
         <div id="login_inner">
             
-            <form action="/investigator/add_user/{{study_id}}/"  method="post">
+            {% if error %}
+                <p class="error">{{error_msg}}</p>
+            {% endif %}
+            
+            <form action="/investigator/add_user/{{study_id}}/" onsubmit="return validate_form();" method="post">
                 <div style="width:100%;border:solid;border-width:1px;padding:3px;">
                     <label for="group">Select Group</label><br>
                 
                     {% for group in groups %}
-                        <input type="radio" name="group" value="{{group}}">{{group}}<br>
-                    
+                        <input type="radio" name="group" value="{{group}}" {% if forloop.first %} checked="checked" {% endif %}> {{group}} <br>
                     {% endfor %}
                 </div><br>
                 
@@ -77,10 +85,10 @@
                 <input class="login_input" type="text" name="username" value="" id="username">
 
                 <label for="password">Password</label>
-                <input class="login_input" type="password" name="password" value="fff" id="password">
+                <input class="login_input" type="password" name="password" id="password">
 
                 <label for="verify_password">Verify Password</label>
-                <input class="login_input" type="password" name="verify_password" value="fff" id="verify_password">
+                <input class="login_input" type="password" name="verify_password" id="verify_password">
 
                 <input id="add_user_submit" type="submit" value="Add User" />
 
@@ -93,9 +101,6 @@
 </div>
 
 
-<div id="tab2box" class="tab" style="display:none">
-    plapp plapp
-</div>
 
 
 {% endblock %}

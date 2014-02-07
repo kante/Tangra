@@ -24,14 +24,14 @@
 			
 			var data = $("#shipley_form").serialize();
 			
-			if (data.split('=').length - 1 != 4) {
+			if (data.split('=').length - 1 != 7) {
 				alert("Please answer all questions");
 				$("#submit_container").show();
 				$("#waiting_container").hide();
 				return;
 			}
 			
-			data += "&custom_data=Whatever you want";
+			//data += "&custom_data=Whatever you want";
 			
 			$.post("/study/save_post_data", data, complete_task);
 		}
@@ -99,9 +99,12 @@
 		
 		.the_question 
 		{
-			width:70%;
+			width:100%;
 			margin:0 auto;
 			text-align:justify;
+			border:solid;
+			border-width:0 0 1px 0;
+			
 		}
 		
 		.the_answers 
@@ -111,19 +114,39 @@
 			margin-right: auto;
 		}
 		
-		.yes_box, .no_box 
+		.rationale
 		{
-			width:48%;
-			display:inline-block;
-			height:30px;
-			text-align:center;
-			font-size:150%;
-			margin-bottom:20px;
+		  margin-top: 5px;
+			width:700px;
+			margin-left: auto;
+			margin-right: auto;
 		}
+		
+		.rationale h2 
+		{
+		  border: 1px dotted #C1CDCD;
+		  padding: 6px 0;
+		  font-size: 110%;
+		}
+		
+		.rationale a
+		{
+			text-decoration: none;
+			color: #333;
+		}
+		
+		.question_container
+		{
+			border:1px solid #C1CDCD;
+			background-color:#FaFaFa;
+			margin:0 0 20px 0;
+			padding: 10px;
+		}
+
 	</style>
 	
 	
-	<h1>Rural Environment Assessment Tool</h1>
+	<h1>Injury Prevention and Health Promotion</h1>
 	
 	
 	<form id="shipley_form">
@@ -134,14 +157,32 @@
 				"My community clearly marks roadways that are used by industrial and farm vehicles.",
 				"My community clearly marks roadways that are used for vehicle alternatives, like wagons and carts.",
 				"My community has trails for all-terrain vehicles (ATVs) that can be easily accessed by first responders in winter months.",
-				"My community promotes pedestrian and bicyclist safety on high-speed roadways."
+				"My community promotes pedestrian and bicyclist safety on high-speed roadways.",
+				"My community has separate or multi-use paths for pedestrians and bicyclists",
+				
+				"My community uses both primary and secondary prevention of speeding. Some examples of primary prevention include traffic circles, speed bumps, and raised medians; secondary examples include formal and informal speed checks.",
+				
+				"My community uses both primary and secondary promotion for seatbelts. Some examples of primary promotion include seat belt education in schools and car seat training in pre-natal classes; secondary examples include formal and informal seat belt checks."
+				
+				
+				
+				
 			);
 			
 			var rationale = new Array(
 				"Car traffic often outpaces farm traffic.  When large industrial or farm vehicles and regular cars share the road, this can be hazardous – especially if visibility between drivers is poor.",
 				"Some communities are home to groups that rely on horse-drawn vehicles, like carts and wagons for transportation.  Similar in size to industrial and farm vehicles, buggies can also be dangerous on public roads because of their speed and lack of seatbelts.",
 				"ATVs are a very popular choice for transportation, recreation, and work.  However, these vehicles can be dangerous when used by drivers who are inexperienced or physically lack the strength to operate them safely (children, for example).  ATVs are involved in almost three thousand hospitalizations and 70 deaths per year across Canada.",
-				"Walking and cycling along high-speed roads is extremely dangerous.  To illustrate, 44% of fatal car-bicycle collisions are on roadways with a speed limit higher than 80km/hr.  However, in smaller or remote communities, bike and foot traffic along highways may be unavoidable to travel in between homes and communities."
+				"Walking and cycling along high-speed roads is extremely dangerous.  To illustrate, 44% of fatal car-bicycle collisions are on roadways with a speed limit higher than 80km/hr.  However, in smaller or remote communities, bike and foot traffic along highways may be unavoidable to travel in between homes and communities.",
+				"Walking and cycling along high-speed roads is extremely dangerous.  To illustrate, 44% of fatal car-bicycle collisions are on roadways with a speed limit higher than 80km/hr.  However, in smaller or remote communities, bike and foot traffic along highways may be unavoidable to travel in between homes and communities.",
+				
+				"Approximately 2/3 of collisions causing fatalities and 1/3 of collisions causing serious injury occur on rural roads, which are typically two undivided lanes where speed is a significant factor.",
+				
+				"Collisions involving drivers and passengers who do not wear seatbelts typically result more commonly in severe injury and fatality than when seatbelts are worn.  Seatbelt use is increasing in rural areas, but is still below the national average in the most remote areas and among drivers of heavy duty vehicles which are more often used by rural drivers."
+				
+				
+				
+				
 			);
 			
 			function write_question(number, with_text, and_rationale) 
@@ -150,6 +191,10 @@
 				document.write('	<div class="the_question">')
 				document.write('		<h3>' + with_text + "</h3>");
 				document.write('	 </div>');
+				
+				var name = "rationale_" + number;
+				document.write('<div class="rationale"><h2><a href="" onclick="return toggle_detail(\''+name+'\',$(this));" class="right">Rationale</a></h2>');
+				document.write('<div id="'+name+'" style="display:none;"><p>'+and_rationale+'</p></div></div>');
 				
 				document.write('<div class="the_answers">');
 				document.write('	<table width="100%"><tr>');
@@ -177,28 +222,6 @@
 				document.write('</div>');
 			}
 		</script>
-		
-	
-		<!-- Tabs for viewing users in each study separately -->
-		<div id="supertabs">
-			<ul>
-				<li class="tablink on" id="tab1">
-					Injury Prevention and Health Promotion
-				</li>
-
-				<li class="tablink" id="tab2">
-					Reduced Exposure to UV Light
-				</li>
-				
-				<li class="tablink" id="tab3">
-					Affordable and Secure Housing
-				</li>
-				
-				<li class="tablink" id="tab4">
-					Inclusion and Connectivity
-				</li>
-			</ul>
-		</div>
 
 		<div id="injury_background">
 			<!-- /Background Information -->
@@ -209,7 +232,7 @@
 					</a>
 				</h2>
 
-				<div id='background_info' style="display:none;">
+				<div id='background_info'>
 					<p>
 						Injuries represent a significant portion of mortality and disability worldwide.  Of note, injury is the leading cause of death among Canadian youth.  In addition to a large negative impact on health, both intentional and non-intentional injuries have a widespread effect on a community.  These effects include economic costs, such as medical and care expenses and loss of productivity, and a large social burden from the loss of young lives and family members. 
 					</p>
@@ -268,7 +291,7 @@
 				</div>
 			</div>
 			<!-- /Goals -->
-			
+			<br>
 			<center>
 				<div style="margin:0 0 100px 0;" id="submit_box">
 					<div id="goto_questions_container">
@@ -284,7 +307,6 @@
 
 		
 		<div id="injury_questions">
-			<div id="tab1box" class="tab">
 			
 				<!-- Write the questions -->
 				<script>
@@ -319,16 +341,6 @@
 		</div> <!--/Injury Questions-->
 
 
-
-
-
-
-
-
-		<div id="tab2box" class="tab" style="display:none">
-			TETETETQSDFASFD
-		</div>
-		
 		
 	</form>
 

@@ -108,17 +108,36 @@
 				"Road Safety Awareness Campaign from the Grain Farmers of Ontario. The Grain Farmers of Ontario provides driver education resources for both the public and farmers about sharing the road safely:",
 				"The Pennsylvania Farm Bureau, a group of farmers in the state with the most rural roads in all of America, promotes safety on rural roads with an annual awareness campaign, “Rural Roads Safety Week.”  Much of their material could be adapted to promoting safety when roadways are used by horse-drawn vehicles:",
 				"The City of Hamilton offers a brief overview of the health consequences of ATVs as well as provides links to the “Safety Code of ATV Riders” and educational resources for children and parents:",
-				"The Hub for Active School Travel offers multiple interactive educational tools and activities for families to learn about bicycle, pedestrian, and car safety.   These resources are ideal for children and parents in rural, medium-sized, and urban centres:"
+				"The Hub for Active School Travel offers multiple interactive educational tools and activities for families to learn about bicycle, pedestrian, and car safety.   These resources are ideal for children and parents in rural, medium-sized, and urban centres:",
+				
+				"Safe Rural Roads, an initiative in the state of Washington, publishes regular fliers road safety:",
+				
+				new Array(
+					"The community of Sylvan Lake, BC, has recently reduced the speed limit on their surrounding highway in addition to implementing two speed reduction programs in the community:",
+					"The US Department of Transportation has published a report, “Traffic Calming on Main Roads Through Rural Communities,” which describes multiple methods of speed management: "
+					),
+				
+				"The Centre for Excellence in Rural Safety at the University of Minnesota has a database of traffic safety promotion projects, including seat belt"
+
 			);
 			
 			var intervention_links = new Array(
 				"http://www.gfo.ca/roadsafety.aspx",
 				"http://www.pfb.com/index.php?option=com_content&view=article&id=395:rural-road-safety-program&catid=63:for-farmers&Itemid=162",
 				"http://www.hamilton.ca/HealthandSocialServices/PublicHealth/InjuryPrevention/ATVSafety.htm",
-				"http://hastebc.org/tools/safety"
+				"http://hastebc.org/tools/safety",
+				
+				"http://www.saferuralroads.com/rural_roads_flier7a.pdf",
+				
+				new Array(
+							"http://sylvanlake.ca/emergency-services/municipal-enforcement/enforcement-programs.html",
+							"http://www.fhwa.dot.gov/publications/research/safety/08067/"
+						),
+				
+				"http://www.ruralsafety.umn.edu/news/"
 			);
 			
-			function write_question(number, with_text, and_link) 
+			function write_question(with_text, and_link) 
 			{
 				document.write('<div class="question_container">');
 				document.write('	<div class="the_question">')
@@ -159,9 +178,24 @@
 			
 				<!-- Write the questions -->
 				<script>
+				
+					// TODO: make a container and header for each section, and only display it if 
+					//		 they answered neutral, disagree, or strongly disagree. sort by level
+					//		of agreement.
 					for (var i=0; i<intervention_descriptions.length; i++)
 					{
-							write_question(i, intervention_descriptions[i], intervention_links[i]);
+						var the_description =  intervention_descriptions[i];
+						var the_intervention = intervention_links[i];
+						
+						if ($.isArray(the_description)) {
+							for (var j=0; j<the_description.length; j++)
+							{
+								write_question(the_description[j], the_intervention[j])
+							}
+						} else {
+							write_question(the_description, the_intervention);
+						}
+							
 					}
 				</script>
 		

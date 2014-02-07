@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<script type="text/javascript">
+		
+		// call this when AJAX request returns
+		function complete_task(response,status,xhr)
+		{
+			if (response == "success")
+			{
+				$("#waiting_container").hide();
+				window.location = "/study/fsess";
+			} else {
+				$("#waiting_container").hide();
+				$("#retry_container").show();
+			}
+		}
+
+		// Send arbitrary JSON data to /???/save_data
+		function submit_data()
+		{
+			$("#submit_container").hide();
+			$("#waiting_container").show();
+			
+			var data = $("#shipley_form").serialize();
+			
+			if (data.split('=').length - 1 != 4) {
+				alert("Please answer all questions");
+				$("#submit_container").show();
+				$("#waiting_container").hide();
+				return;
+			}
+			
+			data += "&custom_data=Whatever you want";
+			
+			$.post("/study/save_post_data", data, complete_task);
+		}
+		
+		
+		function toggle_visibility(id) {
+		       var e = document.getElementById(id);
+		       if(e.style.display == 'block')
+		          e.style.display = 'none';
+		       else
+		          e.style.display = 'block';
+		}
+		
+		function go_to_survey() {
+			$('#injury_background').toggle();
+			$('#injury_questions').toggle();
+			$('#injury_questions').display('block');
+			
+		};
+	
+	
+	</script>
+	
+	<style>
+		
+		
+		#injury_questions
+		{
+			display:none;
+		}
+		
+		
+		table
+		{
+			padding:0 100px 0 100px;
+			border-collapse:collapse;
+			table-layout: fixed;
+		}
+		
+		td
+		{
+			border:solid;
+			border-width:1px;
+			text-align:center;
+		}
+		
+		
+		th
+		{
+			background:#FFFECB;
+			border:solid;
+			border-width:1px;
+			text-align:center;
+		}
+		
+		#background_info, #references, #goals
+		{
+			margin:0 100px 0 100px;
+		}
+		
+		ul
+		{
+			list-style-type:circle;
+		}
+		
+		.the_question 
+		{
+			width:70%;
+			margin:0 auto;
+			text-align:justify;
+		}
+		
+		.the_answers 
+		{
+			width:700px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		.yes_box, .no_box 
+		{
+			width:48%;
+			display:inline-block;
+			height:30px;
+			text-align:center;
+			font-size:150%;
+			margin-bottom:20px;
+		}
+	</style>
+	
+	
+	<h1>Rural Environment Assessment Tool</h1>
+	
+	
+	<form id="shipley_form">
+	  
+		
+		<script>
+			var questions = new Array(
+				"My community clearly marks roadways that are used by industrial and farm vehicles.",
+				"My community clearly marks roadways that are used for vehicle alternatives, like wagons and carts.",
+				"My community has trails for all-terrain vehicles (ATVs) that can be easily accessed by first responders in winter months.",
+				"My community promotes pedestrian and bicyclist safety on high-speed roadways."
+			);
+			
+			var rationale = new Array(
+				"Car traffic often outpaces farm traffic.  When large industrial or farm vehicles and regular cars share the road, this can be hazardous – especially if visibility between drivers is poor.",
+				"Some communities are home to groups that rely on horse-drawn vehicles, like carts and wagons for transportation.  Similar in size to industrial and farm vehicles, buggies can also be dangerous on public roads because of their speed and lack of seatbelts.",
+				"ATVs are a very popular choice for transportation, recreation, and work.  However, these vehicles can be dangerous when used by drivers who are inexperienced or physically lack the strength to operate them safely (children, for example).  ATVs are involved in almost three thousand hospitalizations and 70 deaths per year across Canada.",
+				"Walking and cycling along high-speed roads is extremely dangerous.  To illustrate, 44% of fatal car-bicycle collisions are on roadways with a speed limit higher than 80km/hr.  However, in smaller or remote communities, bike and foot traffic along highways may be unavoidable to travel in between homes and communities."
+			);
+			
+			function write_question(number, with_text, and_rationale) 
+			{
+				document.write('<div class="question_container">');
+				document.write('	<div class="the_question">')
+				document.write('		<h3>' + with_text + "</h3>");
+				document.write('	 </div>');
+				
+				document.write('<div class="the_answers">');
+				document.write('	<table width="100%"><tr>');
+				document.write('		<th>No Answer</th>');
+				document.write('		<th>Don\'t Know</th>');
+				document.write('		<th>Strongly Disagree</th>');
+				document.write('		<th>Disagree</th>');
+				document.write('		<th>Neutral</th>');
+				document.write('		<th>Agree</th>');
+				document.write('		<th>Strongly Agree</th>');
+				document.write('		<th>Not Applicable</th>');
+				document.write('	</tr><tr>')
+				document.write('		<td><input type="radio" name="q'+number+'" checked="checked" value="no_answer"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="dont_know"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="strongly_disagree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="disagree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="neutral"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="agree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="strongly_agree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="not_applicable"></td>');
+				document.write('	</tr></table>');
+				
+				document.write('</div>');
+				
+				document.write('</div>');
+			}
+		</script>
+		
+	
+		<!-- Tabs for viewing users in each study separately -->
+		<div id="supertabs">
+			<ul>
+				<li class="tablink on" id="tab1">
+					Injury Prevention and Health Promotion
+				</li>
+
+				<li class="tablink" id="tab2">
+					Reduced Exposure to UV Light
+				</li>
+				
+				<li class="tablink" id="tab3">
+					Affordable and Secure Housing
+				</li>
+				
+				<li class="tablink" id="tab4">
+					Inclusion and Connectivity
+				</li>
+			</ul>
+		</div>
+
+		<div id="injury_background">
+			<!-- /Background Information -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('background_info',$(this));" class="right">
+						Background Information
+					</a>
+				</h2>
+
+				<div id='background_info' style="display:none;">
+					<p>
+						Injuries represent a significant portion of mortality and disability worldwide.  Of note, injury is the leading cause of death among Canadian youth.  In addition to a large negative impact on health, both intentional and non-intentional injuries have a widespread effect on a community.  These effects include economic costs, such as medical and care expenses and loss of productivity, and a large social burden from the loss of young lives and family members. 
+					</p>
+					<p>
+					Rural communities experience a mortality rate from injury that is 3.5 times greater than the general Canadian population.  Certain patterns of injury can be related to demographics as children and adolescents and elderly persons are frequently over-represented in rural areas.  Still, both groups are more likely to be injured than their urban counterparts.  There are many factors in this disparity.  Road conditions and difficulty maintaining clear roadways, slow-moving industrial machinery in traffic, and lower rates of seatbelt use could explain the higher incidence of motor vehicle accidents.  Older construction and difficulty heating homes may lead to more residential fires.  A greater proportion of community members involved in occupational hazards contribute to industrial and agricultural accidents.  Also, the length of discovery and transport from site of injury can lead to delays receiving specialized emergency care.
+					</p>
+				</div>
+			</div>
+			<!-- /Background Information -->
+
+			<!-- References -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('goals',$(this));" class="right">
+					Goals
+					</a>
+				</h2>
+
+				<div id='goals' style="display:none;">
+					<ul>
+						 <li>Prevention of motor vehicle accidents</li>
+						 <li>Prevention of residential fires</li>
+						 <li>Prevention of workplace and industrial injuries</li>
+						 <li>Reduction in delays in accessing emergency care</li>
+						 <li>Suicide prevention for youth</li>
+						 <li>Falls prevention for the elderly</li>
+				
+					</ul>
+				</div>
+			</div>
+			<!-- /References -->
+
+
+			<!-- Goals -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('references',$(this));" class="right">
+					References
+					</a>
+				</h2>
+
+				<div id='references' style="display:none;">
+					<ul>
+
+						<li>de Ramirez, S. Hyder, A., Herbert, H., & Stevens, K. (2012). <em>Unintentional injuries: Magnitude, prevention, and control.</em> Annual Review of Public Health, 33, p 175 – 191.</li>
+
+						<li>Jong, M. (n.d.). <em>Where there are no doctors.</em> [PDF document]. Retrieved from:   http://www.cfhi-fcass.ca/Libraries/Picking_up_the_pace_files/Micheal_Jong.sflb.ashx</li>
+
+						<li>Laurent, S. (2002). Rural Canada: <em>Access to healthcare.</em> [online publication]. Retrieved from: http://publications.gc.ca/Collection-R/LoPBdP/BP/prb0245-e.htm</li>
+
+						<li>Statistics Canada (2011). <em>Suicide rates: An overview.</em> (Catalogue number 82-624-X). Retrieved from: http://www.statcan.gc.ca/pub/82-624-x/2011001/article/11506-
+						eng.htm</li>
+
+						<li>Peek-Asa, C., Zwerling, C., & Stallones, L. (2004). <em>Acute traumatic injuries in rural populations.</em> American Journal of Public Health, 94(10), p1689 – 1693.</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /Goals -->
+			
+			<center>
+				<div style="margin:0 0 100px 0;" id="submit_box">
+					<div id="goto_questions_container">
+						<a style="color:blue;" href="#" onclick="go_to_survey();">
+							<span class="actbutton green" style="width:200px;padding: 10px;">
+								Show Survey
+							</span>
+						</a>
+					</div>
+			</center>
+			
+		</div> <!--/Injury background-->
+
+		
+		<div id="injury_questions">
+			<div id="tab1box" class="tab">
+			
+				<!-- Write the questions -->
+				<script>
+					for (var i=0; i<questions.length; i++)
+					{
+							write_question(i, questions[i], rationale[i]);
+					}
+				</script>
+		
+				<br><br>
+				
+				<center>
+					<div style="margin:0 0 100px 0;" id="submit_box">
+						<div id="submit_container">
+							<a style="color:blue;" href="#" onclick="submit_data();">
+								<span class="actbutton green" style="width:200px;padding: 10px;">
+									   Submit Answers
+								</span>
+							</a>
+						</div>
+						<div style="display:none;" id="waiting_container">
+							Request submitted... please wait.
+						</div>
+						<div style="display:none;" id="retry_container">
+							Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+							to try again.
+						</div>
+					</div>
+				</center>
+		
+			</div>
+		</div> <!--/Injury Questions-->
+
+
+
+
+
+
+
+
+		<div id="tab2box" class="tab" style="display:none">
+			TETETETQSDFASFD
+		</div>
+		
+		
+	</form>
+
+	<br>
+	
+
+
+{% endblock %}
+
+

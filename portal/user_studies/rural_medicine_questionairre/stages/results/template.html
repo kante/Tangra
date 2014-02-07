@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<script type="text/javascript">
+		
+		// call this when AJAX request returns
+		function complete_task(response,status,xhr)
+		{
+			if (response == "success")
+			{
+				$("#waiting_container").hide();
+				window.location = "/study/fsess";
+			} else {
+				$("#waiting_container").hide();
+				$("#retry_container").show();
+			}
+		}
+
+		// Send arbitrary JSON data to /???/save_data
+		function submit_data()
+		{
+			$("#submit_container").hide();
+			$("#waiting_container").show();
+			
+			var data = $("#shipley_form").serialize();
+			
+			if (data.split('=').length - 1 != 4) {
+				alert("Please answer all questions");
+				$("#submit_container").show();
+				$("#waiting_container").hide();
+				return;
+			}
+			
+			data += "&custom_data=Whatever you want";
+			
+			$.post("/study/save_post_data", data, complete_task);
+		}
+		
+
+	
+	
+	</script>
+	
+	<style>
+		
+		A:link {text-decoration: none; color:blue;}
+		A:visited {text-decoration: none}
+		A:active {text-decoration: none}
+		A:hover {text-decoration: underline; color: red;}
+		table
+		{
+			padding:0 100px 0 100px;
+			border-collapse:collapse;
+			table-layout: fixed;
+		}
+		
+		td
+		{
+			border:solid;
+			border-width:1px;
+			text-align:center;
+		}
+		
+		
+		th
+		{
+			background:#FFFECB;
+			border:solid;
+			border-width:1px;
+			text-align:center;
+		}
+		
+		#background_info, #references, #goals
+		{
+			margin:0 100px 0 100px;
+		}
+		
+		ul
+		{
+			list-style-type:circle;
+		}
+		
+		.the_question 
+		{
+			width:70%;
+			margin:0 auto;
+			text-align:justify;
+		}
+		
+		.the_answers 
+		{
+			width:700px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+	</style>
+	
+	
+	<h1>Your Results</h1>
+	
+	
+	<form id="shipley_form">
+	  
+		
+		<script>
+			var intervention_descriptions = new Array(
+				"Road Safety Awareness Campaign from the Grain Farmers of Ontario. The Grain Farmers of Ontario provides driver education resources for both the public and farmers about sharing the road safely:",
+				"The Pennsylvania Farm Bureau, a group of farmers in the state with the most rural roads in all of America, promotes safety on rural roads with an annual awareness campaign, “Rural Roads Safety Week.”  Much of their material could be adapted to promoting safety when roadways are used by horse-drawn vehicles:",
+				"The City of Hamilton offers a brief overview of the health consequences of ATVs as well as provides links to the “Safety Code of ATV Riders” and educational resources for children and parents:",
+				"The Hub for Active School Travel offers multiple interactive educational tools and activities for families to learn about bicycle, pedestrian, and car safety.   These resources are ideal for children and parents in rural, medium-sized, and urban centres:"
+			);
+			
+			var intervention_links = new Array(
+				"http://www.gfo.ca/roadsafety.aspx",
+				"http://www.pfb.com/index.php?option=com_content&view=article&id=395:rural-road-safety-program&catid=63:for-farmers&Itemid=162",
+				"http://www.hamilton.ca/HealthandSocialServices/PublicHealth/InjuryPrevention/ATVSafety.htm",
+				"http://hastebc.org/tools/safety"
+			);
+			
+			function write_question(number, with_text, and_link) 
+			{
+				document.write('<div class="question_container">');
+				document.write('	<div class="the_question">')
+				document.write('		<h4>' + with_text + "</h4>");
+				document.write('	 </div>');
+				
+				document.write('<div class="the_answers">');
+				document.write('	<center><a href="'+and_link +'">' + and_link + '</a></center>');
+				document.write('</div>');
+				
+				document.write('</div>');
+			}
+		</script>
+		
+	
+		<!-- Tabs for viewing users in each study separately -->
+		<div id="supertabs">
+			<ul>
+				<li class="tablink on" id="tab1">
+					Injury Prevention and Health Promotion
+				</li>
+
+				<li class="tablink" id="tab2">
+					Reduced Exposure to UV Light
+				</li>
+				
+				<li class="tablink" id="tab3">
+					Affordable and Secure Housing
+				</li>
+				
+				<li class="tablink" id="tab4">
+					Inclusion and Connectivity
+				</li>
+			</ul>
+		</div>
+
+			<div id="tab1box" class="tab">
+			
+				<!-- Write the questions -->
+				<script>
+					for (var i=0; i<intervention_descriptions.length; i++)
+					{
+							write_question(i, intervention_descriptions[i], intervention_links[i]);
+					}
+				</script>
+		
+				<br><br>
+
+			</div>
+
+
+
+
+
+
+
+
+		<div id="tab2box" class="tab" style="display:none">
+			TETETETQSDFASFD
+		</div>
+		
+		
+	</form>
+
+	<br>
+	
+
+
+{% endblock %}
+
+

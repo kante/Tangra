@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from studies.models import *
 from studies.views import finish_session
 
+import json
 
 def login(request):
     """Try to log in."""
@@ -58,6 +59,33 @@ def get_current_stage_info(request):
     return HttpResponse("stage_name:" + stage.stage.name +
                         ",current_stage_num:"+str(stage_num) +
                         ",stage_custom_data:" + str(stage.custom_data))
+
+
+@login_required
+def get_user_data(request):
+    user = request.user
+    
+    user_object = User.objects.get(username=user)
+    sps = StudyParticipant.objects.filter(user=user_object)
+    
+    raw_user_data = []
+    user_data = {}
+    
+    # for each study-participant entry
+    # - ensure study's name has a placeholder in user_data dict
+    for sp in sps:
+        if sp.study.name not in user_data:
+            user_data[sp.study.name] = {}
+        raw_user_data.extend(Data.objects.filter(studyparticipant=sp))
+    
+    # go over raw data and organize it in user_data dict by study name
+    for datum in raw_user_data:
+        if datum.datum != "Session Completed":
+            the_study = datum.studyparticipant.study.name
+            user_data[the_study][int(datum.stage)] = datum.datum;
+    
+    # print >>sys.stderr,  user_data
+    return HttpResponse(json.dumps(user_data), content_type="application/json")
 
 
 @login_required

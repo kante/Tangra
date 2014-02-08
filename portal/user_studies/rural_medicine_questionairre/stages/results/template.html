@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <script type="text/javascript">
+    
+        // TODO: don't fucking repeat the questions in 2 places. put all the data in one file and load it in man...
+        var questions = new Array(
+            "My community clearly marks roadways that are used by industrial and farm vehicles.",
+            "My community clearly marks roadways that are used for vehicle alternatives, like wagons and carts.",
+            "My community has trails for all-terrain vehicles (ATVs) that can be easily accessed by first responders in winter months.",
+            "My community promotes pedestrian and bicyclist safety on high-speed roadways.",
+            "My community has separate or multi-use paths for pedestrians and bicyclists",
+            
+            "My community uses both primary and secondary prevention of speeding. Some examples of primary prevention include traffic circles, speed bumps, and raised medians; secondary examples include formal and informal speed checks.",
+            
+            "My community uses both primary and secondary promotion for seatbelts. Some examples of primary promotion include seat belt education in schools and car seat training in pre-natal classes; secondary examples include formal and informal seat belt checks."
+
+        );
+        
+        // Load the user's answers from the tangra server
+        var url = "/exe_interface/get_user_data";
+        var data = null;
+        var dataType =" json";
+        
+        $.ajax({
+            url: url,
+            data: data,
+            success: success,
+            dataType: dataType
+        });
+        
+        global_results = new Array();
+        
+        function success(data, textStatus, jqXHR)
+        {
+            var injury_result_string = data["rural_medicine_questionairre"][0];
+            
+            global_results["injury_prevention"] = { 
+                                                        "strongly_disagree":new Array(), 
+                                                        "disagree": new Array(),
+                                                        "dont_know": new Array(),
+                                                        "neutral": new Array()
+                                                    };
+            
+            var injury_results = injury_result_string.trim().split("\n");
+            for (var i=0; i<injury_results.length; i++) {
+                var question_data = injury_results[i].split(",");
+                var response = question_data[1];
+                var question_id = question_data[0];
+                var question_num = parseInt(question_id.substring(1));
+                
+                if (global_results["injury_prevention"][response]) {
+                    global_results["injury_prevention"][response].push(question_num)
+                }
+            }
+            
+            generate_injury_content();
+            
+            $("#shipley_form").show();
+            $("#loading_box").hide();
+        }
+    
+    
+        function write_question(with_text, and_link) 
+        {
+            html_string = '\
+                <div class="question_container">\
+                    <div class="the_question">\
+                        <h4>' + with_text + '</h4>\
+                    </div>\
+                    <div class="the_answers">\
+                        <center><a href="'+and_link +'">' + and_link + '</a></center>\
+                    </div>\
+                </div>';
+            
+            return html_string;
+        }
+    
+        function generate_injury_content()
+        {
+            var response_categories = ["strongly_disagree", "disagree", "dont_know", "neutral"];
+            var english_translation = ["strongly disagreed that:", "disagreed that:", "didn't know if:", "were neutral about whether:"];
+            var html_string = "";
+            
+            
+            for (var i=0; i<response_categories.length; i++) 
+            {
+                var answers_in_category = global_results["injury_prevention"][response_categories[i]];
+                for(var j=0; j<answers_in_category.length; j++)
+                {
+                    html_string += '                                                    \
+                        <div class="intervention_box">                                  \
+                            <div class="intervention_header">                           \
+                                Because you ' + english_translation[i] + '              \
+                            </div>                                                      \
+                            <div class="intervention_question">                         \
+                                ' + questions[i] + '                                    \
+                            </div>                                                      \
+                            <div class="intervention_header">                           \
+                                You may be interested in the following:                 \
+                            </div>';
+                            
+                    var answer_num = answers_in_category[j];
+                    var the_description =  intervention_descriptions[answer_num];
+                    var the_intervention = intervention_links[answer_num];
+                    
+                    if ($.isArray(the_description)) {
+                        for (var k=0; k<the_description.length; k++)
+                        {
+                            html_string += write_question(the_description[k], the_intervention[k])
+                        }
+                    } else {
+                        html_string += write_question(the_description, the_intervention);
+                    }
+
+                    
+                    html_string += '</div>';
+                }
+
+
+            }
+            
+            $("#tab1box").append(html_string);
+        
+        }
+    
+    </script>
+    
+    <style>
+        
+        A:link {text-decoration: none; color:blue;}
+        A:visited {text-decoration: none}
+        A:active {text-decoration: none}
+        A:hover {text-decoration: underline; color: red;}
+    
+        
+        #background_info, #references, #goals
+        {
+            margin:0 100px 0 100px;
+        }
+        
+        ul
+        {
+            list-style-type:circle;
+        }
+        
+        .the_question 
+        {
+            width:70%;
+            margin:0 auto;
+            text-align:justify;
+        }
+        
+        .the_answers 
+        {
+            width:700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #loading_box
+        {
+            border:solid;
+            border-width:1px;
+            width:400px;
+            text-align:center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .intervention_box
+        {
+            border:solid;
+            border-width:1px;
+            margin:10px 0 20px 0;
+            padding:10px;
+        }
+        
+        .intervention_header
+        {
+            width:100%;
+            font-weight:bold;
+        }
+        
+        .intervention_question
+        {
+            width:90%;
+            margin:0 0 0 5%;
+            padding:10px 0 10px 0;
+            text-align:center;
+        }
+        
+        
+
+    </style>
+    
+    
+    <h1>Your Results</h1>
+    
+    
+    <div id="loading_box">
+        GENERATING YOUR RESULTS... PLEASE WAIT...
+    </div>
+    
+    
+    
+      
+        <script>
+        
+
+
+            var intervention_descriptions = new Array(
+                "Road Safety Awareness Campaign from the Grain Farmers of Ontario. The Grain Farmers of Ontario provides driver education resources for both the public and farmers about sharing the road safely:",
+                "The Pennsylvania Farm Bureau, a group of farmers in the state with the most rural roads in all of America, promotes safety on rural roads with an annual awareness campaign, “Rural Roads Safety Week.”  Much of their material could be adapted to promoting safety when roadways are used by horse-drawn vehicles:",
+                "The City of Hamilton offers a brief overview of the health consequences of ATVs as well as provides links to the “Safety Code of ATV Riders” and educational resources for children and parents:",
+                "The Hub for Active School Travel offers multiple interactive educational tools and activities for families to learn about bicycle, pedestrian, and car safety.   These resources are ideal for children and parents in rural, medium-sized, and urban centres:",
+                
+                "Safe Rural Roads, an initiative in the state of Washington, publishes regular fliers road safety:",
+                
+                new Array(
+                    "The community of Sylvan Lake, BC, has recently reduced the speed limit on their surrounding highway in addition to implementing two speed reduction programs in the community:",
+                    "The US Department of Transportation has published a report, “Traffic Calming on Main Roads Through Rural Communities,” which describes multiple methods of speed management: "
+                    ),
+                
+                "The Centre for Excellence in Rural Safety at the University of Minnesota has a database of traffic safety promotion projects, including seat belt"
+
+            );
+            
+            var intervention_links = new Array(
+                "http://www.gfo.ca/roadsafety.aspx",
+                "http://www.pfb.com/index.php?option=com_content&view=article&id=395:rural-road-safety-program&catid=63:for-farmers&Itemid=162",
+                "http://www.hamilton.ca/HealthandSocialServices/PublicHealth/InjuryPrevention/ATVSafety.htm",
+                "http://hastebc.org/tools/safety",
+                
+                "http://www.saferuralroads.com/rural_roads_flier7a.pdf",
+                
+                new Array(
+                            "http://sylvanlake.ca/emergency-services/municipal-enforcement/enforcement-programs.html",
+                            "http://www.fhwa.dot.gov/publications/research/safety/08067/"
+                        ),
+                
+                "http://www.ruralsafety.umn.edu/news/"
+            );
+            
+
+        </script>
+        
+    
+        <!-- Tabs for viewing users in each study separately -->
+        <div id="supertabs">
+            <ul>
+                <li class="tablink on" id="tab1">
+                    Injury Prevention and Health Promotion
+                </li>
+
+                <li class="tablink" id="tab2">
+                    Reduced Exposure to UV Light
+                </li>
+                
+                <li class="tablink" id="tab3">
+                    Affordable and Secure Housing
+                </li>
+                
+                <li class="tablink" id="tab4">
+                    Inclusion and Connectivity
+                </li>
+            </ul>
+        </div>
+
+        <div id="tab1box" class="tab">
+            <!-- This is populated in the success script above-->
+
+        </div>
+
+
+
+
+
+        <div id="tab2box" class="tab" style="display:none">
+            TETETETQSDFASFD
+        </div>
+        
+        
+
+{% endblock %}
+
+

@@ -14,7 +14,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SESSION_COOKIE_AGE = 1209600
 ADMINS = (
-    ('Velian Pandeliev', 'vpandeliev@gmail.com'),
+    ('Dr. D', 'dr_d@da_doctors.com'),
 )
 MANAGERS = ADMINS
 
@@ -75,7 +75,7 @@ MIDDLEWARE_CLASSES = (
     # 'lockdown.middleware.LockdownMiddleware',
 )
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 
 

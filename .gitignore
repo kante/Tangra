@@ -10,3 +10,7 @@ db
 build
 .DS_Store
 */**/.DS_Store
+logs
+
+logs
+*.wsgi

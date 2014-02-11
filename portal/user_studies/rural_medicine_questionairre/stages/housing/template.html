@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<script type="text/javascript">
+		
+		// call this when AJAX request returns
+		function complete_task(response,status,xhr)
+		{
+			if (response == "success")
+			{
+				$("#waiting_container").hide();
+				window.location = "/study/fsess";
+			} else {
+				$("#waiting_container").hide();
+				$("#retry_container").show();
+			}
+		}
+
+		// Send arbitrary JSON data to /???/save_data
+		function submit_data()
+		{
+			$("#submit_container").hide();
+			$("#waiting_container").show();
+			
+			var data = $("#shipley_form").serialize();
+			
+			if (data.split('=').length - 1 != 4) {
+				alert("Please answer all questions");
+				$("#submit_container").show();
+				$("#waiting_container").hide();
+				return;
+			}
+			
+			//data += "&custom_data=Whatever you want";
+			
+			$.post("/study/save_post_data", data, complete_task);
+		}
+		
+		
+		function toggle_visibility(id) {
+		       var e = document.getElementById(id);
+		       if(e.style.display == 'block')
+		          e.style.display = 'none';
+		       else
+		          e.style.display = 'block';
+		}
+		
+		function go_to_survey() {
+			$('#injury_background').toggle();
+			$('#injury_questions').toggle();
+			$('#injury_questions').display('block');
+			
+		};
+	
+	
+	</script>
+	
+	<style>
+		
+		
+		#injury_questions
+		{
+			display:none;
+		}
+		
+		
+		table
+		{
+			padding:0 100px 0 100px;
+			border-collapse:collapse;
+			table-layout: fixed;
+		}
+		
+		td
+		{
+			border:solid;
+			border-width:1px;
+			text-align:center;
+		}
+		
+		
+		th
+		{
+			background:#FFFECB;
+			border:solid;
+			border-width:1px;
+			text-align:center;
+		}
+		
+		#background_info, #references, #goals
+		{
+			margin:0 100px 0 100px;
+		}
+		
+		ul
+		{
+			list-style-type:circle;
+		}
+		
+		.the_question 
+		{
+			width:100%;
+			margin:0 auto;
+			text-align:justify;
+			border:solid;
+			border-width:0 0 1px 0;
+			
+		}
+		
+		.the_answers 
+		{
+			width:700px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		.rationale
+		{
+		  margin-top: 5px;
+			width:700px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		.rationale h2 
+		{
+		  border: 1px dotted #C1CDCD;
+		  padding: 6px 0;
+		  font-size: 110%;
+		}
+		
+		.rationale a
+		{
+			text-decoration: none;
+			color: #333;
+		}
+		
+		.question_container
+		{
+			border:1px solid #C1CDCD;
+			background-color:#FaFaFa;
+			margin:0 0 20px 0;
+			padding: 10px;
+		}
+
+	</style>
+	
+	
+	<h1>Injury Prevention and Health Promotion</h1>
+	
+	
+	<form id="shipley_form">
+	  
+		
+		<script>
+			var questions = new Array(
+				"Community members are aware of the location of formal emergency safe housing",
+				"Community members are aware of informal emergency safe housing",
+				"My community monitors how many houses have smoke and carbon monoxide detectors",
+			    "My community promotes fire safety and escape plans for homeowners"
+			);
+			
+			var rationale = new Array(
+				"In times of emergency, housing is often greatly and urgently needed by individuals and families who have no place else to go.",
+				"A safety plan in case of natural disaster can help communities prepare for emergencies by identifying trustworthy and reliable neighbours living in secure areas. The principles of these plans can be adapted for individuals and families in times of personal crises. ",
+				"Homes without working smoke alarms are disproportionately affected by house fires.  Rural households are typically less likely to report having a smoke alarm and those that do may not function properly.  Carbon monoxide poisoning is a risk in many rural homes because of the use of water heaters, stove pipes, and older construction.",
+				"Fire escape plans can improve survival rates during home fires."
+			);
+			
+			function write_question(number, with_text, and_rationale) 
+			{
+				document.write('<div class="question_container">');
+				document.write('	<div class="the_question">')
+				document.write('		<h3>' + with_text + "</h3>");
+				document.write('	 </div>');
+				
+				var name = "rationale_" + number;
+				document.write('<div class="rationale"><h2><a href="" onclick="return toggle_detail(\''+name+'\',$(this));" class="right">Rationale</a></h2>');
+				document.write('<div id="'+name+'" style="display:none;"><p>'+and_rationale+'</p></div></div>');
+				
+				document.write('<div class="the_answers">');
+				document.write('	<table width="100%"><tr>');
+				document.write('		<th>No Answer</th>');
+				document.write('		<th>Don\'t Know</th>');
+				document.write('		<th>Strongly Disagree</th>');
+				document.write('		<th>Disagree</th>');
+				document.write('		<th>Neutral</th>');
+				document.write('		<th>Agree</th>');
+				document.write('		<th>Strongly Agree</th>');
+				document.write('		<th>Not Applicable</th>');
+				document.write('	</tr><tr>')
+				document.write('		<td><input type="radio" name="q'+number+'" checked="checked" value="no_answer"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="dont_know"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="strongly_disagree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="disagree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="neutral"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="agree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="strongly_agree"></td>');
+				document.write('		<td><input type="radio" name="q'+number+'" value="not_applicable"></td>');
+				document.write('	</tr></table>');
+				
+				document.write('</div>');
+				
+				document.write('</div>');
+			}
+		</script>
+
+		<div id="injury_background">
+			<!-- /Background Information -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('background_info',$(this));" class="right">
+						Background Information
+					</a>
+				</h2>
+
+				<div id='background_info'>
+					<p>
+						The quality and sustainability of homes has one of the most significant impacts on an individual’s and overall community’s wellbeing.   Homes can contain many dangers.  Improper or aging construction can cause injuries and accidents.  Indoor irritants like mould on building materials or nitrogen dioxide from stoves and space heaters can aggravate allergies and contribute to respiratory diseases.  Radon exposure from ground underneath homes can cause lung cancers.  Crowded housing with multiple people sharing a small space facilitates the spread of infectious disease.  In contrast, well constructed and maintained homes promotes good health and prevents infectious and chronic disease.  Having access and the ability to rely on such also decreases stress and anxiety.  This is especially important during times of crisis or emergency.  For example, intimate partner violence cannot be addressed without providing a safe alternative to the home setting.  Natural disasters, such as floods, fires, and storms , present an immediate danger unless safe shelter can be found.
+					</p>
+					<p>
+					Financial security has a “chicken-egg” relationship with housing security.  Reasonable costs for secure housing is critical: safe homes cannot be obtained unless they can be afforded.   Poverty is a principle cause for homelessness and overcrowded or dangerous homes.  Further, as a primary need, income used for housing can compete with other primary needs, such as food and clothing, or replace money that could be spent on less acute needs, including transportation, medication, insurance, or savings. 
+					</p>
+				</div>
+			</div>
+			<!-- /Background Information -->
+
+			<!-- References -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('goals',$(this));" class="right">
+					Goals
+					</a>
+				</h2>
+
+				<div id='goals' style="display:none;">
+					<ul>
+						 <li>Secure and anonymous location for women’s shelter</li>
+						 <li>Provision of smoke alarms and carbon monoxide receptors to community members</li>
+						 <li>Municipal services or service agencies to provide subsidized snow clearance and salt driveways</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /References -->
+
+
+			<!-- Goals -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('references',$(this));" class="right">
+					References
+					</a>
+				</h2>
+
+				<div id='references' style="display:none;">
+					<ul>
+
+						<li>Bartfeld, J., & Dunifon, R. (2005). <em>State-level predictors of food insecurity and hunger among households with children.</em> [PDF document]. Retrieved from: http://www.ers.usda.gov/Publications/CCR13/ccr13.pdf.</li>
+
+						<li>Bashir S. (2002).  <em>Home is where the harm is: inadequate housing as a public health crisis.</em> American Journal of Public Health, 92(5), p733-738.</li>
+
+						<li>Health Canada. (2012). <em>It’s your health: Radon.</em> Ottawa, ON: Health Canada.</li>
+
+						<li>Marcouiller, D., Lapping, M., & Furuseth, O. (Eds.). (2011). <em>Rural housing, exurbanization, and amenity driven development: Contrasting the “haves” and the “have-nots”</em>. Burlington, VT: Ashgate Publishing Company.</li>
+
+						<li>World Health Organization. (2012). <em>Environmental health inequalities in Europe.</em> Copenhagen, Denmark: World Health Organization.</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /Goals -->
+			<br>
+			<center>
+				<div style="margin:0 0 100px 0;" id="submit_box">
+					<div id="goto_questions_container">
+						<a style="color:blue;" href="#" onclick="go_to_survey();">
+							<span class="actbutton green" style="width:200px;padding: 10px;">
+								Show Survey
+							</span>
+						</a>
+					</div>
+			</center>
+			
+		</div> <!--/Injury background-->
+
+		
+		<div id="injury_questions">
+			
+				<!-- Write the questions -->
+				<script>
+					for (var i=0; i<questions.length; i++)
+					{
+							write_question(i, questions[i], rationale[i]);
+					}
+				</script>
+		
+				<br><br>
+				
+				<center>
+					<div style="margin:0 0 100px 0;" id="submit_box">
+						<div id="submit_container">
+							<a style="color:blue;" href="#" onclick="submit_data();">
+								<span class="actbutton green" style="width:200px;padding: 10px;">
+									   Submit Answers
+								</span>
+							</a>
+						</div>
+						<div style="display:none;" id="waiting_container">
+							Request submitted... please wait.
+						</div>
+						<div style="display:none;" id="retry_container">
+							Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+							to try again.
+						</div>
+					</div>
+				</center>
+		
+			</div>
+		</div> <!--/Injury Questions-->
+
+
+		
+	</form>
+
+	<br>
+	
+
+
+{% endblock %}
+
+

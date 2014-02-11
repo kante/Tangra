@@ -33,6 +33,8 @@
 	<all_stages>
 
 		<stage directory="injury_prevention"/>
+		<stage directory="housing"/>
+		
 		<stage directory="results"/>
 		
 	</all_stages>
@@ -54,6 +56,7 @@
 			<!-- List the stages you want included in this group IN ORDER -->
 			<stages>
 				<stage directory="injury_prevention"/>
+				<stage directory="housing"/>
 				<stage directory="results"/>
 				
 			</stages>

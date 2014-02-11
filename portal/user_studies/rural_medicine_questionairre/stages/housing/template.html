@@ -24,7 +24,7 @@
 			
 			var data = $("#shipley_form").serialize();
 			
-			if (data.split('=').length - 1 != 7) {
+			if (data.split('=').length - 1 != 4) {
 				alert("Please answer all questions");
 				$("#submit_container").show();
 				$("#waiting_container").hide();
@@ -154,31 +154,17 @@
 		
 		<script>
 			var questions = new Array(
-				"My community clearly marks roadways that are used by industrial and farm vehicles.",
-				"My community clearly marks roadways that are used for vehicle alternatives, like wagons and carts.",
-				"My community has trails for all-terrain vehicles (ATVs) that can be easily accessed by first responders in winter months.",
-				"My community promotes pedestrian and bicyclist safety on high-speed roadways.",
-				"My community has separate or multi-use paths for pedestrians and bicyclists",
-				
-				"My community uses both primary and secondary prevention of speeding. Some examples of primary prevention include traffic circles, speed bumps, and raised medians; secondary examples include formal and informal speed checks.",
-				
-				"My community uses both primary and secondary promotion for seatbelts. Some examples of primary promotion include seat belt education in schools and car seat training in pre-natal classes; secondary examples include formal and informal seat belt checks."
-				
-				
-				
-				
+				"Community members are aware of the location of formal emergency safe housing",
+				"Community members are aware of informal emergency safe housing",
+				"My community monitors how many houses have smoke and carbon monoxide detectors",
+			    "My community promotes fire safety and escape plans for homeowners"
 			);
 			
 			var rationale = new Array(
-				"Car traffic often outpaces farm traffic.  When large industrial or farm vehicles and regular cars share the road, this can be hazardous – especially if visibility between drivers is poor.",
-				"Some communities are home to groups that rely on horse-drawn vehicles, like carts and wagons for transportation.  Similar in size to industrial and farm vehicles, buggies can also be dangerous on public roads because of their speed and lack of seatbelts.",
-				"ATVs are a very popular choice for transportation, recreation, and work.  However, these vehicles can be dangerous when used by drivers who are inexperienced or physically lack the strength to operate them safely (children, for example).  ATVs are involved in almost three thousand hospitalizations and 70 deaths per year across Canada.",
-				"Walking and cycling along high-speed roads is extremely dangerous.  To illustrate, 44% of fatal car-bicycle collisions are on roadways with a speed limit higher than 80km/hr.  However, in smaller or remote communities, bike and foot traffic along highways may be unavoidable to travel in between homes and communities.",
-				"Walking and cycling along high-speed roads is extremely dangerous.  To illustrate, 44% of fatal car-bicycle collisions are on roadways with a speed limit higher than 80km/hr.  However, in smaller or remote communities, bike and foot traffic along highways may be unavoidable to travel in between homes and communities.",
-				
-				"Approximately 2/3 of collisions causing fatalities and 1/3 of collisions causing serious injury occur on rural roads, which are typically two undivided lanes where speed is a significant factor.",
-				
-				"Collisions involving drivers and passengers who do not wear seatbelts typically result more commonly in severe injury and fatality than when seatbelts are worn.  Seatbelt use is increasing in rural areas, but is still below the national average in the most remote areas and among drivers of heavy duty vehicles which are more often used by rural drivers."
+				"In times of emergency, housing is often greatly and urgently needed by individuals and families who have no place else to go.",
+				"A safety plan in case of natural disaster can help communities prepare for emergencies by identifying trustworthy and reliable neighbours living in secure areas. The principles of these plans can be adapted for individuals and families in times of personal crises. ",
+				"Homes without working smoke alarms are disproportionately affected by house fires.  Rural households are typically less likely to report having a smoke alarm and those that do may not function properly.  Carbon monoxide poisoning is a risk in many rural homes because of the use of water heaters, stove pipes, and older construction.",
+				"Fire escape plans can improve survival rates during home fires."
 			);
 			
 			function write_question(number, with_text, and_rationale) 
@@ -230,10 +216,10 @@
 
 				<div id='background_info'>
 					<p>
-						Injuries represent a significant portion of mortality and disability worldwide.  Of note, injury is the leading cause of death among Canadian youth.  In addition to a large negative impact on health, both intentional and non-intentional injuries have a widespread effect on a community.  These effects include economic costs, such as medical and care expenses and loss of productivity, and a large social burden from the loss of young lives and family members. 
+						The quality and sustainability of homes has one of the most significant impacts on an individual’s and overall community’s wellbeing.   Homes can contain many dangers.  Improper or aging construction can cause injuries and accidents.  Indoor irritants like mould on building materials or nitrogen dioxide from stoves and space heaters can aggravate allergies and contribute to respiratory diseases.  Radon exposure from ground underneath homes can cause lung cancers.  Crowded housing with multiple people sharing a small space facilitates the spread of infectious disease.  In contrast, well constructed and maintained homes promotes good health and prevents infectious and chronic disease.  Having access and the ability to rely on such also decreases stress and anxiety.  This is especially important during times of crisis or emergency.  For example, intimate partner violence cannot be addressed without providing a safe alternative to the home setting.  Natural disasters, such as floods, fires, and storms , present an immediate danger unless safe shelter can be found.
 					</p>
 					<p>
-					Rural communities experience a mortality rate from injury that is 3.5 times greater than the general Canadian population.  Certain patterns of injury can be related to demographics as children and adolescents and elderly persons are frequently over-represented in rural areas.  Still, both groups are more likely to be injured than their urban counterparts.  There are many factors in this disparity.  Road conditions and difficulty maintaining clear roadways, slow-moving industrial machinery in traffic, and lower rates of seatbelt use could explain the higher incidence of motor vehicle accidents.  Older construction and difficulty heating homes may lead to more residential fires.  A greater proportion of community members involved in occupational hazards contribute to industrial and agricultural accidents.  Also, the length of discovery and transport from site of injury can lead to delays receiving specialized emergency care.
+					Financial security has a “chicken-egg” relationship with housing security.  Reasonable costs for secure housing is critical: safe homes cannot be obtained unless they can be afforded.   Poverty is a principle cause for homelessness and overcrowded or dangerous homes.  Further, as a primary need, income used for housing can compete with other primary needs, such as food and clothing, or replace money that could be spent on less acute needs, including transportation, medication, insurance, or savings. 
 					</p>
 				</div>
 			</div>
@@ -249,13 +235,9 @@
 
 				<div id='goals' style="display:none;">
 					<ul>
-						 <li>Prevention of motor vehicle accidents</li>
-						 <li>Prevention of residential fires</li>
-						 <li>Prevention of workplace and industrial injuries</li>
-						 <li>Reduction in delays in accessing emergency care</li>
-						 <li>Suicide prevention for youth</li>
-						 <li>Falls prevention for the elderly</li>
-				
+						 <li>Secure and anonymous location for women’s shelter</li>
+						 <li>Provision of smoke alarms and carbon monoxide receptors to community members</li>
+						 <li>Municipal services or service agencies to provide subsidized snow clearance and salt driveways</li>
 					</ul>
 				</div>
 			</div>
@@ -273,16 +255,15 @@
 				<div id='references' style="display:none;">
 					<ul>
 
-						<li>de Ramirez, S. Hyder, A., Herbert, H., & Stevens, K. (2012). <em>Unintentional injuries: Magnitude, prevention, and control.</em> Annual Review of Public Health, 33, p 175 – 191.</li>
+						<li>Bartfeld, J., & Dunifon, R. (2005). <em>State-level predictors of food insecurity and hunger among households with children.</em> [PDF document]. Retrieved from: http://www.ers.usda.gov/Publications/CCR13/ccr13.pdf.</li>
 
-						<li>Jong, M. (n.d.). <em>Where there are no doctors.</em> [PDF document]. Retrieved from:   http://www.cfhi-fcass.ca/Libraries/Picking_up_the_pace_files/Micheal_Jong.sflb.ashx</li>
+						<li>Bashir S. (2002).  <em>Home is where the harm is: inadequate housing as a public health crisis.</em> American Journal of Public Health, 92(5), p733-738.</li>
 
-						<li>Laurent, S. (2002). Rural Canada: <em>Access to healthcare.</em> [online publication]. Retrieved from: http://publications.gc.ca/Collection-R/LoPBdP/BP/prb0245-e.htm</li>
+						<li>Health Canada. (2012). <em>It’s your health: Radon.</em> Ottawa, ON: Health Canada.</li>
 
-						<li>Statistics Canada (2011). <em>Suicide rates: An overview.</em> (Catalogue number 82-624-X). Retrieved from: http://www.statcan.gc.ca/pub/82-624-x/2011001/article/11506-
-						eng.htm</li>
+						<li>Marcouiller, D., Lapping, M., & Furuseth, O. (Eds.). (2011). <em>Rural housing, exurbanization, and amenity driven development: Contrasting the “haves” and the “have-nots”</em>. Burlington, VT: Ashgate Publishing Company.</li>
 
-						<li>Peek-Asa, C., Zwerling, C., & Stallones, L. (2004). <em>Acute traumatic injuries in rural populations.</em> American Journal of Public Health, 94(10), p1689 – 1693.</li>
+						<li>World Health Organization. (2012). <em>Environmental health inequalities in Europe.</em> Copenhagen, Denmark: World Health Organization.</li>
 					</ul>
 				</div>
 			</div>

@@ -1,150 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<script type="text/javascript">
-		
-		// call this when AJAX request returns
-		function complete_task(response,status,xhr)
-		{
-			if (response == "success")
-			{
-				$("#waiting_container").hide();
-				window.location = "/study/fsess";
-			} else {
-				$("#waiting_container").hide();
-				$("#retry_container").show();
-			}
-		}
 
-		// Send arbitrary JSON data to /???/save_data
-		function submit_data()
-		{
-			$("#submit_container").hide();
-			$("#waiting_container").show();
-			
-			var data = $("#shipley_form").serialize();
-			
-			if (data.split('=').length - 1 != 4) {
-				alert("Please answer all questions");
-				$("#submit_container").show();
-				$("#waiting_container").hide();
-				return;
-			}
-			
-			//data += "&custom_data=Whatever you want";
-			
-			$.post("/study/save_post_data", data, complete_task);
-		}
-		
-		
-		function toggle_visibility(id) {
-		       var e = document.getElementById(id);
-		       if(e.style.display == 'block')
-		          e.style.display = 'none';
-		       else
-		          e.style.display = 'block';
-		}
-		
-		function go_to_survey() {
-			$('#injury_background').toggle();
-			$('#injury_questions').toggle();
-			$('#injury_questions').display('block');
-			
-		};
-	
-	
-	</script>
-	
-	<style>
-		
-		
-		#injury_questions
-		{
-			display:none;
-		}
-		
-		
-		table
-		{
-			padding:0 100px 0 100px;
-			border-collapse:collapse;
-			table-layout: fixed;
-		}
-		
-		td
-		{
-			border:solid;
-			border-width:1px;
-			text-align:center;
-		}
-		
-		
-		th
-		{
-			background:#FFFECB;
-			border:solid;
-			border-width:1px;
-			text-align:center;
-		}
-		
-		#background_info, #references, #goals
-		{
-			margin:0 100px 0 100px;
-		}
-		
-		ul
-		{
-			list-style-type:circle;
-		}
-		
-		.the_question 
-		{
-			width:100%;
-			margin:0 auto;
-			text-align:justify;
-			border:solid;
-			border-width:0 0 1px 0;
-			
-		}
-		
-		.the_answers 
-		{
-			width:700px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		
-		.rationale
-		{
-		  margin-top: 5px;
-			width:700px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		
-		.rationale h2 
-		{
-		  border: 1px dotted #C1CDCD;
-		  padding: 6px 0;
-		  font-size: 110%;
-		}
-		
-		.rationale a
-		{
-			text-decoration: none;
-			color: #333;
-		}
-		
-		.question_container
-		{
-			border:1px solid #C1CDCD;
-			background-color:#FaFaFa;
-			margin:0 0 20px 0;
-			padding: 10px;
-		}
+{% load staticfiles %}
 
-	</style>
-	
+<script>
+    num_questions = 4
+</script>
+
+<script src="{% static "rural_medicine_questionairre/js/housing_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/submit.js" %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/questionairre_style.css" %}">
+
 	
 	<h1>Injury Prevention and Health Promotion</h1>
 	
@@ -153,19 +21,6 @@
 	  
 		
 		<script>
-			var questions = new Array(
-				"Community members are aware of the location of formal emergency safe housing",
-				"Community members are aware of informal emergency safe housing",
-				"My community monitors how many houses have smoke and carbon monoxide detectors",
-			    "My community promotes fire safety and escape plans for homeowners"
-			);
-			
-			var rationale = new Array(
-				"In times of emergency, housing is often greatly and urgently needed by individuals and families who have no place else to go.",
-				"A safety plan in case of natural disaster can help communities prepare for emergencies by identifying trustworthy and reliable neighbours living in secure areas. The principles of these plans can be adapted for individuals and families in times of personal crises. ",
-				"Homes without working smoke alarms are disproportionately affected by house fires.  Rural households are typically less likely to report having a smoke alarm and those that do may not function properly.  Carbon monoxide poisoning is a risk in many rural homes because of the use of water heaters, stove pipes, and older construction.",
-				"Fire escape plans can improve survival rates during home fires."
-			);
 			
 			function write_question(number, with_text, and_rationale) 
 			{
@@ -287,9 +142,9 @@
 			
 				<!-- Write the questions -->
 				<script>
-					for (var i=0; i<questions.length; i++)
+					for (var i=0; i<housing_questions.length; i++)
 					{
-							write_question(i, questions[i], rationale[i]);
+							write_question(i, housing_questions[i], housing_rationale[i]);
 					}
 				</script>
 		

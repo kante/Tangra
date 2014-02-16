@@ -1,92 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% load staticfiles %}
+<script src="{% static "rural_medicine_questionairre/js/injury_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/housing_data.js" %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/results_style.css" %}">
+
+
+
     <script type="text/javascript">
-    
-        var housing_questions = new Array(
-			"Community members are aware of the location of formal emergency safe housing",
-			"Community members are aware of informal emergency safe housing",
-			"My community monitors how many houses have smoke and carbon monoxide detectors",
-		    "My community promotes fire safety and escape plans for homeowners"
-		);
-		
-		var housing_descriptions = new Array(
-            "The Rural Outreach Committee of Smith-Ennismore-Lakefield and Galway-Cavendish-Harvey opearates a 24-hour crisis hotline and emergency shelter for families and victims of violence.  The ROC also offers temporary housing for anyone effected by natural disasters.",
-            new Array(
-                "The government of Alberta provides resources for preparing for floods in rural and agricultural communities:",
-                "The government of Manitoba provides resources for preparing for floods in rural and agricultural communities:",
-                "Three Oaks, a volunteer organization that offers shelter and outreach services to families in Belleville, Quinte West, Hastings, and Prince Edward County Ontario has develop a guide to safety planning for women in rural areas:"
-            ),
-            "Get Alarmed! is a safety campaign that distributes combination smoke and carbon monoxide detectors to homes in the Ottawa region that meet specific criteria.  The program can be adapted to rural areas:",
-            new Array(
-                "The New South Wales Rural Fire Department has developed a guide to survival plans for bushfires:",
-                "The community of Port Colborne, Ontario provides a check-list for opening cottages and a link to developing a personal fire safety plan:"
-            )
-        );
-        
-        
-		var housing_links = new Array(
-		    "http://www.ruraloutreachcommittee.ca/index.php?title=Main_Page",
-		    new Array(
-                "http://www1.agric.gov.ab.ca/$department/deptdocs.nsf/all/com14391",
-                "http://www.gov.mb.ca/asset_library/en/spring_outlook/preparing_for_flood_conditions_in_rural_mb.pdf",
-                "http://threeoaksshelterandservices.ca/UserFiles/File/pdfs/safety%20planning%20for%20package%20-%20when%20leaving.pdf"
-            ),
-            "http://ottawa.ca/en/residents/emergency-services/fire-services/carbon-monoxide",
-            new Array(
-                "http://www.rfs.nsw.gov.au/file_system/attachments/Attachment_BushFireSurvivalPlan.pdf",
-                "http://portcolborne.ca/page/Fire_Safety_Tips"
-            )
-		);
-    
-    
-        // TODO: don't fucking repeat the questions in 2 places. put all the data in one file and load it in man...
-        var injury_questions = new Array(
-            "My community clearly marks roadways that are used by industrial and farm vehicles.",
-            "My community clearly marks roadways that are used for vehicle alternatives, like wagons and carts.",
-            "My community has trails for all-terrain vehicles (ATVs) that can be easily accessed by first responders in winter months.",
-            "My community promotes pedestrian and bicyclist safety on high-speed roadways.",
-            "My community has separate or multi-use paths for pedestrians and bicyclists",
-            
-            "My community uses both primary and secondary prevention of speeding. Some examples of primary prevention include traffic circles, speed bumps, and raised medians; secondary examples include formal and informal speed checks.",
-            
-            "My community uses both primary and secondary promotion for seatbelts. Some examples of primary promotion include seat belt education in schools and car seat training in pre-natal classes; secondary examples include formal and informal seat belt checks."
 
-        );
-        
-        var injury_descriptions = new Array(
-            "Road Safety Awareness Campaign from the Grain Farmers of Ontario. The Grain Farmers of Ontario provides driver education resources for both the public and farmers about sharing the road safely:",
-            "The Pennsylvania Farm Bureau, a group of farmers in the state with the most rural roads in all of America, promotes safety on rural roads with an annual awareness campaign, “Rural Roads Safety Week.”  Much of their material could be adapted to promoting safety when roadways are used by horse-drawn vehicles:",
-            "The City of Hamilton offers a brief overview of the health consequences of ATVs as well as provides links to the “Safety Code of ATV Riders” and educational resources for children and parents:",
-            "The Hub for Active School Travel offers multiple interactive educational tools and activities for families to learn about bicycle, pedestrian, and car safety.   These resources are ideal for children and parents in rural, medium-sized, and urban centres:",
-            
-            "Safe Rural Roads, an initiative in the state of Washington, publishes regular fliers road safety:",
-            
-            new Array(
-                "The community of Sylvan Lake, BC, has recently reduced the speed limit on their surrounding highway in addition to implementing two speed reduction programs in the community:",
-                "The US Department of Transportation has published a report, “Traffic Calming on Main Roads Through Rural Communities,” which describes multiple methods of speed management: "
-                ),
-            
-            "The Centre for Excellence in Rural Safety at the University of Minnesota has a database of traffic safety promotion projects, including seat belt"
 
-        );
-        
-        var injury_links = new Array(
-            "http://www.gfo.ca/roadsafety.aspx",
-            "http://www.pfb.com/index.php?option=com_content&view=article&id=395:rural-road-safety-program&catid=63:for-farmers&Itemid=162",
-            "http://www.hamilton.ca/HealthandSocialServices/PublicHealth/InjuryPrevention/ATVSafety.htm",
-            "http://hastebc.org/tools/safety",
-            
-            "http://www.saferuralroads.com/rural_roads_flier7a.pdf",
-            
-            new Array(
-                        "http://sylvanlake.ca/emergency-services/municipal-enforcement/enforcement-programs.html",
-                        "http://www.fhwa.dot.gov/publications/research/safety/08067/"
-                    ),
-            
-            "http://www.ruralsafety.umn.edu/news/"
-        );
-        
 
         // Load the user's answers from the tangra server
         var url = "/exe_interface/get_user_data";
@@ -204,73 +130,7 @@
         }
     
     </script>
-    
-    <style>
-        
-        A:link {text-decoration: none; color:blue;}
-        A:visited {text-decoration: none}
-        A:active {text-decoration: none}
-        A:hover {text-decoration: underline; color: red;}
-    
-        
-        #background_info, #references, #goals
-        {
-            margin:0 100px 0 100px;
-        }
-        
-        ul
-        {
-            list-style-type:circle;
-        }
-        
-        .the_question 
-        {
-            width:70%;
-            margin:0 auto;
-            text-align:justify;
-        }
-        
-        .the_answers 
-        {
-            width:700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        #loading_box
-        {
-            border:solid;
-            border-width:1px;
-            width:400px;
-            text-align:center;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .intervention_box
-        {
-            border:solid;
-            border-width:1px;
-            margin:10px 0 20px 0;
-            padding:10px;
-        }
-        
-        .intervention_header
-        {
-            width:100%;
-            font-weight:bold;
-        }
-        
-        .intervention_question
-        {
-            width:90%;
-            margin:0 0 0 5%;
-            padding:10px 0 10px 0;
-            text-align:center;
-        }
-        
-        
-    </style>
+
     
     
     <h1>Your Results</h1>

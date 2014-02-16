@@ -85,7 +85,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    #'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     
     'portal.studies',
     
@@ -108,8 +108,15 @@ INSTALLED_APPS = (
 AUTH_PROFILE_MODULE = 'users.UserProfile'
 
 
+# This is for css, js and image files
+STATIC_URL = os.path.normpath(os.path.join(ROOT_PATH, "../static")) + "/"
+STATICFILES_DIRS = (
+    STATIC_URL,
+)
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
+# apparently, this is for user generated content.. TODO: move our static files to STATIC_URL above
 MEDIA_ROOT = os.path.normpath(os.path.join(ROOT_PATH, "../media"))
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a

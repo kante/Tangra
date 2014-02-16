@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from portal.study_builder.views import *
 
 urlpatterns = patterns('', 

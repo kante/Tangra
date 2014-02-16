@@ -15,7 +15,7 @@ class UrlsBuilder:
     """
     
     urls_file_template = r"""
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from portal.user_studies.views import *
 
 urlpatterns = patterns('', {0})

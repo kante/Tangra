@@ -108,11 +108,6 @@ INSTALLED_APPS = (
 AUTH_PROFILE_MODULE = 'users.UserProfile'
 
 
-# This is for css, js and image files
-STATIC_URL = os.path.normpath(os.path.join(ROOT_PATH, "../static")) + "/"
-STATICFILES_DIRS = (
-    STATIC_URL,
-)
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"

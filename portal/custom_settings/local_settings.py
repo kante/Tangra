@@ -14,8 +14,8 @@ ROOT_PATH = os.path.join(
                         
 
 # The place to serve static files from
-#STATIC_URL = 'http://192.168.74.136'
-#STATIC_ROOT = '/Library/WebServer/Documents/media/'
+STATIC_URL = 'http://tangra.ruralbuiltenvironment.com/static/'
+STATIC_ROOT = '/srv/www/static/'
 #STATICFILES_DIRS = (
 #    ROOT_PATH + "/media/",
 #)

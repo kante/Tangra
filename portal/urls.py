@@ -28,8 +28,8 @@ urlpatterns = patterns('',
     # New investigator interface
     url(r'^investigator/', include('portal.investigator.urls')),
     
-    # Testing an interface from external Java files
-    url(r'^exe_interface/', include('portal.exe_interface.urls')),
+    # All the functions required to run a study are in here
+    url(r'^exe_interface/', include('portal.public_api.urls')),
     
 )
 

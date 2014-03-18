@@ -1,16 +1,8 @@
 import os
 
-# point this to the Tangra directory on your server
-# ROOT_PATH = '/Users/arturomp/Documents/Tareas/TAGlab/tangra'
 
-# point this to the Tangra directory on your server
-# ROOT_PATH = 'c:/Users/kante/Desktop/Tangra/'
-# more general version, but assumes a specific directory structure
-ROOT_PATH = os.path.join(
-                        os.path.dirname(__file__), 
-                        os.path.pardir
-                        )
-                        
+# This must point to the Tangra directory on your server
+ROOT_PATH = os.path.join(os.path.dirname(__file__), os.path.pardir)
 
 
 # The place to serve static files from. STATIC_ROOT is where collectstatic dumps them from
@@ -24,8 +16,7 @@ STATICFILES_DIRS = (
 )
 
 
-# User files
-# starts from 'portal' directory
+# This is the directory where Tangra will store all user generated/uploaded files
 USER_FILES = "../media/user_files/"
 
 # Make this unique, and don't share it with anybody.

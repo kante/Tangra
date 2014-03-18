@@ -6,12 +6,13 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.servers.basehttp import FileWrapper
-from django import forms        
+from django import forms
+from django.conf import settings
+
 from zipfile import ZipFile
 from StringIO import StringIO
-import json
-import os
-import sys 
+import json, os, sys
+
 
 from Tangra.studies.models import User, Study, UserStage, Data, StudyParticipant, Group, StageGroup
 from video_conferencing import *
@@ -151,7 +152,7 @@ def download_file(request):
             fileUser = GET[u'fileUser']
             fileName = GET[u'fileName']
             
-            filePath = os.path.join(USER_FILES, fileUser, fileName)
+            filePath = os.path.join(settings.USER_FILES, fileUser, fileName)
             
             print >>sys.stderr,  "ASDFASDF", filePath
 
@@ -383,7 +384,7 @@ def post2dict(post):
 
 def list_user_files(user):
     
-    userPath = os.path.join(USER_FILES, user)
+    userPath = os.path.join(settings.USER_FILES, user)
     
     if os.path.isdir(userPath):
         filesDir = os.listdir(userPath)
@@ -432,7 +433,7 @@ def upload_file(request, user):
 
 
 def handle_uploaded_file(uploaded_file, user):
-    dir_path = os.path.join(USER_FILES, user)
+    dir_path = os.path.join(settings.USER_FILES, user)
     
     # create user's file directory if it does not exist
     if not os.path.exists(dir_path):

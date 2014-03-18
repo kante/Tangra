@@ -16,10 +16,15 @@ ROOT_PATH = os.path.join(
 # The place to serve static files from. STATIC_ROOT is where collectstatic dumps them from
 #STATIC_URL = 'http://tangra.ruralbuiltenvironment.com/static/'
 #STATIC_ROOT = '/srv/www/static/'
-STATIC_URL = os.path.normpath(os.path.join(ROOT_PATH, "static")) + "/"
+
+#STATIC_URL = os.path.normpath(os.path.join(ROOT_PATH, "static")) + "/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = (
     os.path.normpath(os.path.join(ROOT_PATH, "static")) + "/",
 )
+
+print "ASDFASDF", STATICFILES_DIRS
+
 
 # User files
 # starts from 'portal' directory

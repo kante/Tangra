@@ -15,7 +15,7 @@ import sys
 
 from Tangra.studies.models import User, Study, UserStage, Data, StudyParticipant, Group, StageGroup
 from video_conferencing import *
-from users.models import UserRoles
+from Tangra.users.models import UserRoles
 import datetime
 
 

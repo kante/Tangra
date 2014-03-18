@@ -6,7 +6,6 @@ import sys
 from custom_settings import *
 
 
-sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH, "lib")))
 sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH,".")))
 #print >>sys.stderr,  sys.path
 
@@ -91,7 +90,7 @@ INSTALLED_APPS = (
     'Tangra.studies',
     
     # UI and modules for creating user generated studies
-    'Tangra.study_builder',
+    'study_builder',
     
     # User generated studies are dropped in this directory
     'Tangra.user_studies',
@@ -123,10 +122,10 @@ ADMIN_MEDIA_PREFIX = '/amedia/'
 
 # The location of all html/django templates
 TEMPLATE_DIRS = (
-	os.path.join(ROOT_PATH, 'templates'),
-	os.path.join(ROOT_PATH, 'templates/study'),
-	os.path.join(ROOT_PATH, 'templates/study_builder'),
-	os.path.join(ROOT_PATH, 'templates/investigator'),
+	os.path.join(ROOT_PATH, 'Tangra/templates'),
+	os.path.join(ROOT_PATH, 'Tangra/templates/study'),
+	os.path.join(ROOT_PATH, 'Tangra/templates/study_builder'),
+	os.path.join(ROOT_PATH, 'Tangra/templates/investigator'),
 )
 
 

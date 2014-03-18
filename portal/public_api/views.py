@@ -36,12 +36,6 @@ def login(request):
 
 
 @login_required
-def testing(request):
-    #send: studyid, request.user, time, data
-    return HttpResponse("bwwaaahahaha! awww yeah!")
-
-
-@login_required
 def get_current_stage_info(request):
     user = request.user
     current_stages = UserStage.objects.filter(user=request.user, status=1)

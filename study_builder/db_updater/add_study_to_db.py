@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 
 
-from studies.models import Study, Group, Stage, StageGroup, StudyParticipant, UserStage
-from users.models import UserRoles
+from Tangra.studies.models import Study, Group, Stage, StageGroup, StudyParticipant, UserStage
+from Tangra.users.models import UserRoles
 import datetime
 
 

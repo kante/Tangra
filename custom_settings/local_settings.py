@@ -12,6 +12,7 @@ ROOT_PATH = os.path.join(
                         )
                         
 
+
 # The place to serve static files from. STATIC_ROOT is where collectstatic dumps them from
 #STATIC_URL = 'http://tangra.ruralbuiltenvironment.com/static/'
 #STATIC_ROOT = '/srv/www/static/'

@@ -7,8 +7,8 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from studies.models import *
-from studies.views import finish_session
+from Tangra.studies.models import *
+from Tangra.studies.views import finish_session
 
 import json
 

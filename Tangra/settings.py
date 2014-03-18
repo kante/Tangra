@@ -6,7 +6,6 @@ import sys
 from custom_settings import *
 
 
-ROOT_PATH = os.path.dirname(__file__)
 sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH, "lib")))
 sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH,".")))
 #print >>sys.stderr,  sys.path

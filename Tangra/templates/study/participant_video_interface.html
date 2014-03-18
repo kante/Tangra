@@ -1,4 +1,4 @@
-<link href="{{ MEDIA_URL }}css/video_conferencing.css" type="text/css" rel="stylesheet" >
+<link href="{% static "css/video_conferencing.css" %}" type="text/css" rel="stylesheet" >
 
 <script>
     function accept_video_chat()
@@ -55,7 +55,7 @@
         var sessionId = "{{ session_id }}";
         var token = "{{token}}";
 	</script>
-	<script src="{{ MEDIA_URL }}js/video_conferencing/open_tok.js" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static "js/video_conferencing/open_tok.js" %}" type="text/javascript" charset="utf-8"></script>
 
 
 

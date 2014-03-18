@@ -88,16 +88,16 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     
     'Tangra.studies',
+    # Classes used to extend the basic django User model
+    'Tangra.users',
     
     # UI and modules for creating user generated studies
     'study_builder',
     
     # User generated studies are dropped in this directory
-    'Tangra.user_studies',
+    'user_studies',
     
-    # Classes used to extend the basic django User model
-    'Tangra.users',
-    
+
     # Libraries
 #   'lockdown',
 

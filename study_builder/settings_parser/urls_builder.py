@@ -16,7 +16,7 @@ class UrlsBuilder:
     
     urls_file_template = r"""
 from django.conf.urls import *
-from Tangra.user_studies.views import *
+from user_studies.views import *
 
 urlpatterns = patterns('', {0})
     """

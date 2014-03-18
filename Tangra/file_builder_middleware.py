@@ -15,6 +15,7 @@
 import os, sys
 
 from django.core.exceptions import MiddlewareNotUsed
+from django.conf import settings
 
 from study_builder import *
 
@@ -40,7 +41,7 @@ class FileBuilderMiddleware:
     
     def __init__(self):
         # Get the names of all the study folders in the user studies directory
-        self.module_dir = os.path.dirname(__file__) + "/user_studies"
+        self.module_dir = settings.ROOT_PATH + "/user_studies"
         self.files = ["{0}/{1}".format(self.module_dir, f) for f in os.listdir(self.module_dir)]
         self.study_dirs = [f for f in self.files if os.path.isdir(f) and f.find("study_builder") == -1]
         

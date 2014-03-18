@@ -23,8 +23,6 @@ STATICFILES_DIRS = (
     os.path.normpath(os.path.join(ROOT_PATH, "static")) + "/",
 )
 
-print "ASDFASDF", STATICFILES_DIRS
-
 
 # User files
 # starts from 'portal' directory

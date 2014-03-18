@@ -154,8 +154,6 @@ def download_file(request):
             
             filePath = os.path.join(settings.USER_FILES, fileUser, fileName)
             
-            print >>sys.stderr,  "ASDFASDF", filePath
-
             if os.path.isfile(filePath):
                 wrapper = FileWrapper(file(filePath))
                 response = HttpResponse(wrapper, mimetype='application/octet-stream')

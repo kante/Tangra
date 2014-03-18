@@ -176,16 +176,16 @@
                 
                 <td width="22px"> 
                     {% if user_data.is_online %}
-                        <img src="../../../media/img/online.gif" width="22" height="22" alt="Online">
+                        <img src="{% static "img/online.gif" %}" width="22" height="22" alt="Online">
                     {% else %}
-                        <img src="../../../media/img/offline.gif" width="22" height="22" alt="Offline">
+                        <img src="{% static "media/img/offline.gif" %}" width="22" height="22" alt="Offline">
                     {% endif %}
                     
                 </td>
 
                 <td width="18px">
                     {% if user_data.is_late %}
-                        <img src="../../../media/img/alert.gif" width="22" height="22" alt="Alert">
+                        <img src="{% static "media/img/alert.gif" %}" width="22" height="22" alt="Alert">
                     {% else %}
                         &nbsp;
                     {% endif %}

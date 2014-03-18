@@ -356,13 +356,13 @@ float: right;}
 }
 
 .right {
-  background: url("/media/img/right_arrow.png") no-repeat 3px 0px;
+  background: url("../img/right_arrow.png") no-repeat 3px 0px;
   border: none;
   padding-left: 30px;
 }
 
 .down {
-  background: url("/media/img/down_arrow.png") no-repeat 3px 0;
+  background: url("../img/down_arrow.png") no-repeat 3px 0;
   border: none;
   padding-left: 30px;
 }
@@ -514,7 +514,7 @@ p.error {
   /*opacity: 0.8;*/
   z-index: 100;
   position: absolute;
-  background: url("/media/img/transparent_bg.png");
+  background: url("../img/transparent_bg.png");
   text-align: center;
 }
 
@@ -636,15 +636,15 @@ p.error {
 }
 
 #close_message:hover{
-	background: url("/media/img/close_nofade.png") no-repeat 0px 0px
+	background: url("../img/close_nofade.png") no-repeat 0px 0px
 }
 
 .close_fade{
-  background: url("/media/img/close_fade.png") no-repeat 0px 0px;
+  background: url("../img/close_fade.png") no-repeat 0px 0px;
 }
 
 .close_nofade{
-  background: url("/media/img/close_nofade.png") no-repeat 0px 0px;
+  background: url("../img/close_nofade.png") no-repeat 0px 0px;
 }
 
 /* Message Nav */

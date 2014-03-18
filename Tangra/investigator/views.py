@@ -6,7 +6,6 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.servers.basehttp import FileWrapper
-from portal.custom_settings.local_settings import *
 from django import forms        
 from zipfile import ZipFile
 from StringIO import StringIO
@@ -14,7 +13,7 @@ import json
 import os
 import sys 
 
-from portal.studies.models import User, Study, UserStage, Data, StudyParticipant, Group, StageGroup
+from Tangra.studies.models import User, Study, UserStage, Data, StudyParticipant, Group, StageGroup
 from video_conferencing import *
 from users.models import UserRoles
 import datetime

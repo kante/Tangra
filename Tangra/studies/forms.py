@@ -1,5 +1,5 @@
 from django import forms
-from portal.studies.models import *
+from Tangra.studies.models import *
 from django.contrib.admin import widgets
 	
 class NewStudyForm(forms.ModelForm):

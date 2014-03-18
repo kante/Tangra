@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.template import Context
 
-from portal.users.models import UserRoles
+from Tangra.users.models import UserRoles
 
 
 def get_user_redirect(user):

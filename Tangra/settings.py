@@ -66,8 +66,8 @@ MIDDLEWARE_CLASSES = (
     # This is used to set up the custom urls.py and views.py in the user_studies
     # app. We will be getting rid of this and have a custom 'build_studies' UI 
     # once the code cleanup is done.
-    'portal.FileBuilderMiddleware',
-    'portal.UserActivityMiddleware',
+    'Tangra.FileBuilderMiddleware',
+    'Tangra.UserActivityMiddleware',
     
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -89,16 +89,16 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     
-    'portal.studies',
+    'Tangra.studies',
     
     # UI and modules for creating user generated studies
-    'portal.study_builder',
+    'Tangra.study_builder',
     
     # User generated studies are dropped in this directory
-    'portal.user_studies',
+    'Tangra.user_studies',
     
     # Classes used to extend the basic django User model
-    'portal.users',
+    'Tangra.users',
     
     # Libraries
 #   'lockdown',
@@ -135,4 +135,4 @@ TEMPLATE_DIRS = (
 #MEDIA_URL = STATIC_URL + "/media/" 
 MEDIA_URL = "/media/"
 
-ROOT_URLCONF = 'portal.urls'
+ROOT_URLCONF = 'Tangra.urls'

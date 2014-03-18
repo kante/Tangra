@@ -1,5 +1,5 @@
 from django.conf.urls import *
-from portal.study_builder.views import *
+from Tangra.study_builder.views import *
 
 urlpatterns = patterns('', 
                        url(r'^$', select_study, name='select_study'),

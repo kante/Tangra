@@ -15,7 +15,7 @@ import datetime
 from django.core.cache import cache
 
 
-from portal.investigator.video_conferencing import OpenTokSDK
+from Tangra.investigator.video_conferencing import OpenTokSDK
 
 
 ############### Study

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from portal.studies.models import *
-from portal.users.models import UserProfile
+from Tangra.studies.models import *
+from Tangra.users.models import UserProfile
 import datetime
 
 class StudyParticipantAdmin( admin.ModelAdmin ):

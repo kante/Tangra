@@ -8,7 +8,6 @@ import os
 # more general version, but assumes a specific directory structure
 ROOT_PATH = os.path.join(
                         os.path.dirname(__file__), 
-                        os.path.pardir, 
                         os.path.pardir
                         )
                         

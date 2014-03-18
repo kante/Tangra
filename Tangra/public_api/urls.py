@@ -1,5 +1,5 @@
 from django.conf.urls import *
-from portal.public_api.views import *
+from Tangra.public_api.views import *
 
 
 urlpatterns = patterns('',

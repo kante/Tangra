@@ -1,8 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from django.http import HttpResponse
-
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -10,8 +8,6 @@ from django.contrib.auth.models import User
 from Tangra.studies.models import *
 from Tangra.studies.views import finish_session
 from JsonResponses import *
-
-import json
 
 
 def login(request):
@@ -25,40 +21,40 @@ def login(request):
             if user.is_active:
                 # Correct password, and the user is marked "active"
                 auth.login(request, user)
-                return HttpResponse("Logged in successfully!")    
+                return SuccessResponse()
             else:
                 # DISABLED ACCOUNT
-                return HttpResponse("That was a disabled account!")    
+                return FailureResponse()
         else:
             # Invalid user?
-            return HttpResponse("Invalid user!")    
+            return FailureResponse()
     else:
         # Strange request. Send them back to the start
-        return HttpResponse("Strange request... not POST!?")    
+        return FailureResponse()
 
 
 @login_required
 def logout(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
 def get_current_stage(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
 def save_data(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
 def save_data_with_key(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
@@ -66,26 +62,25 @@ def get_data(request):
     """TODO: this lol"""
     return FailureResponse()
     
-#    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
     
 
 
 @login_required
 def get_data_for_key(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
 def get_data_for_stage_and_key(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
 def upload_file(request):
     """TODO: this lol"""
-    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    return FailureResponse()
 
 
 @login_required
@@ -98,9 +93,9 @@ def finish_current_stage(request):
         stage = current_stages[0]
         stage.increase_stage_count()
         
-        return HttpResponse(json.dumps("success"), content_type="application/json")
+        return SuccessResponse()
     except:
-        return HttpResponse(json.dumps("failure"), content_type="application/json")
+        return FailureResponse()
 
 
 

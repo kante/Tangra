@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     url(r'^investigator/', include('Tangra.investigator.urls')),
     
     # All the functions required to run a study are in here
-    url(r'^exe_interface/', include('Tangra.public_api.urls')),
+    url(r'^public_api/', include('public_api.urls')),
     
 )
 

@@ -1,7 +1,7 @@
 
 
 // Load the user's answers from the tangra server
-var url = "/exe_interface/get_user_data";
+var url = "/public_api/get_user_data";
 var data = null;
 var dataType =" json";
 

@@ -12,6 +12,7 @@ from Tangra.studies.views import finish_session
 
 import json
 
+
 def login(request):
     """Try to log in."""
     if request.method == 'POST':
@@ -34,6 +35,70 @@ def login(request):
         # Strange request. Send them back to the start
         return HttpResponse("Strange request... not POST!?")    
 
+
+@login_required
+def logout(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def get_current_stage(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def save_data(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def save_data_with_key(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def get_data(request):
+    """TODO: this lol"""
+    return HttpResponse(json.dumps("lalalalalal"), content_type="application/json")
+    
+
+
+@login_required
+def get_data_for_key(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def get_data_for_stage_and_key(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def upload_file(request):
+    """TODO: this lol"""
+    pass
+
+
+@login_required
+def finish_current_stage(request):
+    """assuming one user per study now... make things easy on ourselves for this
+    project. generalize this after we've tested it on space fortress"""
+    user = request.user
+    current_stages = UserStage.objects.filter(user=request.user, status=1)
+    stage = current_stages[0]
+    stage.increase_stage_count()
+    
+    return HttpResponse("OK")
+
+
+
+###---------- old versions of the public api. revamping this to match the documentation now
 
 @login_required
 def get_current_stage_info(request):
@@ -82,12 +147,10 @@ def get_user_data(request):
     return HttpResponse(json.dumps(user_data), content_type="application/json")
 
 
-@login_required
-def fsess(request):
-    # assuming one user per study now... make things easy on ourselves for this
-    # project. generalize this after we've tested it on space fortress    user = request.user
-    current_stages = UserStage.objects.filter(user=request.user, status=1)
-    stage = current_stages[0]
-    stage.increase_stage_count()
-    
-    return HttpResponse("OK")
+
+
+
+
+
+
+

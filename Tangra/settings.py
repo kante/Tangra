@@ -91,6 +91,9 @@ INSTALLED_APPS = (
     # Classes used to extend the basic django User model
     'Tangra.users',
     
+    # The basic functionality needed to step through a study. Used by Tangra native and external studies
+    'public_api',
+    
     # UI and modules for creating user generated studies
     'study_builder',
     

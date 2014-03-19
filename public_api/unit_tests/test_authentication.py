@@ -6,8 +6,6 @@ from Tangra.studies.models import User
 from json_responses import *
 
 
-
-
 class LoginTestCase(TestCase):
     """
         A class for testing the login/logout system.
@@ -72,7 +70,7 @@ class LoginTestCase(TestCase):
         response_string = json.loads(response.content)
         self.assertEqual(response_string, SuccessResponse.success_string)
         self.assert_user_is_logged_out(spungo, self.client.session)
-        
+
 
 
 

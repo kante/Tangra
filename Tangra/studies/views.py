@@ -132,7 +132,6 @@ def finish_session(request):
     
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
-    
 
 @login_required
 def finish_infinite_session(request):

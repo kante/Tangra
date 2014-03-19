@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+
 import json
 
 
@@ -19,22 +20,22 @@ class FailureResponse(JsonResponse):
     """
         The FailureResponse is a json response object that contains the single json string 'SUCCESS'
     """
-    
+    failure_string = "FAILURE"
     
     def __init__(self):
         """Create a default HttpResponse subclass for communicating a Tangra failure."""
-        super(FailureResponse, self).__init__("FAILURE")
+        super(FailureResponse, self).__init__(self.failure_string)
 
 
 class SuccessResponse(JsonResponse):
     """
         The SuccessResponse is a json response object that contains the single json string 'SUCCESS'
     """
-    
+    success_string = "SUCCESS"
     
     def __init__(self):
         """Create a default HttpResponse subclass for communicating a Tangra success."""
-        super(SuccessResponse, self).__init__("SUCCESS")
+        super(SuccessResponse, self).__init__(self.success_string)
 
 
 # TODO: list response? 

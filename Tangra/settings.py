@@ -70,13 +70,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.middleware.doc.XViewMiddleware',
-
-    # 'lockdown.middleware.LockdownMiddleware',
+    'django.middleware.doc.XViewMiddleware',
+    
+    # required for unittesting to work. Can be commented out in a production server.
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 
 INSTALLED_APPS = (
@@ -86,6 +87,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    
+    # required for unit testing to work. Can be commented out in a production server
+    'django.contrib.messages',
     
     'Tangra.studies',
     # Classes used to extend the basic django User model

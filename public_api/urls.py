@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     
     url(r'^save_data$', save_data, name='save_data'),
     url(r'^get_data$', get_data, name='get_data'),
-    
+    url(r'^get_data_for_stage$', get_data_for_stage, name='get_data_for_stage'),
     
     url(r'^save_data_with_key$', save_data_with_key, name='save_data_with_key'),
     url(r'^get_data_for_key$', get_data_for_key, name='get_data_for_key'),

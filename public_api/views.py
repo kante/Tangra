@@ -7,36 +7,52 @@ from django.contrib.auth.models import User
 
 from Tangra.studies.models import *
 from Tangra.studies.views import finish_session
-from JsonResponses import *
+from json_responses import *
 
 
 def login(request):
-    """Try to log in."""
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
+    """Attempt to log the specified participant or investigator into the Tangra server. 
+    
+    POST arguments:
+        username - The username of the participant or investigator.
+        password - The password of the participant or investigator.
+    
+    Requires:
+        request is a POST request.
+    """
+    try:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = auth.authenticate(username=username, password=password)
         
-        if user is not None:
-            if user.is_active:
-                # Correct password, and the user is marked "active"
-                auth.login(request, user)
-                return SuccessResponse()
+            if user is not None:
+                if user.is_active:
+                    # Correct password, and the user is marked "active"
+                    auth.login(request, user)
+                    return SuccessResponse()
+                else:
+                    # DISABLED ACCOUNT
+                    return FailureResponse()
             else:
-                # DISABLED ACCOUNT
+                # Invalid user?
                 return FailureResponse()
         else:
-            # Invalid user?
+            # Strange request. Send them back to the start
             return FailureResponse()
-    else:
-        # Strange request. Send them back to the start
+    except:
         return FailureResponse()
 
 
-@login_required
 def logout(request):
-    """TODO: this lol"""
-    return FailureResponse()
+    """Logs the user out of the Tangra server. Returns SUCCESS if the user is 
+    not logged in to begin with or if the logout operation was successful."""
+    
+    try:
+        logout(request)
+        return SuccessResponse()
+    except:
+        return FailureResponse()
 
 
 @login_required
@@ -62,7 +78,11 @@ def get_data(request):
     """TODO: this lol"""
     return FailureResponse()
     
-    
+
+@login_required
+def get_data_for_stage(request):
+    """TODO: this lol"""
+    return FailureResponse()
 
 
 @login_required

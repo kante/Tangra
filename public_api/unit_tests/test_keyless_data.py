@@ -6,13 +6,8 @@ from ..json_responses import *
 from tangra_test_case import *
 
 
-class SingleStageTestCase(TangraTestCase):
-    """
-        Tests:
-            /public_api/save_data
-            /public_api/get_data
-            /public_api/get_data_for_stage
-    """
+class KeylessDataTestCase(TangraTestCase):
+    """Contains the general setUp function for testing the keyless data saving functionality."""
     
     
     def setUp(self):
@@ -25,6 +20,38 @@ class SingleStageTestCase(TangraTestCase):
         
         self.participant = User.objects.get(username=self.credentials['username'])
         self.assertIsNotNone(self.participant)
+
+
+class MultipleStageTestCase(KeylessDataTestCase):
+    """
+        Tests:
+            /public_api/save_data
+            /public_api/get_data_for_stage
+    """
+    
+    
+    def test_single_string_in_past_stage(self):
+        data_to_save = {"data" : "This is a string I am saving"}
+        self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+        
+        expected_data = [data_to_save["data"]]
+        self.perform_and_verify_query('/public_api/get_data', expected_data)
+        
+        self.perform_and_verify_query('/public_api/get_current_stage', 1)
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
+        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        
+        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":2})
+
+
+
+class SingleStageTestCase(KeylessDataTestCase):
+    """
+        Tests:
+            /public_api/save_data
+            /public_api/get_data
+    """
     
     
     def test_retrieve_with_no_data(self):

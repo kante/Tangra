@@ -136,8 +136,27 @@ def get_data(request):
 
 @login_required
 def get_data_for_stage(request):
-    """TODO: this lol"""
-    return FailureResponse()
+    """Returns a list of all the data strings saved by the participant for the specified stage
+    
+    POST Arguments:
+        stage - The stage to query for previously submitted data.
+    """
+    
+    stage = request.POST['stage']
+    
+    user = User.objects.get(username=request.user)
+    stage_number = get_current_stage_number(request.user)
+    
+    asdfasdfASDFSADF ASDFasdfsafufkc
+    
+    study = get_study_object_for_stage_number(request.user)
+    #study = UserStage.objects.filter(user=request.user, status=1)[0].stage.study
+    
+    study_participant = StudyParticipant.objects.get(user=user, study=study)
+    
+    raw_user_data = Data.objects.filter(studyparticipant=study_participant)    
+    
+    return JsonResponse([entry.datum for entry in raw_user_data])
 
 
 @login_required

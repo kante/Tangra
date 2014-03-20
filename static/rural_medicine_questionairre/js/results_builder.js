@@ -41,13 +41,14 @@ function parse_results_string(results_string)
 }
 
 
+// TODO: this is a big shit show... use the new data saving/retrieving methods and fuck this old bullcrap
 function success(data, textStatus, jqXHR)
 {
-    var injury_results_string = data["rural_medicine_questionairre"][0];
+    var injury_results_string = data["rural_medicine_questionairre"]["1"];
     var parsed_injury_results = parse_results_string(injury_results_string);
     generate_response("#tab1box", parsed_injury_results, injury_descriptions, injury_questions, injury_links);
     
-    var housing_results_string = data["rural_medicine_questionairre"][1];
+    var housing_results_string = data["rural_medicine_questionairre"]["2"];
     var parsed_housing_results = parse_results_string(housing_results_string);
     generate_response("#tab2box", parsed_housing_results, housing_descriptions, housing_questions, housing_links);
     

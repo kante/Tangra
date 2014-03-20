@@ -14,9 +14,10 @@ from StringIO import StringIO
 import json, os, sys
 
 
-from Tangra.studies.models import User, Study, UserStage, Data, StudyParticipant, Group, StageGroup
+from Tangra.studies.models import *
 from video_conferencing import *
 from Tangra.users.models import UserRoles
+
 import datetime
 
 
@@ -99,10 +100,7 @@ def get_progress(user, study):
     """
     studypart = study.get_study_participant(user)
     stages = UserStage.objects.filter(user=user, study=study)
-    #stages = studypart.participant_stages()
-    current_stage = studypart.get_current_stage()
-    
-    #print >>sys.stderr, stages, current_stage
+    current_stage = get_current_stage_object(user)
     
     colors = ["green", "orange", "grey"]
     return [

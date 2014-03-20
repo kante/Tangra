@@ -59,7 +59,8 @@ def show_one_study(request,as_inv,s_id):
     studypart = study.get_study_participant(request.user)
     stages = UserStage.objects.filter(user=request.user, study=study)
     
-    current_stage = studypart.get_current_stage()
+    current_stage = get_current_stage_object(request.user)
+    
     if current_stage:
         action = current_stage.stage.url
         return render_to_response('study/show_one_study.html',locals(), context_instance=RequestContext(request))
@@ -165,24 +166,15 @@ def save_post_data(request):
     dt = datetime.datetime.now()    
     code = "CSV"
     
-    log(request, code, data)
+    studyid = request.session['study_id']
+    
+    stage = get_current_stage_number(request.user)
+    Data.write(studyid, request.user, stage, datetime.datetime.now(), code, data)
     
     #send: studyid, request.user, time, data
     return HttpResponse("success")
 
 
-@login_required
-def log(request, code, datum):
-    """Logs things"""
-    #print >>sys.stderr, "logging"
-    studyid = request.session['study_id']
-    
-    try:
-        Data.write(studyid, request.user, datetime.datetime.now(), code, datum)
-    except Exception:
-      print "logging: failed"
-     #send: studyid, request.user, time, data
-    return HttpResponse("YAY!")
 
 
 

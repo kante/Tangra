@@ -22,7 +22,7 @@
 }
 
 .past {
-	background: url('/media/img/tick.png') center top no-repeat #ddd;
+	background: url('../static/img/tick.png') center top no-repeat #ddd;
 }
 
 

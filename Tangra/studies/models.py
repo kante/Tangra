@@ -4,6 +4,14 @@ import datetime
 from operator import attrgetter
 
 
+def get_current_stage_object(user):
+    """Returns the current Stage object for the supplied user. Note that we are 
+    assuming only one study per user.
+    """
+    current_stages = UserStage.objects.filter(user=user, status=1)
+    return current_stages[0]
+
+
 def get_current_stage_number(user):
     """Return the current stage number for the supplied user. Note that for stages
     with multiple completions or infinite stages, each time the stage is completed 
@@ -136,9 +144,6 @@ class StageGroup(models.Model):
     custom_data = models.CharField('Custom Data', max_length=5000)
     stage_times_total = models.IntegerField('Total times for stage')
     
-    
-    
-    
     @classmethod
     def stages_in_group(cls, group):
         """docstring for stages_in_group"""
@@ -211,12 +216,11 @@ class UserStage(models.Model):
         self.session_completed(self)
 
     def session_completed(self):
-        self.sessions_completed += 1
-        self.last_session_completed = datetime.datetime.now()
-        
         stage_number = get_current_stage_number(self.user)
+        self.last_session_completed = datetime.datetime.now()
         Data.write(self.study.id, self.user, stage_number, self.last_session_completed, "SSC", "Stage Completed")
         
+        self.sessions_completed += 1
         if self.sessions_completed == self.stage.sessions:
             #this stage is finished
             self.status = 0

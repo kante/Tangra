@@ -121,10 +121,10 @@ def consented(request):
 @login_required
 def finish_session(request):
     # TODO: Find a better way to determine what session you're in...
-
+    
     study_id = request.session['study_id']
     study = Study.objects.get(id=study_id)
-
+    
     studypart = StudyParticipant.objects.get(study=study,user=request.user)
     #stage = studypart.get_current_stage()
     stage = UserStage.objects.get(user=request.user, study=study, status=1)

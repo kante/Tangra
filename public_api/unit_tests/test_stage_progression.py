@@ -13,9 +13,13 @@ class StudyProgressionTestCase(TestCase):
     """
     
     
-    def perform_and_verify_query(self, url, expected_response):
+    def perform_and_verify_query(self, url, expected_response, request_type="GET", data={}):
         """Perform the selected query and assert that the response is as expected."""
-        response = self.client.get(url)
+        if request_type == "GET":
+            response = self.client.get(url, data=data)
+        else:
+            response = self.client.post(url, data=data)
+        
         actual_response = json.loads(response.content)
         self.assertEqual(actual_response, expected_response)
     
@@ -62,10 +66,36 @@ class StudyProgressionTestCase(TestCase):
         
         #ensure no other participant was moved inappropriately
         self.perform_and_verify_query('/public_api/logout', SuccessResponse.success_string)
+        p2_data = {'username': 'participant_2', 'password': 'participant_2'}
+        self.perform_and_verify_query('/public_api/login', SuccessResponse.success_string, "POST", p2_data)
+        self.perform_and_verify_query('/public_api/get_current_stage', 1)
         
         
-        #response = self.client.post('/public_api/login', {'username': 'participant_2', 'password': 'participant_2'})
-        
+    def test_excessive_stage_progression(self):
+         """Ensure that participants can't move past the last stage in a study."""
+         
+         # Make sure participant can move through the whole study first
+         self.perform_and_verify_query('/public_api/get_current_stage', 1)
+         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
+         self.perform_and_verify_query('/public_api/get_current_stage', 2)
+         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
+         self.perform_and_verify_query('/public_api/get_current_stage', 3)
+         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
+         
+         #shouldn't be able to get stages or finish stages if the participant is finished the study
+         self.perform_and_verify_query('/public_api/get_current_stage', FailureResponse.failure_string)
+         self.perform_and_verify_query('/public_api/finish_current_stage', FailureResponse.failure_string)
+         
+         #ensure no other participant was moved inappropriately
+         self.perform_and_verify_query('/public_api/logout', SuccessResponse.success_string)
+         p2_data = {'username': 'participant_2', 'password': 'participant_2'}
+         self.perform_and_verify_query('/public_api/login', SuccessResponse.success_string, "POST", p2_data)
+         self.perform_and_verify_query('/public_api/get_current_stage', 1)
+
+
+
+
+
 
 
 

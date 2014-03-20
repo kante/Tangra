@@ -138,7 +138,12 @@ def finish_current_stage(request):
         user = request.user
         current_stages = UserStage.objects.filter(user=request.user, status=1)
         stage = current_stages[0]
-        stage.increase_stage_count()
+        
+        if stage.stage_times_completed >= stage.stage_times_total:
+            # We should not be able to finish a stage more times than specified
+            return FailureResponse()
+        else:
+            stage.increase_stage_count()
         
         return SuccessResponse()
     except:

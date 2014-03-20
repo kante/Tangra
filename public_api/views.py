@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from Tangra.studies.models import *
-from Tangra.studies.views import finish_session
 from json_responses import *
 
 
@@ -89,9 +88,49 @@ def get_current_stage(request):
 
 
 @login_required
+def finish_current_stage(request):
+    """assuming one user per study now... make things easy on ourselves for this
+    project. generalize this after we've tested it on space fortress"""
+    try:
+        user = request.user
+        current_stages = UserStage.objects.filter(user=request.user, status=1)
+        stage = current_stages[0]
+        
+        if stage.stage_times_completed >= stage.stage_times_total:
+            # We should not be able to finish a stage more times than specified
+            return FailureResponse()
+        else:
+            stage.increase_stage_count()
+        
+        return SuccessResponse()
+    except:
+        return FailureResponse()
+
+
+@login_required
 def save_data(request):
-    """TODO: this lol"""
-    return FailureResponse()
+    """Saves an arbitrary string of data for the requesting participant. The data will be 
+    associated with the current stage the participant is on.
+    
+    An arbitrary number of data points can be saved for a given stage. These are returned 
+    in a list when get_data or get_data_for_stage is called.
+    
+    POST arguments:
+        data - The string of data to save
+    """
+    
+    if request.method == 'POST':
+        data_to_save = request.POST['data']
+        # TODO: Look at this line when redesigning the underlying database
+        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
+        code = "TXT"
+        #try:
+        Data.write(study_id, request.user, datetime.datetime.now(), code, data_to_save)
+        return SuccessResponse()
+        #except:
+        #    return FailureResponse()
+    else:
+        return FailureResponse()
 
 
 @login_required
@@ -102,7 +141,9 @@ def save_data_with_key(request):
 
 @login_required
 def get_data(request):
-    """TODO: this lol"""
+    """Returns a list of all the data strings saved by the participant for their current stage."""
+    asdf
+    
     return FailureResponse()
     
 
@@ -128,30 +169,6 @@ def get_data_for_stage_and_key(request):
 def upload_file(request):
     """TODO: this lol"""
     return FailureResponse()
-
-
-@login_required
-def finish_current_stage(request):
-    """assuming one user per study now... make things easy on ourselves for this
-    project. generalize this after we've tested it on space fortress"""
-    try:
-        user = request.user
-        current_stages = UserStage.objects.filter(user=request.user, status=1)
-        stage = current_stages[0]
-        
-        if stage.stage_times_completed >= stage.stage_times_total:
-            # We should not be able to finish a stage more times than specified
-            return FailureResponse()
-        else:
-            stage.increase_stage_count()
-        
-        return SuccessResponse()
-    except:
-        return FailureResponse()
-
-
-
-
 
 
 

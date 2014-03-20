@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <study>
-    <name name_stub="tst">another_study</name>
+    <name name_stub="tst">unit_test_study</name>
     
     <description>
         This is a study used for Tangra unit testing. It's probably best not to delete it.

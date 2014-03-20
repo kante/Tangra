@@ -55,13 +55,35 @@ def logout(request):
         return FailureResponse()
 
 
+def get_current_stage_num(user):
+    """Return the current stage number for the supplied user. Note that for stages
+    with multiple completions or infinite stages, each time the stage is completed 
+    is counted as a separate stage.
+    
+    Keyword Arguments:
+        user - The Tangra participant to find the current stage for.
+    """
+    current_stages = UserStage.objects.filter(user=user, status=1)
+    old_stages = UserStage.objects.filter(user=user, status=0)
+    
+    stage_number=1
+    for stage in old_stages:
+        stage_number = stage_number + stage.stage_times_total
+
+    # assuming one user per study now... TODO: enforce this when revamping old
+    # model/database structure
+    stage = current_stages[0]
+    stage_number = stage_number + stage.stage_times_completed
+    
+    return stage_number
+
+
 @login_required
 def get_current_stage(request):
     """Return the index of the stage that the requesting user is currently on."""
     try:
-        current_stage = UserStage.objects.get(user=request.user, status=1)
-        print "ASDFASDF", current_stage
-        return NumberResponse(current_stage)
+        stage_number = get_current_stage_num(request.user)
+        return NumberResponse(stage_number)
     except:
         return FailureResponse()
 
@@ -133,24 +155,6 @@ def finish_current_stage(request):
 
 ###---------- old versions of the public api. revamping this to match the documentation now
 
-@login_required
-def get_current_stage_info(request):
-    user = request.user
-    current_stages = UserStage.objects.filter(user=request.user, status=1)
-    old_stages = UserStage.objects.filter(user=request.user, status=0)
-        
-    stage_num=1
-    for stage in old_stages:
-        stage_num = stage_num + stage.stage_times_total
-        
-        
-    # assuming one user per study now... make things easy on ourselves for this
-    # project. generalize this after we've tested it on space fortress
-    stage = current_stages[0]
-    stage_num = stage_num + stage.stage_times_completed
-    return HttpResponse("stage_name:" + stage.stage.name +
-                        ",current_stage_num:"+str(stage_num) +
-                        ",stage_custom_data:" + str(stage.custom_data))
 
 
 @login_required

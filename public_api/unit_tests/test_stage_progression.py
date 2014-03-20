@@ -33,6 +33,6 @@ class StudyProgressionTestCase(TestCase):
         
         response = self.client.get('/public_api/get_current_stage')
         stage_num = json.loads(response.content)
-        self.assertEqual(stage_num, 0)
+        self.assertEqual(stage_num, 1)
 
 

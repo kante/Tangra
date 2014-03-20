@@ -20,7 +20,6 @@ urlpatterns = patterns('',
     url(r'^upload_file$', upload_file, name='upload_file'),
     
     # The older name for things. We will phase this out before wednesday.
-    url(r'^get_current_stage_info$', get_current_stage_info, name="get_current_stage_info"),
     url(r'^get_user_data$', get_user_data, name="get_user_data")
     
     

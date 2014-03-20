@@ -9,6 +9,29 @@ from Tangra.studies.models import *
 from json_responses import *
 
 
+def get_current_stage_number(user):
+    """Return the current stage number for the supplied user. Note that for stages
+    with multiple completions or infinite stages, each time the stage is completed 
+    is counted as a separate stage.
+    
+    Keyword Arguments:
+        user - The Tangra participant to find the current stage for.
+    """
+    current_stages = UserStage.objects.filter(user=user, status=1)
+    old_stages = UserStage.objects.filter(user=user, status=0)
+    
+    stage_number=1
+    for stage in old_stages:
+        stage_number = stage_number + stage.stage_times_total
+
+    # assuming one user per study now... TODO: enforce this when revamping old
+    # model/database structure
+    stage = current_stages[0]
+    stage_number = stage_number + stage.stage_times_completed
+    
+    return stage_number
+
+
 def login(request):
     """Attempt to log the specified participant or investigator into the Tangra server. 
     
@@ -54,35 +77,12 @@ def logout(request):
         return FailureResponse()
 
 
-def get_current_stage_num(user):
-    """Return the current stage number for the supplied user. Note that for stages
-    with multiple completions or infinite stages, each time the stage is completed 
-    is counted as a separate stage.
-    
-    Keyword Arguments:
-        user - The Tangra participant to find the current stage for.
-    """
-    current_stages = UserStage.objects.filter(user=user, status=1)
-    old_stages = UserStage.objects.filter(user=user, status=0)
-    
-    stage_number=1
-    for stage in old_stages:
-        stage_number = stage_number + stage.stage_times_total
-
-    # assuming one user per study now... TODO: enforce this when revamping old
-    # model/database structure
-    stage = current_stages[0]
-    stage_number = stage_number + stage.stage_times_completed
-    
-    return stage_number
-
-
 @login_required
 def get_current_stage(request):
     """Return the index of the stage that the requesting user is currently on."""
     try:
-        stage_number = get_current_stage_num(request.user)
-        return NumberResponse(stage_number)
+        stage_number = get_current_stage_number(request.user)
+        return JsonResponse(stage_number)
     except:
         return FailureResponse()
 
@@ -121,34 +121,53 @@ def save_data(request):
     
     if request.method == 'POST':
         data_to_save = request.POST['data']
-        # TODO: Look at this line when redesigning the underlying database
-        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
         code = "TXT"
-        #try:
-        Data.write(study_id, request.user, datetime.datetime.now(), code, data_to_save)
-        return SuccessResponse()
-        #except:
-        #    return FailureResponse()
+        
+        # TODO: Look at this line when redesigning the underlying database
+        # TODO: address the issue of using a request.user in some places and a User object in others
+        user = User.objects.get(username=request.user)
+        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
+        stage = get_current_stage_number(request.user)
+        
+        try:
+            Data.write(study_id, user, stage, datetime.datetime.now(), code, data_to_save)
+            return SuccessResponse()
+        except:
+            return FailureResponse()
     else:
         return FailureResponse()
 
 
 @login_required
-def save_data_with_key(request):
+def get_data(request):
+    """Returns a list of all the data strings saved by the participant for their current stage."""
+    
+    data_to_return = ["fucking wrong string man"]
+    
+    # TODO: Look at this these when redesigning the underlying database
+    # TODO: address the issue of using a request.user in some places and a User object in others
+    user = User.objects.get(username=request.user)
+    stage = get_current_stage_number(request.user)
+    study = UserStage.objects.filter(user=request.user, status=1)[0].stage.study
+    study_participant = StudyParticipant.objects.get(user=user, study=study)
+    
+    raw_user_data = Data.objects.filter(studyparticipant=study_participant)
+    print "ASDFASDF", study_participant, raw_user_data
+    
+    return JsonResponse([entry.datum for entry in raw_user_data])
+    
+    
+    #return FailureResponse()
+
+
+@login_required
+def get_data_for_stage(request):
     """TODO: this lol"""
     return FailureResponse()
 
 
 @login_required
-def get_data(request):
-    """Returns a list of all the data strings saved by the participant for their current stage."""
-    asdf
-    
-    return FailureResponse()
-    
-
-@login_required
-def get_data_for_stage(request):
+def save_data_with_key(request):
     """TODO: this lol"""
     return FailureResponse()
 

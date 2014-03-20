@@ -312,7 +312,7 @@ def get_user_data(user):
     # go over raw data and organize it in user_data dict by study name
     for datum in raw_user_data:
         the_study = datum.studyparticipant.study.name
-        next_data = {"stage":datum.stage, "stub":datum.stage_stub, "timestamp":datum.timestamp, "data":datum.datum}
+        next_data = {"stage":datum.stage, "timestamp":datum.timestamp, "data":datum.datum}
         user_data[the_study].append( next_data )
     
     # print >>sys.stderr,  user_data
@@ -342,7 +342,7 @@ def get_study_data(study, users):
              
         for datum in raw_study_data:
             the_user = datum.studyparticipant.user
-            next_data = {"stage":datum.stage, "stub":datum.stage_stub, "timestamp":datum.timestamp, "data":datum.datum}
+            next_data = {"stage":datum.stage, "timestamp":datum.timestamp, "data":datum.datum}
             study_data[the_user.username].append( next_data )
             
     return study_data

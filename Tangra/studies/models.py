@@ -68,15 +68,6 @@ class StudyParticipant(models.Model):
         #create timestamps, keep track of user modifying, etc.
         super(StudyParticipant,self).save()
     
-    def get_current_stage(self):
-        #get the current userstage object
-        try:
-            current_stage = UserStage.objects.get(user=self.user, study=self.study, status=1)
-        except UserStage.DoesNotExist:
-            current_stage = None
-        
-        return current_stage
-    
     def __unicode__(self):
         return u'%s - %s (Participant)' % (self.user,self.study)        
     
@@ -140,31 +131,25 @@ class Data(models.Model):
     
     studyparticipant = models.ForeignKey(StudyParticipant)
     stage = models.IntegerField('Stage')
-    stage_stub = models.CharField(max_length=3)
-    session = models.IntegerField('Session')
     timestamp = models.DateTimeField('Timestamp')
     datum = models.TextField('Datum')
     code = models.CharField(max_length=3)
     
     @classmethod
-    def write(cls, studyid, user, time, code, data):
+    def write(cls, studyid, user, stage, time, code, data):
         d = Data()
         d.studyparticipant = Study.objects.get(id=studyid).get_study_participant(user) 
-        astage = d.studyparticipant.get_current_stage()
-        d.stage = astage.order
-        
-        d.stage_stub = d.studyparticipant.get_current_stage().stage.stub
-        d.session = astage.sessions_completed + 1
+        d.stage = stage
         d.timestamp = time
         d.datum = data
         d.code = code        
         d.save()
     
     def __unicode__(self):
-        return u'%s,%s,%s,%s,%s,%s,%s' % (self.studyparticipant.log(), self.stage, self.stage_stub, self.session, self.format_timestamp(), self.code, self.datum)
+        return u'%s,%s,%s,%s,%s' % (self.studyparticipant.log(), self.stage, self.format_timestamp(), self.code, self.datum)
     
     def data(self):
-        return u'%s,%s,%s,%s,%s,%s,%s' % (self.studyparticipant.log(), self.stage, self.stage_stub, self.session, self.format_timestamp(), self.code, self.datum)
+        return u'%s,%s,%s,%s,%s' % (self.studyparticipant.log(), self.stage, self.format_timestamp(), self.code, self.datum)
         
     def format_timestamp(self):
         t = self.timestamp

@@ -27,8 +27,25 @@ class SingleStageTestCase(TangraTestCase):
         self.assertIsNotNone(self.participant)
     
     
+    def test_retrieve_with_no_data(self):
+        expected_data = []
+        self.perform_and_verify_query('/public_api/get_data', expected_data)
+    
+    
     def test_saving_single_string(self):
         data_to_save = {"data" : "This is a string I am saving"}
         self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
         
-        
+        expected_data = [data_to_save["data"]]
+        self.perform_and_verify_query('/public_api/get_data', expected_data)
+
+
+
+
+
+
+
+
+
+
+

@@ -18,8 +18,7 @@ class SingleStageTestCase(TestCase):
         self.client = Client()
         # first create a study to test things out
         self.response = self.client.post('/study_builder/build_study', {'study':'unit_test_study'})
-        
-        
+    
     
     
     def test_nothing(self):

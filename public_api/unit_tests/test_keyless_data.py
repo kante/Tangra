@@ -3,9 +3,10 @@ from django.test import TestCase, Client
 from Tangra.studies.models import User
 
 from ..json_responses import *
+from tangra_test_case import *
 
 
-class SingleStageTestCase(TestCase):
+class SingleStageTestCase(TangraTestCase):
     """
         Tests:
             /public_api/save_data

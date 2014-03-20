@@ -3,25 +3,15 @@ from django.test import TestCase, Client
 from Tangra.studies.models import User
 
 from ..json_responses import *
+from tangra_test_case import *
 
 
-class StudyProgressionTestCase(TestCase):
+class StudyProgressionTestCase(TangraTestCase):
     """
         Tests:
             /public_api/get_current_stage
             /public_api/finish_current_stage
     """
-    
-    
-    def perform_and_verify_query(self, url, expected_response, request_type="GET", data={}):
-        """Perform the selected query and assert that the response is as expected."""
-        if request_type == "GET":
-            response = self.client.get(url, data=data)
-        else:
-            response = self.client.post(url, data=data)
-        
-        actual_response = json.loads(response.content)
-        self.assertEqual(actual_response, expected_response)
     
     
     def verify_participants(self):

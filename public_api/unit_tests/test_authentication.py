@@ -3,9 +3,10 @@ from django.test import TestCase, Client
 from Tangra.studies.models import User
 
 from ..json_responses import *
+from tangra_test_case import *
 
 
-class LoginTestCase(TestCase):
+class LoginTestCase(TangraTestCase):
     """
         Tests:
             /public_api/login
@@ -16,21 +17,6 @@ class LoginTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         User.objects.create_user(username="spungo", email="spungo@jibblies.com", password="jibblies")
-        
-    
-    
-    def assert_user_is_logged_in(self, user, session):
-        """Asserts that the supplied user is logged in based on the supplied session."""
-        self.assertIn('_auth_user_id', session)   
-        self.assertEqual(session['_auth_user_id'], user.pk)
-    
-    
-    def assert_user_is_logged_out(self, user, session):
-        """Asserts that the supplied user is logged out based on the supplied session."""
-        if '_auth_user_id' in session:
-            self.assertEqual(session['_auth_user_id'], user.pk)
-        else:
-            self.assertTrue(True)
     
     
     def test_login_invalid_user(self):

@@ -103,11 +103,6 @@ INSTALLED_APPS = (
     
     # User generated studies are dropped in this directory
     'user_studies',
-    
-
-    # Libraries
-#   'lockdown',
-
 )
 
 

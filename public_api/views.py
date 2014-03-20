@@ -70,13 +70,16 @@ def finish_current_stage(request):
     project. generalize this after we've tested it on space fortress"""
     user = request.user
     current_stages = UserStage.objects.filter(user=request.user, status=1)
-    stage = current_stages[0]
-    
-    if stage.stage_times_completed >= stage.stage_times_total:
-        # We should not be able to finish a stage more times than specified
+    if len(current_stages) == 0:
+        # We should not be able to finish a nonexisting stage
         return FailureResponse()
-    else:
-        stage.increase_stage_count()
+    
+    stage = current_stages[0]
+    if stage.stage_times_completed >= stage.stage_times_total:
+        # We should not be able to finish a nonexisting stage or finish a stage more times than specified
+        return FailureResponse()
+    
+    stage.increase_stage_count()
     
     return SuccessResponse()
     

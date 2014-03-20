@@ -1,4 +1,3 @@
-
 from django.test import TestCase, Client
 
 from Tangra.studies.models import User

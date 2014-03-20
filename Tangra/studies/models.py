@@ -3,7 +3,29 @@ from django.contrib.auth.models import User
 import datetime
 from operator import attrgetter
 
-# TODO: determine if removing all the tinymce.HTML fields made a difference/problem
+
+def get_current_stage_number(user):
+    """Return the current stage number for the supplied user. Note that for stages
+    with multiple completions or infinite stages, each time the stage is completed 
+    is counted as a separate stage.
+    
+    Keyword Arguments:
+        user - The Tangra participant to find the current stage for.
+    """
+    current_stages = UserStage.objects.filter(user=user, status=1)
+    old_stages = UserStage.objects.filter(user=user, status=0)
+    
+    stage_number=1
+    for stage in old_stages:
+        stage_number = stage_number + stage.stage_times_total
+
+    # assuming one user per study now... TODO: enforce this when revamping old
+    # model/database structure
+    stage = current_stages[0]
+    stage_number = stage_number + stage.stage_times_completed
+    
+    return stage_number
+
 
 class Study(models.Model):
     name = models.CharField('Study Name', max_length=300)
@@ -191,7 +213,10 @@ class UserStage(models.Model):
     def session_completed(self):
         self.sessions_completed += 1
         self.last_session_completed = datetime.datetime.now()
-        Data.write(self.study.id, self.user, self.last_session_completed, "SSC", "Session Completed")
+        
+        stage_number = get_current_stage_number(self.user)
+        Data.write(self.study.id, self.user, stage_number, self.last_session_completed, "SSC", "Stage Completed")
+        
         if self.sessions_completed == self.stage.sessions:
             #this stage is finished
             self.status = 0

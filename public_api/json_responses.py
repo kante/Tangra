@@ -16,11 +16,23 @@ class JsonResponse(HttpResponse):
         super(JsonResponse, self).__init__(json.dumps(obj), content_type="application/json")
 
 
+class NumberResponse(JsonResponse):
+    """
+        The NumberResponse is a json response object that contains a single json encoded number.
+    """
+    
+    
+    def __init__(self, number):
+        """Create a default HttpResponse subclass for communicating a Tangra failure."""
+        super(NumberResponse, self).__init__(number)
+
+
 class FailureResponse(JsonResponse):
     """
         The FailureResponse is a json response object that contains the single json string 'SUCCESS'
     """
     failure_string = "FAILURE"
+    
     
     def __init__(self):
         """Create a default HttpResponse subclass for communicating a Tangra failure."""
@@ -32,6 +44,7 @@ class SuccessResponse(JsonResponse):
         The SuccessResponse is a json response object that contains the single json string 'SUCCESS'
     """
     success_string = "SUCCESS"
+    
     
     def __init__(self):
         """Create a default HttpResponse subclass for communicating a Tangra success."""

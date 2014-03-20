@@ -20,12 +20,12 @@ def login(request):
     Requires:
         request is a POST request.
     """
-    try:
+    try:        
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
-        
+            
             if user is not None:
                 if user.is_active:
                     # Correct password, and the user is marked "active"
@@ -57,8 +57,13 @@ def logout(request):
 
 @login_required
 def get_current_stage(request):
-    """TODO: this lol"""
-    return FailureResponse()
+    """Return the index of the stage that the requesting user is currently on."""
+    try:
+        current_stage = UserStage.objects.get(user=request.user, status=1)
+        print "ASDFASDF", current_stage
+        return NumberResponse(current_stage)
+    except:
+        return FailureResponse()
 
 
 @login_required

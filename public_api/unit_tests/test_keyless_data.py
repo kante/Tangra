@@ -5,15 +5,21 @@ from Tangra.studies.models import User
 from ..json_responses import *
 
 
-class LoginTestCase(TestCase):
+class SingleStageTestCase(TestCase):
     """
-        A class for testing the login/logout system.
+        Tests:
+            /public_api/save_data
+            /public_api/get_data
+            /public_api/get_data_for_stage
     """
     
     
     def setUp(self):
         self.client = Client()
-        User.objects.create(username="spungo", password="jibblies")
+        # first create a study to test things out
+        self.response = self.client.post('/study_builder/build_study', {'study':'unit_test_study'})
+        
+        
     
     
     def test_nothing(self):

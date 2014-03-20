@@ -7,7 +7,9 @@ from ..json_responses import *
 
 class LoginTestCase(TestCase):
     """
-        A class for testing the login/logout system.
+        Tests:
+            /public_api/login
+            /public_api/logout
     """
     
     

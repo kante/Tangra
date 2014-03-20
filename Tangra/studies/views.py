@@ -143,19 +143,6 @@ def finish_infinite_session(request):
     return HttpResponseRedirect('/study/0/'+str(study_id))
 
 
-# def cheat_finish_session(request):
-#     study_id = request.GET['study_id']
-#     study = Study.objects.get(id=study_id)
-# 
-#     studypart = StudyParticipant.objects.get(study=study,user=request.GET['user_id'])
-#     #stage = studypart.get_current_stage()
-#     stage = UserStage.objects.get(user=request.user, study=study, status=1)
-#     stage.session_completed()
-# 
-#     return HttpResponseRedirect('/study/0/'+str(study_id))
-
-
-
 @login_required
 def save_post_data(request):
     """Saves arbitrary POST data from a user stage and responds with a 

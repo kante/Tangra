@@ -203,6 +203,8 @@ def save_data_with_key(request):
 def get_data_for_key(request):
     """Returns the string saved for the supplied key in the participant's current stage, or 
     a FailureResponse if no data was saved for the supplied key.
+
+    TODO: finish documentation omg
     """
 
     if request.method == 'POST':
@@ -226,10 +228,34 @@ def get_data_for_key(request):
         return FailureResponse()
 
 
-
 @login_required
 def get_data_for_stage_and_key(request):
-    """TODO: this lol"""
+    """Returns the string saved for the supplied key in the participant's current stage, or 
+    a FailureResponse if no data was saved for the supplied key.
+
+    TODO: finish documentation omg
+    """
+
+    if request.method == 'POST':
+        key = request.POST['key']
+        stage_number = request.post['stage']
+
+
+        # TODO: Look at this line when redesigning the underlying database
+        # TODO: address the issue of using a request.user in some places and a User object in others
+        user = User.objects.get(username=request.user)
+        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
+        study_participant = StudyParticipant.objects.get(user=user, study=study_id)
+
+        try:
+            data = Data.objects.get(studyparticipant=study_participant, stage=stage_number, key=key)
+            return JsonResponse(data.datum)
+        except Data.DoesNotExist:
+            return FailureResponse() # TODO: really need to make the return value more powerful... blargh
+        #except:
+        #    return FailureResponse()
+    else:
+        return FailureResponse()
     return FailureResponse()
 
 

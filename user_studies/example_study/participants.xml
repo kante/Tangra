@@ -2,11 +2,11 @@
 
 <participants>
 
-	<user name="user_1" password="pass1"/>
-	<user name="user_2" password="pass2"/>
-	<user name="user_3" password="pass3"/>
-	<user name="user_4" password="pass4"/>
-	<user name="user_5" password="pass5"/>
+	<user name="user_1" password="pass_1"/>
+	<user name="user_2" password="pass_2"/>
+	<user name="user_3" password="pass_3"/>
+	<user name="user_4" password="pass_4"/>
+	<user name="user_5" password="pass_5"/>
 </participants>
 
 

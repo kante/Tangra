@@ -1,0 +1,53 @@
+<html>
+<head>
+	{% load staticfiles %}
+	<script src="{% static "js/jquery-1.7.2.min.js" %}"></script>
+
+	<script>
+		function do_tangra_request(url, success, failure, type, data)
+		{
+			type = type || "GET";
+			data = data || {};
+
+			$.ajax(
+						{
+		  					type:type,
+		  					url: url,
+		  					data: data,
+		  					
+		  					success : success,
+		  					error : failure
+						}
+					);
+		}
+	</script>
+</head>
+<body>
+
+
+	<script>
+		function get_current_stage_success(data)
+		{
+			$("#stage_number_div").html("YEAAAAHAHAHAH" + data)
+		}
+
+
+		function get_current_stage_failure(data)
+		{
+			$("#stage_number_div").html("booh" + data)
+		}
+
+		do_tangra_request(	"/public_api/get_current_stage", 
+							get_current_stage_success, 
+							get_current_stage_failure
+						 );
+	</script>
+
+	<div id="stage_number_div">
+		Loading stage number.
+	</div>
+
+
+
+</body>
+</html>

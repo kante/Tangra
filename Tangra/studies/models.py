@@ -161,15 +161,17 @@ class Data(models.Model):
     timestamp = models.DateTimeField('Timestamp')
     datum = models.TextField('Datum')
     code = models.CharField(max_length=3)
-    
+    key = models.TextField("")
+
     @classmethod
-    def write(cls, studyid, user, stage, time, code, data):
+    def write(cls, studyid, user, stage, time, code, data, key=""):
         d = Data()
         d.studyparticipant = Study.objects.get(id=studyid).get_study_participant(user) 
         d.stage = stage
         d.timestamp = time
         d.datum = data
-        d.code = code        
+        d.code = code
+        d.key = key  
         d.save()
     
     def __unicode__(self):

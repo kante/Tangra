@@ -116,22 +116,29 @@ def save_data(request):
         return FailureResponse()
 
 
+
+def get_data_for_user_and_stage_number(user, stage_number):
+    """Returns a list of all data entries associated with the supplied user and stage number."""
+
+    # TODO: Look at this these when redesigning the underlying database
+    # TODO: address the issue of using a request.user in some places and a User object in others
+    user_object = User.objects.get(username=user)
+    study = UserStage.objects.filter(user=user, status=1)[0].stage.study
+    study_participant = StudyParticipant.objects.get(user=user_object, study=study)
+    
+    raw_user_data = Data.objects.filter(studyparticipant=study_participant, stage=stage_number)    
+    
+    return [entry.datum for entry in raw_user_data]
+
+
 @login_required
 def get_data(request):
     """Returns a list of all the data strings saved by the participant for their current stage."""
     
-    # TODO: Look at this these when redesigning the underlying database
-    # TODO: address the issue of using a request.user in some places and a User object in others
-    user = User.objects.get(username=request.user)
-    stage = get_current_stage_number(request.user)
-    study = UserStage.objects.filter(user=request.user, status=1)[0].stage.study
-    study_participant = StudyParticipant.objects.get(user=user, study=study)
-    
-    raw_user_data = Data.objects.filter(studyparticipant=study_participant)    
-    
-    return JsonResponse([entry.datum for entry in raw_user_data])
-    
+    stage_number = get_current_stage_number(request.user)
+    raw_data = get_data_for_user_and_stage_number(request.user, stage_number)
 
+    return JsonResponse(raw_data)
 
 
 @login_required
@@ -142,21 +149,11 @@ def get_data_for_stage(request):
         stage - The stage to query for previously submitted data.
     """
     
-    stage = request.POST['stage']
-    
-    user = User.objects.get(username=request.user)
-    stage_number = get_current_stage_number(request.user)
-    
-    asdfasdfASDFSADF ASDFasdfsafufkc
-    
-    study = get_study_object_for_stage_number(request.user)
-    #study = UserStage.objects.filter(user=request.user, status=1)[0].stage.study
-    
-    study_participant = StudyParticipant.objects.get(user=user, study=study)
-    
-    raw_user_data = Data.objects.filter(studyparticipant=study_participant)    
-    
-    return JsonResponse([entry.datum for entry in raw_user_data])
+    stage_number = request.POST['stage']
+    raw_data = get_data_for_user_and_stage_number(request.user, stage_number)
+
+    return JsonResponse(raw_data)
+
 
 
 @login_required

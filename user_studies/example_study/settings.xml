@@ -22,32 +22,35 @@
 		important in this section)
 	-->
 	<all_stages>
-		<stage directory="welcome_page"/>
-		<stage directory="simple_task"/>
-		<stage directory="bye_page"/>
+		<stage directory="stage_1"/>
+		<stage directory="stage_2"/>
+		<stage directory="stage_3"/>
 	</all_stages>
 
 
 	<!-- One entry for each distinct group in the study -->
 	<all_groups>
-		<group name="groupA">
-			<user name="bob"/>
-			<user name="jill"/>
-			<user name="ms_y"/>
+		<group name="group_A">
+			<user name="user_1"/>
+			<user name="user_2"/>
+			<user name="user_3"/>
+
 			<!-- List the stages you want included in this group IN ORDER -->
 			<stages>
-				<stage directory="welcome_page"/>
-				<stage directory="simple_task"/>
-				<stage directory="bye_page"/>
+				<stage directory="stage_1"/>
+				<stage directory="stage_2"/>
+				<stage directory="stage_3"/>
 			</stages>
 		</group>
 
-		<group name="groupB">
-			<user name="dr_z"/>
-		
+		<group name="group_B">
+			<user name="user_4"/>
+			<user name="user_5"/>
+
 			<stages>
-				<stage directory="simple_task"/>
-				<stage directory="bye_page"/>
+				<stage directory="stage_3"/>
+				<stage directory="stage_2"/>
+				<stage directory="stage_1"/>
 			</stages>
 		</group>
 	</all_groups>

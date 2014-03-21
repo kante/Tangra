@@ -218,8 +218,7 @@ class UserStage(models.Model):
     def session_completed(self):
         stage_number = get_current_stage_number(self.user)
         self.last_session_completed = datetime.datetime.now()
-        Data.write(self.study.id, self.user, stage_number, self.last_session_completed, "SSC", "Stage Completed")
-        
+       
         self.sessions_completed += 1
         if self.sessions_completed == self.stage.sessions:
             #this stage is finished

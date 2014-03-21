@@ -5,6 +5,9 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+import os 
+
+from Tangra import settings
 from Tangra.studies.models import *
 from json_responses import *
 
@@ -66,8 +69,11 @@ def get_current_stage(request):
 
 @login_required
 def finish_current_stage(request):
-    """assuming one user per study now... make things easy on ourselves for this
-    project. generalize this after we've tested it on space fortress"""
+    """Marks the current stage as complete on the Tangra server.
+
+    This assumes 1 study per user, which is not currently enforced. We need TODO
+    this in the redesign of the core data model.
+    """
     user = request.user
     current_stages = UserStage.objects.filter(user=request.user, status=1)
     if len(current_stages) == 0:
@@ -259,11 +265,50 @@ def get_data_for_stage_and_key(request):
     return FailureResponse()
 
 
+def handle_upload(self, uploaded, filename, raw_data, *args, **kwargs):
+    try:
+        if raw_data:
+            # File was uploaded via ajax, and is streaming in.
+            chunk = uploaded.read(self.BUFFER_SIZE)
+            while len(chunk) > 0:
+                self.upload_chunk(chunk, *args, **kwargs)
+                chunk = uploaded.read(self.BUFFER_SIZE)
+        else:
+            # File was uploaded via a POST, and is here.
+            for chunk in uploaded.chunks():
+                self.upload_chunk(chunk, *args, **kwargs)
+        return True
+    except:
+        # things went badly.
+        return False
+
+
+def handle_uploaded_file(uploaded_file, user):
+    dir_path = os.path.join(settings.USER_FILES, user)
+    
+    # create user's file directory if it does not exist
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    
+    file_path = os.path.join(dir_path, uploaded_file.name)
+
+    with open(file_path, 'wb+') as destination:
+        for chunk in uploaded_file.chunks():
+            destination.write(chunk)
+
+
 @login_required
 def upload_file(request):
-    """TODO: this lol"""
-    return FailureResponse()
+    """Upload a file to the participant's data directory.
 
+    POST Arguments:
+
+    """
+    if request.method == 'POST':
+        handle_uploaded_file(request.FILES['file'], request.user.username)
+        return SuccessResponse()
+    else:
+        return FailureResponse()
 
 
 

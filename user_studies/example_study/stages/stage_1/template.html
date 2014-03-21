@@ -1,51 +1,69 @@
 <html>
 <head>
-	{% load staticfiles %}
-	<script src="{% static "js/jquery-1.7.2.min.js" %}"></script>
 
-	<script>
-		function do_tangra_request(url, success, failure, type, data)
-		{
-			type = type || "GET";
-			data = data || {};
-
-			$.ajax(
-						{
-		  					type:type,
-		  					url: url,
-		  					data: data,
-		  					
-		  					success : success,
-		  					error : failure
-						}
-					);
-		}
-	</script>
+    {% load staticfiles %}
+    <script src="{% static "js/jquery-1.7.2.min.js" %}"></script>
+    <link href="{% static "example_study/css/style.css" %}" type="text/css" rel="stylesheet" />
+    
 </head>
 <body>
 
+<!-- Obtaining current stage. -->
+<script>
+    $.ajax({
+                type:"GET",
+                url: "/public_api/get_current_stage",
+                data: {},
+                success : function(data) { $("#stage_number_div").html("This is stage number: " + data) },
+                error : function(data) { $("#stage_number_div").html("ERROR: " + data) }
+            });
+</script>
+<div id="stage_number_div">
+    Loading stage number...
+</div>
 
-	<script>
-		function get_current_stage_success(data)
-		{
-			$("#stage_number_div").html("YEAAAAHAHAHAH" + data)
-		}
+
+<!-- saving some data -->
+<script>
+    function save_data()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/save_data",
+                    data: {"data" : $("#data").val()},
+                    success : function(data) { $("#submit_button").html("Data saved. Click to save more data") },
+                    error : function(data) { $("#finish_div").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+    Data to Save: <input id="data" type="text" name="data" value="Your data."><br>
+    <div id="submit_button" onclick="javascript:return save_data();">
+        Click here to save data.
+    </div>
+</div> 
 
 
-		function get_current_stage_failure(data)
-		{
-			$("#stage_number_div").html("booh" + data)
-		}
 
-		do_tangra_request(	"/public_api/get_current_stage", 
-							get_current_stage_success, 
-							get_current_stage_failure
-						 );
-	</script>
+<!-- finishing a stage -->
+<script>
+    function finish_stage()
+    {
+        $.ajax({
+                    type:"GET",
+                    url: "/public_api/finish_current_stage",
+                    data: {},
+                    success : function(data) { window.location = "/study" },
+                    error : function(data) { $("#finish_div").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="finish_div" onclick="javascript:finish_stage();">
+    Press here to finish this stage!
+</div>
 
-	<div id="stage_number_div">
-		Loading stage number.
-	</div>
+
+
 
 
 

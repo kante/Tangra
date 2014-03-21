@@ -156,6 +156,27 @@ def get_data_for_stage(request):
 
 
 
+def get_data_object(username, stage_number, key=""):
+    """Returns a Data object for the given user, stage and key. If no data object exists, this
+    function returns None.
+
+    Keyword Arguments:
+        username - the username of the participant to retrieve data for.
+        stage_number - The stage number associated with the requested data
+        key - the key associated with the requested data
+    """
+    # TODO: address the issue of using a request.user in some places and a User object in others
+    user = User.objects.get(username=username)
+    study_id = UserStage.objects.filter(user=username, status=1)[0].stage.study.id
+    study_participant = StudyParticipant.objects.get(user=user, study=study_id)
+
+    try:
+        data = Data.objects.get(studyparticipant=study_participant, stage=stage_number, key=key) 
+        return data
+    except Data.DoesNotExist:
+        return None
+
+
 @login_required
 def save_data_with_key(request):
     """Saves an arbitrary string of data for the requesting participant. The data will be 
@@ -169,22 +190,16 @@ def save_data_with_key(request):
         data - The string of data to save.
         key - The key to associate with data.
     """
-
     if request.method == 'POST':
         data_to_save = request.POST['data']
         key = request.POST['key']
         
-        # TODO: Look at this line when redesigning the underlying database
-        # TODO: address the issue of using a request.user in some places and a User object in others
-        user = User.objects.get(username=request.user)
-        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
-        stage_number = get_current_stage_number(request.user)
-        study_participant = StudyParticipant.objects.get(user=user, study=study_id)
-
-        try:
-            data = Data.objects.get(studyparticipant=study_participant, stage=stage_number, key=key) 
-        except Data.DoesNotExist:
-            data = Data(studyparticipant=study_participant, stage=stage_number, key=key)
+        data = get_data_object(request.user, get_current_stage_number(request.user), key)
+        if data == None:
+            user = User.objects.get(username=request.user)
+            study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
+            study_participant = StudyParticipant.objects.get(user=user, study=study_id)
+            data = Data(studyparticipant=study_participant, stage=get_current_stage_number(request.user), key=key)
         
         data.code = "TXT"
         data.timestamp = datetime.datetime.now()
@@ -206,22 +221,14 @@ def get_data_for_key(request):
 
     TODO: finish documentation omg
     """
-
     if request.method == 'POST':
         key = request.POST['key']
         
-        # TODO: Look at this line when redesigning the underlying database
-        # TODO: address the issue of using a request.user in some places and a User object in others
-        user = User.objects.get(username=request.user)
-        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
-        stage_number = get_current_stage_number(request.user)
-        study_participant = StudyParticipant.objects.get(user=user, study=study_id)
-
-        try:
-            data = Data.objects.get(studyparticipant=study_participant, stage=stage_number, key=key)
+        data = get_data_object(request.user, get_current_stage_number(request.user), key)
+        if data == None:
+            return FailureResponse()
+        else:
             return JsonResponse(data.datum)
-        except Data.DoesNotExist:
-            return FailureResponse() # TODO: really need to make the return value more powerful... blargh
         #except:
         #    return FailureResponse()
     else:
@@ -240,18 +247,11 @@ def get_data_for_stage_and_key(request):
         key = request.POST['key']
         stage_number = request.post['stage']
 
-
-        # TODO: Look at this line when redesigning the underlying database
-        # TODO: address the issue of using a request.user in some places and a User object in others
-        user = User.objects.get(username=request.user)
-        study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
-        study_participant = StudyParticipant.objects.get(user=user, study=study_id)
-
-        try:
-            data = Data.objects.get(studyparticipant=study_participant, stage=stage_number, key=key)
+        data = get_data_object(request.user, stage_number, key)
+        if data == None:
+            return FailureResponse()
+        else:
             return JsonResponse(data.datum)
-        except Data.DoesNotExist:
-            return FailureResponse() # TODO: really need to make the return value more powerful... blargh
         #except:
         #    return FailureResponse()
     else:

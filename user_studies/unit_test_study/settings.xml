@@ -26,6 +26,7 @@
         important in this section)
     -->
     <all_stages>
+        <!-- 20 stages in total, stage_3 is repeated 18 times -->
         <stage directory="stage_1"/>
         <stage directory="stage_2"/>
         <stage directory="stage_3"/>

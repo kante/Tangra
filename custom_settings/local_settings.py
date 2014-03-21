@@ -2,7 +2,7 @@ import os
 
 
 # This must point to the Tangra directory on your server
-ROOT_PATH = os.path.join(os.path.dirname(__file__), os.path.pardir)
+ROOT_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 
 # The place to serve static files from. STATIC_ROOT is where collectstatic dumps them from
@@ -17,7 +17,7 @@ STATICFILES_DIRS = (
 
 
 # This is the directory where Tangra will store all user generated/uploaded files
-USER_FILES = "../media/user_files/"
+USER_FILES = os.path.join(ROOT_PATH, "media/user_files/")
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '4=ic*0&yk7rh@zyxbrq*-+&i9tqj16j%m4@0sbwe%plxw(%%3b'

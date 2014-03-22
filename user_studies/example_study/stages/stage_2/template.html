@@ -44,30 +44,30 @@
     }   
 </script>
 <div id="data_input_div">
-    Data to Save: <input id="data" type="text" name="data" value="Your data."><br>
+    Data to Save: <input id="data" type="text" name="data" value="Stage 2 data!"><br>
     <div id="submit_button" onclick="javascript:return save_data();">
-        Click here to save data.
+        Click here to save data for this stage.
     </div>
 </div> 
 
+<br>
 
 <!-- saving some data -->
 <script>
     function get_data()
     {
         $.ajax({
-                    type:"POST",
-                    url: "/public_api/save_data",
-                    data: {"data" : $("#data").val()},
-                    success : function(data) { $("#submit_button").html("Data saved. Click to save more data") },
-                    error : function(data) { $("#key_button").html("Finish failed. Press to try again.") }
+                    type:"GET",
+                    url: "/public_api/get_data",
+                    data: {},
+                    success : function(data) { alert("Your data was: " + data) },
+                    error : function(data) { $("#key_button").html("Get data failed. Press to try again.") }
                 });
     }   
 </script>
 <div id="data_input_div">
-    Data to Save: <input id="data" type="text" name="data" value="Your data."><br>
-    <div id="submit_button" onclick="javascript:return save_data();">
-        Click here to save data.
+    <div id="submit_button" onclick="javascript:return get_data();">
+        Click here to get data for this stage.
     </div>
 </div> 
 
@@ -86,15 +86,15 @@
     }   
 </script>
 <div id="data_input_div">
-    Stage to get old data for: <input id="keyless_stage" type="text" value="1"><br>
+    Get data for stage: <input id="keyless_stage" type="text" value="1"><br>
     <div id="submit_button" onclick="javascript:return get_data_for_stage();">
-        Click here to get the data.
+        Click here to get data for the stage entered above.
     </div>
 </div> 
 
 
 
-
+<br><br>
 
 
 <!-- saving some data with a key -->
@@ -115,6 +115,52 @@
     Key for data: <input id="key" type="text" name="key" value="My Key"><br>
     <div id="key_button" onclick="javascript:return save_data_with_key();">
         Click here to save data with a key.
+    </div>
+</div> 
+
+<br>
+
+<!-- saving some data -->
+<script>
+    function get_data_for_key()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/get_data_for_key",
+                    data: {"key": $("#key_get").val()},
+                    success : function(data) { alert("Your data was: " + data) },
+                    error : function(data) { $("#key_get_button").html("Get data failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+	Get data for key: <input id="key_get" type="text" value="My Key"><br>
+    <div id="key_get_button" onclick="javascript:return get_data_for_key();">
+        Click here to get data for this key.
+    </div>
+</div> 
+
+
+<!-- getting data for a given stage some data -->
+<script>
+    function get_data_for_stage_and_key()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/get_data_for_stage_and_key",
+                    data: {"stage" : $("#key_stage").val(), "key": $("#key_get2").val()},
+                    success : function(data) { alert("Your data was: " + data) },
+                    error : function(data) { $("#key_stage_button").html("Get data failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+    Get data for key: <input id="key_get2" type="text" value="My Key" size="10">
+    and stage: <input id="key_stage" type="text" value="1" size="4">
+
+    <br>
+    <div id="key_stage_button" onclick="javascript:return get_data_for_stage_and_key();">
+        Click here to get data for this key and stage.
     </div>
 </div> 
 

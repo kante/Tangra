@@ -113,11 +113,11 @@ def save_data(request):
         study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
         stage = get_current_stage_number(request.user)
         
-        #try:
-        Data.write(study_id, user, stage, datetime.datetime.now(), code, data_to_save)
-        return SuccessResponse()
-        #except:
-        #    return FailureResponse()
+        try:
+            Data.write(study_id, user, stage, datetime.datetime.now(), code, data_to_save)
+            return SuccessResponse()
+        except:
+            return FailureResponse()
     else:
         return FailureResponse()
 

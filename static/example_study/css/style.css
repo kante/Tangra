@@ -36,10 +36,10 @@ div
 	font-size:25px;
 }
 
-#finish_div, #submit_button, #key_button
+#finish_div, #submit_button, #key_button, #key_get_button, #key_stage_button
 {
 	background-color: green;
-	width:400px;
+	width:450px;
 
 	cursor:pointer;
 }

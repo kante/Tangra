@@ -1,7 +1,69 @@
 <html>
+<head>
+
+    {% load staticfiles %}
+    <script src="{% static "js/jquery-1.7.2.min.js" %}"></script>
+    <link href="{% static "example_study/css/style.css" %}" type="text/css" rel="stylesheet" />
+    
+</head>
 <body>
-	BYE
-	
-	<a href="/study"> go back to studies page </a>
+
+<!-- Obtaining current stage. -->
+<script>
+    $.ajax({
+                type:"GET",
+                url: "/public_api/get_current_stage",
+                data: {},
+                success : function(data) { $("#stage_number_div").html("This is stage number: " + data) },
+                error : function(data) { $("#stage_number_div").html("ERROR: " + data) }
+            });
+</script>
+<div id="stage_number_div">
+    Loading stage number...
+</div>
+
+
+<br><br><br>
+
+<div id="instructions">
+    Use the form below to upload a file to the Tangra server. 
+    <br><br>
+    You won't be able to see the file as a 
+    participant, but if you log in as an investigator you can download the file associated with 
+    this user
+</div>
+
+
+<!-- uploading a file. Note: this does not work in IE versions < 9. Oh well. -->
+<script>
+    function upload_file()
+    {
+        var formData = new FormData($('#submit_file_form')[0]);
+
+        $.ajax({
+                   url: '/public_api/upload_file',
+                   data: formData,
+                   async: false,
+                   contentType: false,
+                   processData: false,
+                   cache: false,
+                   type: 'POST',
+                   success: function(data) {alert("Your file has been uploaded." ) },
+                   failure: function(data) {alert("There was an error uploading your file.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+    <form id="submit_file_form">
+        Select file to upload:  <input type="file" name="file" size="chars"> <br>
+        <div id="submit_button" onclick="javascript:return upload_file();">
+            Click here to upload this file.
+        </div>
+    </form>
+</div> 
+
+<br>
+
+
 </body>
 </html>

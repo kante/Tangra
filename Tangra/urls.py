@@ -23,10 +23,10 @@ urlpatterns = patterns('',
     url(r'^user_studies/', include('user_studies.urls')),
     
     # Video conferencing test 
-    url(r'^video_conferencing/', include('Tangra.investigator.video_conferencing.urls')),
+    url(r'^video_conferencing/', include('video_conferencing.urls')),
     
     # New investigator interface
-    url(r'^investigator/', include('Tangra.investigator.urls')),
+    url(r'^investigator/', include('investigator.urls')),
     
     # All the functions required to run a study are in here
     url(r'^public_api/', include('public_api.urls')),

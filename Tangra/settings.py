@@ -13,9 +13,7 @@ sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH,".")))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SESSION_COOKIE_AGE = 1209600
-ADMINS = (
-    ('Dr. D', 'dr_d@dr_d.com'),
-)
+
 MANAGERS = ADMINS
 
 
@@ -94,6 +92,12 @@ INSTALLED_APPS = (
     'Tangra.studies',
     # Classes used to extend the basic django User model
     'Tangra.users',
+    
+    # Everything needed for investigators to keep track of a study
+    'investigator',
+
+    # Video conferencing functionality
+    'video_conferencing',
     
     # The basic functionality needed to step through a study. Used by Tangra native and external studies
     'public_api',

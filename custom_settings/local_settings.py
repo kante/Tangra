@@ -37,5 +37,6 @@ DATABASES = {
     }
 }
 
-# ???
-LOCKDOWN_PASSWORD = ('jetta')
+ADMINS = (
+    ('Dr. D', 'dr_d@dr_d.com'),
+)

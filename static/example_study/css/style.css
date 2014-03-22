@@ -13,9 +13,8 @@ div
 }
 
 
-#finish_div, #stage_number_div, #data_input_div
+#finish_div, #stage_number_div, #data_input_div, #key_input_div, #instructions
 {
-	height:50px;
 	width:500px;
 	margin-bottom:10px;
 
@@ -24,8 +23,20 @@ div
 	padding:5px;
 }
 
+#stage_number_div
+{
+	font-size:35px;
+	width:600px;
+}
 
-#finish_div, #submit_button
+#instructions
+{
+	width:800px;
+	border:none;
+	font-size:25px;
+}
+
+#finish_div, #submit_button, #key_button
 {
 	background-color: green;
 	width:400px;

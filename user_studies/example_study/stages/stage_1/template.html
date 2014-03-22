@@ -23,6 +23,13 @@
 </div>
 
 
+<br><br><br>
+
+<div id="instructions">
+    Save some data using the inputs below. You will be able to retrieve this data in the
+    in the next stage (after you press the button at the bottom).
+</div>
+
 <!-- saving some data -->
 <script>
     function save_data()
@@ -32,7 +39,7 @@
                     url: "/public_api/save_data",
                     data: {"data" : $("#data").val()},
                     success : function(data) { $("#submit_button").html("Data saved. Click to save more data") },
-                    error : function(data) { $("#finish_div").html("Finish failed. Press to try again.") }
+                    error : function(data) { $("#key_button").html("Finish failed. Press to try again.") }
                 });
     }   
 </script>
@@ -44,6 +51,28 @@
 </div> 
 
 
+<!-- saving some data with a key -->
+<script>
+    function save_data_with_key()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/save_data_with_key",
+                    data: {"data" : $("#keyed_data").val(), "key": $("#key").val()},
+                    success : function(data) { $("#key_button").html("Data saved. Click to save more data") },
+                    error : function(data) { $("#key_button").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="key_input_div">
+    Data to Save: <input id="keyed_data" type="text" name="keyed_data" value="Your keyed data."><br>
+    Key for data: <input id="key" type="text" name="key" value="My Key"><br>
+    <div id="key_button" onclick="javascript:return save_data_with_key();">
+        Click here to save data with a key.
+    </div>
+</div> 
+
+<br><br><br><br>
 
 <!-- finishing a stage -->
 <script>

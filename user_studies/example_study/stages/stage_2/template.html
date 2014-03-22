@@ -1,6 +1,146 @@
 <html>
+<head>
+
+    {% load staticfiles %}
+    <script src="{% static "js/jquery-1.7.2.min.js" %}"></script>
+    <link href="{% static "example_study/css/style.css" %}" type="text/css" rel="stylesheet" />
+    
+</head>
 <body>
-	PAT YOUR HEAD
-	<a href="/study/fsess">then click on this link</a>
+
+<!-- Obtaining current stage. -->
+<script>
+    $.ajax({
+                type:"GET",
+                url: "/public_api/get_current_stage",
+                data: {},
+                success : function(data) { $("#stage_number_div").html("This is stage number: " + data) },
+                error : function(data) { $("#stage_number_div").html("ERROR: " + data) }
+            });
+</script>
+<div id="stage_number_div">
+    Loading stage number...
+</div>
+
+
+<br><br><br>
+
+<div id="instructions">
+    In this stage you can use the buttons below to save more data for this stage, and to retrieve data that you have saved either in this stage or in the last stage.
+</div>
+
+
+<!-- saving some data -->
+<script>
+    function save_data()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/save_data",
+                    data: {"data" : $("#data").val()},
+                    success : function(data) { $("#submit_button").html("Data saved. Click to save more data") },
+                    error : function(data) { $("#key_button").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+    Data to Save: <input id="data" type="text" name="data" value="Your data."><br>
+    <div id="submit_button" onclick="javascript:return save_data();">
+        Click here to save data.
+    </div>
+</div> 
+
+
+<!-- saving some data -->
+<script>
+    function get_data()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/save_data",
+                    data: {"data" : $("#data").val()},
+                    success : function(data) { $("#submit_button").html("Data saved. Click to save more data") },
+                    error : function(data) { $("#key_button").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+    Data to Save: <input id="data" type="text" name="data" value="Your data."><br>
+    <div id="submit_button" onclick="javascript:return save_data();">
+        Click here to save data.
+    </div>
+</div> 
+
+
+<!-- getting data for a given stage some data -->
+<script>
+    function get_data_for_stage()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/get_data_for_stage",
+                    data: {"stage" : $("#keyless_stage").val()},
+                    success : function(data) { alert("Your data was: " + data) },
+                    error : function(data) { $("#key_button").html("Get data failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="data_input_div">
+    Stage to get old data for: <input id="keyless_stage" type="text" value="1"><br>
+    <div id="submit_button" onclick="javascript:return get_data_for_stage();">
+        Click here to get the data.
+    </div>
+</div> 
+
+
+
+
+
+
+<!-- saving some data with a key -->
+<script>
+    function save_data_with_key()
+    {
+        $.ajax({
+                    type:"POST",
+                    url: "/public_api/save_data_with_key",
+                    data: {"data" : $("#keyed_data").val(), "key": $("#key").val()},
+                    success : function(data) { $("#key_button").html("Data saved. Click to save more data") },
+                    error : function(data) { $("#key_button").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="key_input_div">
+    Data to Save: <input id="keyed_data" type="text" name="keyed_data" value="Your keyed data."><br>
+    Key for data: <input id="key" type="text" name="key" value="My Key"><br>
+    <div id="key_button" onclick="javascript:return save_data_with_key();">
+        Click here to save data with a key.
+    </div>
+</div> 
+
+<br><br><br><br>
+
+<!-- finishing a stage -->
+<script>
+    function finish_stage()
+    {
+        $.ajax({
+                    type:"GET",
+                    url: "/public_api/finish_current_stage",
+                    data: {},
+                    success : function(data) { window.location = "/study" },
+                    error : function(data) { $("#finish_div").html("Finish failed. Press to try again.") }
+                });
+    }   
+</script>
+<div id="finish_div" onclick="javascript:finish_stage();">
+    Press here to finish this stage!
+</div>
+
+
+
+
+
+
 </body>
 </html>

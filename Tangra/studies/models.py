@@ -161,10 +161,10 @@ class Data(models.Model):
     timestamp = models.DateTimeField('Timestamp')
     datum = models.TextField('Datum')
     code = models.CharField(max_length=3)
-    key = models.TextField("")
+    key = models.TextField(null=True)
 
     @classmethod
-    def write(cls, studyid, user, stage, time, code, data, key=""):
+    def write(cls, studyid, user, stage, time, code, data, key=None):
         d = Data()
         d.studyparticipant = Study.objects.get(id=studyid).get_study_participant(user) 
         d.stage = stage

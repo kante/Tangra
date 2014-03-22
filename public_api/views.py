@@ -113,11 +113,11 @@ def save_data(request):
         study_id = UserStage.objects.filter(user=request.user, status=1)[0].stage.study.id
         stage = get_current_stage_number(request.user)
         
-        try:
-            Data.write(study_id, user, stage, datetime.datetime.now(), code, data_to_save)
-            return SuccessResponse()
-        except:
-            return FailureResponse()
+        #try:
+        Data.write(study_id, user, stage, datetime.datetime.now(), code, data_to_save)
+        return SuccessResponse()
+        #except:
+        #    return FailureResponse()
     else:
         return FailureResponse()
 
@@ -132,7 +132,7 @@ def get_data_for_user_and_stage_number(user, stage_number):
     study = UserStage.objects.filter(user=user, status=1)[0].stage.study
     study_participant = StudyParticipant.objects.get(user=user_object, study=study)
     
-    raw_user_data = Data.objects.filter(studyparticipant=study_participant, stage=stage_number)    
+    raw_user_data = Data.objects.filter(studyparticipant=study_participant, stage=stage_number, key=None)    
     
     return [entry.datum for entry in raw_user_data]
 

@@ -7,7 +7,6 @@ from custom_settings import *
 
 
 sys.path.insert(0, os.path.normpath(os.path.join(ROOT_PATH,".")))
-#print >>sys.stderr,  sys.path
 
 
 DEBUG = True
@@ -130,13 +129,9 @@ ADMIN_MEDIA_PREFIX = '/amedia/'
 TEMPLATE_DIRS = (
 	os.path.join(ROOT_PATH, 'Tangra/templates'),
 	os.path.join(ROOT_PATH, 'Tangra/templates/study'),
-	os.path.join(ROOT_PATH, 'Tangra/templates/study_builder'),
-	os.path.join(ROOT_PATH, 'Tangra/templates/investigator'),
 )
 
 
-# Where we store css/js/images
-#MEDIA_URL = STATIC_URL + "/media/" 
 MEDIA_URL = "/media/"
 
 ROOT_URLCONF = 'Tangra.urls'

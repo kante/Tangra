@@ -1,109 +1,81 @@
 <?xml version="1.0"?>
 
 <study>
-	<name name_stub="aim">aiming_test_study</name>
-	<description>This is an example study</description>
-	<informed_consent>You must consent or else.</informed_consent>
-	<instructions>Click a button or something.</instructions>
-	<eligibility>Can you breathe?</eligibility>
-	<reward>LOL</reward>
-	<start_date>2002-09-24</start_date>
-	<end_date>2012-12-12</end_date>
-
-
-	<!-- All users who should be able to administer the study. Investigators
-	CANNOT be participants! -->
-	<investigators>
-		<user name="dr_d" password="dr_d"/>
-	</investigators>
-
-	<!-- 
-		List the directories of all stages in your study here (order is not 
-		important in this section)
-	-->
-	<all_stages>
-	    <stage directory="consent"/>
-		<stage directory="instructions"/>
-		<stage directory="aiming_task"/>
-		<stage directory="continuation"/>
-	</all_stages>
+    <name name_stub="dem">demo_study</name>
+    <description>This is an example study</description>
+    <informed_consent>You must consent or else.</informed_consent>
+    <instructions>Click a button or something.</instructions>
+    <eligibility>Can you breathe?</eligibility>
+    <reward>LOL</reward>
+    <start_date>2002-09-24</start_date>
+    <end_date>2012-12-12</end_date>
     
-	<!-- One entry for each distinct group in the study -->
-	<all_groups>
-		<group name="groupA">
-			
-
-<user name="f100" password="123"/>
-
-<user name="f101" password="123"/>
-
-<user name="f102" password="123"/>
-
-<user name="f103" password="123"/>
-
-<user name="f104" password="123"/>
-
-<user name="f105" password="123"/>
-
-<user name="f106" password="123"/>
-
-<user name="f107" password="123"/>
-
-<user name="f108" password="123"/>
-
-<user name="f109" password="123"/>
-
-<user name="f110" password="123"/>
-
-<user name="f111" password="123"/>
-
-<user name="f112" password="123"/>
-
-<user name="f113" password="123"/>
-
-<user name="f114" password="123"/>
-
-<user name="f115" password="123"/>
-
-<user name="f116" password="123"/>
-
-<user name="f117" password="123"/>
-
-<user name="f118" password="123"/>
-
-<user name="f119" password="123"/>
-
-<user name="f120" password="123"/>
-
-<user name="f121" password="123"/>
-
-<user name="f122" password="123"/>
-
-<user name="f123" password="123"/>
-
-<user name="f124" password="123"/>
-
-<user name="f125" password="123"/>
-
-<user name="f126" password="123"/>
-
-<user name="f127" password="123"/>
-
-<user name="f128" password="123"/>
-
-<user name="f129" password="123"/>
-
+    
+    <!-- All users who should be able to administer the study. Investigators
+    CANNOT be participants! -->
+    <investigators>
+        <user name="dr_d" password="dr_d"/>
+    </investigators>
+    
+    <!-- 
+        List the directories of all stages in your study here (order is not 
+        important in this section)
+    -->
+    <all_stages>
+        <stage directory="snake"/>
+        <stage directory="tetris"/>
+        <stage directory="asteroids"/>
+    </all_stages>
+    
+    <!-- One entry for each distinct group in the study -->
+    <all_groups>
+        <group name="intervention_1">
             
-			<!-- List the stages you want included in this group IN ORDER -->
-			<stages>
-			    <stage directory="consent"/>
-				<stage directory="instructions"/>
-				<stage directory="aiming_task"/>
-				<stage directory="continuation"/>
-			</stages>
-		</group>
-	</all_groups>
-	
+            <user name="user_2"/>
+            <user name="user_4"/>
+            <user name="user_7"/>
+            <user name="user_11"/>
+            
+            <!-- List the stages you want included in this group IN ORDER -->
+            <stages>
+                <stage directory="snake"/>
+                <stage directory="tetris"/>
+                <stage directory="asteroids"/>
+            </stages>
+        </group>
+        
+        <group name="intervention_2">
+            
+            <user name="user_1"/>
+            <user name="user_5"/>
+            <user name="user_9"/>
+            <user name="user_12"/>
+            
+            <!-- List the stages you want included in this group IN ORDER -->
+            <stages>
+                <stage directory="tetris"/>
+                <stage directory="snake"/>
+                <stage directory="asteroids"/>
+            </stages>
+        </group>
+        
+        <group name="intervention_3">
+            
+            <user name="user_3"/>
+            <user name="user_6"/>
+            <user name="user_8"/>
+            <user name="user_10"/>
+            
+            <!-- List the stages you want included in this group IN ORDER -->
+            <stages>
+                <stage directory="asteroids"/>
+                <stage directory="snake"/>
+                <stage directory="tetris"/>
+            </stages>
+        </group>
+        
+    </all_groups>
+    
 </study>
 
 

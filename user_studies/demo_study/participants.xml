@@ -2,66 +2,18 @@
 
 <participants>
 
-<user name="f100" password="123"/>
-
-<user name="f101" password="123"/>
-
-<user name="f102" password="123"/>
-
-<user name="f103" password="123"/>
-
-<user name="f104" password="123"/>
-
-<user name="f105" password="123"/>
-
-<user name="f106" password="123"/>
-
-<user name="f107" password="123"/>
-
-<user name="f108" password="123"/>
-
-<user name="f109" password="123"/>
-
-<user name="f110" password="123"/>
-
-<user name="f111" password="123"/>
-
-<user name="f112" password="123"/>
-
-<user name="f113" password="123"/>
-
-<user name="f114" password="123"/>
-
-<user name="f115" password="123"/>
-
-<user name="f116" password="123"/>
-
-<user name="f117" password="123"/>
-
-<user name="f118" password="123"/>
-
-<user name="f119" password="123"/>
-
-<user name="f120" password="123"/>
-
-<user name="f121" password="123"/>
-
-<user name="f122" password="123"/>
-
-<user name="f123" password="123"/>
-
-<user name="f124" password="123"/>
-
-<user name="f125" password="123"/>
-
-<user name="f126" password="123"/>
-
-<user name="f127" password="123"/>
-
-<user name="f128" password="123"/>
-
-<user name="f129" password="123"/>
-
+    <user name="user_1" password="pass_1"/>
+    <user name="user_2" password="pass_2"/>
+    <user name="user_3" password="pass_3"/>
+    <user name="user_4" password="pass_4"/>
+    <user name="user_5" password="pass_5"/>
+    <user name="user_6" password="pass_6"/>
+    <user name="user_7" password="pass_7"/>
+    <user name="user_8" password="pass_8"/>
+    <user name="user_9" password="pass_9"/>
+    <user name="user_10" password="pass_10"/>
+    <user name="user_11" password="pass_11"/>
+    <user name="user_12" password="pass_12"/>
 
 </participants>
 

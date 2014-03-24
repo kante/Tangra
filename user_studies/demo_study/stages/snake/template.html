@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>Snake</title>
+		{% load staticfiles %}
+		<script type="text/javascript" src="{% static "demo_study/snake/jquery-1.8.2.js" %}"></script>
+		<script type="text/javascript" src="{% static "demo_study/snake/lib.js" %}"></script>
+		<script type="text/javascript" src="{% static "demo_study/snake/game.js" %}"></script>
+	</head>
+	<body style="text-align:center">
+	<canvas id="canvas" width="400" height="400" onclick="gamerun()" style="background-color:black"></canvas>
+	<p>Click the black square to begin. Use arrow keys to move.</p>
+	<p>Try to eat as many food pellets as possible without hitting the square walls or yourself.</p>
+	</body>
+</html>

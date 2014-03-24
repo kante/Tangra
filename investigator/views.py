@@ -104,7 +104,7 @@ def get_progress(user, study):
     
     colors = ["green", "orange", "grey"]
     return [
-        [colors[stage.status], stage.stage_times_completed, stage.stage_times_total] 
+        [colors[stage.status], stage.stage_times_completed, stage.stage_times_total, stage.stage.name] 
         for stage in stages
         ]
         

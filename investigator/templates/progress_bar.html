@@ -26,16 +26,17 @@
     
     <table class="inv_progress_bar">
         <tr class="inv_progress_row">
-        {% for color, completed, total in user_data.progress %}
+        {% for color, completed, total, name in user_data.progress %}
             <td style="background-color:{{ color }}; color:white; text-align: center;" class="inv_progress_block">
                 <!-- &nbsp; -->
-
-				{{ completed }} / 
+                {{ name }} (
+                                {{ completed }} / 
 								{% if total < 1 %}
 									&#8734;
 								{% else %}
 									{{ total }}
 								{% endif %}
+						)
 				
             </td>
         {% endfor %}

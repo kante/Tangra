@@ -956,7 +956,7 @@ Game = {
         paused = true;
         saving_data_now = true;
         
-        save_tangra_data(Game.score);
+        save_tangra_data("asteroids_score: " + Game.score);
         
     },
     
@@ -979,7 +979,7 @@ Game = {
       }
 
       Game.score = 0;
-      Game.lives = 0;
+      Game.lives = 2;
       Game.totalAsteroids = 2;
       Game.spawnAsteroids();
 
@@ -1234,7 +1234,7 @@ $(function () {
 
     if (paused) {
         if (saving_data_now) {
-            Text.renderText('SAVING YOUR DATA', 72, Game.canvasWidth/2 - 160, 120);
+            Text.renderText('SAVING YOUR DATA', 32, Game.canvasWidth/2 - 160, 120);
         } else {
             Text.renderText('PAUSED', 72, Game.canvasWidth/2 - 160, 120);
         }

@@ -45,7 +45,7 @@ function update() {
     
     $("#message_1").html("Saving data. please wait...");
     $("#message_2").html("");
-    window.setTimeout(function() { save_tangra_data(size) }, 1000)
+    window.setTimeout(function() { save_tangra_data("snake_score: " + size) }, 1000)
     
     
   }

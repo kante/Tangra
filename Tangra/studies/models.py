@@ -9,7 +9,10 @@ def get_current_stage_object(user):
     assuming only one study per user.
     """
     current_stages = UserStage.objects.filter(user=user, status=1)
-    return current_stages[0]
+    if len(current_stages) > 0:
+        return current_stages[0]
+    else:
+        return None
 
 
 def get_current_stage_number(user):

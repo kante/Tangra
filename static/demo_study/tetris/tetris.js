@@ -211,7 +211,7 @@ var tetris = {
 		
 		
 		$("#status_broski").html("Saving your data. Please wait...");
-		window.setTimeout(function() { alert(tetris.score);save_tangra_data(tetris.score) }, 1000)
+		window.setTimeout(function() { save_tangra_data(tetris.score) }, 1000)
 		
 	},
 

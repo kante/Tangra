@@ -24,6 +24,9 @@ def get_current_stage_number(user):
         user - The Tangra participant to find the current stage for.
     """
     current_stages = UserStage.objects.filter(user=user, status=1)
+    if len(current_stages) == 0:
+        return None
+    
     old_stages = UserStage.objects.filter(user=user, status=0)
     
     stage_number=1

@@ -10,6 +10,7 @@ import os
 from Tangra import settings
 from Tangra.studies.models import *
 from json_responses import *
+from tangra_error_codes import TangraErrorCodes
 
 
 def login(request):
@@ -35,15 +36,15 @@ def login(request):
                     return SuccessResponse(None)
                 else:
                     # DISABLED ACCOUNT
-                    return FailureResponse("Invalid username or password.")
+                    return FailureResponse(TangraErrorCodes.INVALID_CREDENTIALS)
             else:
                 # Invalid user?
-                return FailureResponse("Invalid username or password.")
+                return FailureResponse(TangraErrorCodes.INVALID_CREDENTIALS)
         else:
             # Strange request. Send them back to the start
-            return FailureResponse("Error: login requires a POST request.")
+            return FailureResponse(TangraErrorCodes.REQUIRES_POST)
     except:
-        return FailureResponse("500 Server error.")
+        return FailureResponse(TangraErrorCodes.SERVER_ERROR)
 
 
 def logout(request):
@@ -63,11 +64,12 @@ def get_current_stage(request):
     try:
         stage_number = get_current_stage_number(request.user)
         if stage_number == None:
-            return FailureResponse("Participant has finished all stages.")
+            return FailureResponse(TangraErrorCodes.INVALID_STAGE_REQUEST)
         else:
             return SuccessResponse(stage_number)
-    except:
-        return FailureResponse("500 Server error.")
+    except Exception, e:
+        raise
+        return FailureResponse(TangraErrorCodes.SERVER_ERROR)
 
 
 @login_required
@@ -81,16 +83,16 @@ def finish_current_stage(request):
     current_stages = UserStage.objects.filter(user=request.user, status=1)
     if len(current_stages) == 0:
         # We should not be able to finish a nonexisting stage
-        return FailureResponse()
+        return FailureResponse(TangraErrorCodes.INVALID_STAGE_REQUEST)
     
     stage = current_stages[0]
     if stage.stage_times_completed >= stage.stage_times_total:
         # We should not be able to finish a nonexisting stage or finish a stage more times than specified
-        return FailureResponse()
+        return FailureResponse(TangraErrorCodes.INVALID_STAGE_REQUEST)
     
     stage.increase_stage_count()
     
-    return SuccessResponse()
+    return SuccessResponse(None)
     
 
 

@@ -77,7 +77,7 @@ def finish_current_stage(request):
     """Marks the current stage as complete on the Tangra server.
 
     This assumes 1 study per user, which is not currently enforced. We need TODO
-    this in the redesign of the core data model.
+    this enforcement in the redesign of the core data model.
     """
     user = request.user
     current_stages = UserStage.objects.filter(user=request.user, status=1)

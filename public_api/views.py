@@ -120,11 +120,11 @@ def save_data(request):
         
         try:
             Data.write(study_id, user, stage, datetime.datetime.now(), code, data_to_save)
-            return SuccessResponse()
+            return SuccessResponse(None)
         except:
-            return FailureResponse()
+            return FailureResponse(TangraErrorCodes.DATABASE_ERROR)
     else:
-        return FailureResponse()
+        return FailureResponse(TangraErrorCodes.REQUIRES_POST)
 
 
 
@@ -149,7 +149,7 @@ def get_data(request):
     stage_number = get_current_stage_number(request.user)
     raw_data = get_data_for_user_and_stage_number(request.user, stage_number)
 
-    return JsonResponse(raw_data)
+    return SuccessResponse(raw_data)
 
 
 @login_required

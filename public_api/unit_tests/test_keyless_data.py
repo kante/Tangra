@@ -16,7 +16,7 @@ class KeylessDataTestCase(TangraTestCase):
         self.response = self.client.post('/study_builder/build_study', {'study':'unit_test_study'})
         
         self.credentials = {'username': 'participant_1', 'password': 'participant_1'}
-        self.perform_and_verify_query('/public_api/login', SuccessResponse.success_string, "POST", self.credentials)
+        self.perform_and_verify_query('/public_api/login', SuccessResponse(None), "POST", self.credentials)
         
         self.participant = User.objects.get(username=self.credentials['username'])
         self.assertIsNotNone(self.participant)
@@ -32,10 +32,10 @@ class MultipleStageTestCase(KeylessDataTestCase):
     
     def test_single_string_in_past_stage(self):
         data_to_save = {"data" : "This is a string I am saving"}
-        self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+        self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
         
         expected_data = [data_to_save["data"]]
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
         
         self.perform_and_verify_query('/public_api/get_current_stage', 1)
         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
@@ -136,10 +136,10 @@ class SingleStageTestCase(KeylessDataTestCase):
     
     def test_saving_single_string(self):
         data_to_save = {"data" : "This is a string I am saving"}
-        self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+        self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
         
         expected_data = [data_to_save["data"]]
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
     
     
     def test_saving_multiple_strings(self):

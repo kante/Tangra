@@ -7,6 +7,9 @@ from operator import attrgetter
 def get_current_stage_object(user):
     """Returns the current Stage object for the supplied user. Note that we are 
     assuming only one study per user.
+    
+    Keyword Arguments:
+        user - The Tangra participant to find the current Stage object for.
     """
     current_stages = UserStage.objects.filter(user=user, status=1)
     if len(current_stages) > 0:

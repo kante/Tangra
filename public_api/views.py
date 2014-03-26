@@ -53,9 +53,9 @@ def logout(request):
     
     try:
         logout(request)
-        return SuccessResponse()
+        return SuccessResponse(None)
     except:
-        return FailureResponse()
+        return FailureResponse(TangraErrorCodes.SERVER_ERROR)
 
 
 @login_required

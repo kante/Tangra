@@ -32,18 +32,18 @@ def login(request):
                 if user.is_active:
                     # Correct password, and the user is marked "active"
                     auth.login(request, user)
-                    return SuccessResponse()
+                    return SuccessResponse(None)
                 else:
                     # DISABLED ACCOUNT
-                    return FailureResponse()
+                    return FailureResponse("Invalid username or password.")
             else:
                 # Invalid user?
-                return FailureResponse()
+                return FailureResponse("Invalid username or password.")
         else:
             # Strange request. Send them back to the start
-            return FailureResponse()
+            return FailureResponse("Error: login requires a POST request.")
     except:
-        return FailureResponse()
+        return FailureResponse("500 Server error.")
 
 
 def logout(request):
@@ -62,9 +62,9 @@ def get_current_stage(request):
     """Return the index of the stage that the requesting user is currently on."""
     try:
         stage_number = get_current_stage_number(request.user)
-        return JsonResponse(stage_number)
+        return SuccessResponse(stage_number)
     except:
-        return FailureResponse()
+        return FailureResponse("500 Server error.")
 
 
 @login_required

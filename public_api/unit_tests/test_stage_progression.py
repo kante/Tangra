@@ -33,32 +33,33 @@ class StudyProgressionTestCase(TangraTestCase):
         # log participant_1 in to the Tangra server
         response = self.client.post('/public_api/login', {'username': 'participant_1', 'password': 'participant_1'})
         
-        self.assertEqual(json.loads(response.content), SuccessResponse.success_string)
+        self.assertEqual(json.loads(response.content), json.loads(SuccessResponse(None).content))
     
     
     def test_appropriate_starting_stage(self):
         """Ensure that participants are starting on the appropriate stage."""
         
         response = self.client.get('/public_api/get_current_stage')
-        stage_num = json.loads(response.content)
-        self.assertEqual(stage_num, 1)
+        actual_json_response = json.loads(response.content)
+        expected_json_response = json.loads(SuccessResponse(1).content)
+        self.assertEqual(actual_json_response, expected_json_response)
     
     
     def test_normal_stage_progression(self):
         """Ensure that participants can move through stages."""
         
         # See if participant_1 is able to move through the study
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 3)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(3))
         
         #ensure no other participant was moved inappropriately
-        self.perform_and_verify_query('/public_api/logout', SuccessResponse.success_string)
+        self.perform_and_verify_query('/public_api/logout', SuccessResponse(None))
         p2_data = {'username': 'participant_2', 'password': 'participant_2'}
-        self.perform_and_verify_query('/public_api/login', SuccessResponse.success_string, "POST", p2_data)
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
+        self.perform_and_verify_query('/public_api/login', SuccessResponse(None), "POST", p2_data)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
         
         
     def test_excessive_stage_progression(self):

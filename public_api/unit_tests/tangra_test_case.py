@@ -15,8 +15,10 @@ class TangraTestCase(TestCase):
         else:
             response = self.client.post(url, data=data)
         
-        actual_response = json.loads(response.content)
-        self.assertEqual(actual_response, expected_response)
+        actual_json_response = json.loads(response.content)
+        expected_json_response = json.loads(expected_response.content)
+        
+        self.assertEqual(actual_json_response, expected_json_response)
     
     
     def assert_user_is_logged_in(self, user, session):

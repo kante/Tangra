@@ -4,7 +4,7 @@ from Tangra.studies.models import User
 
 from ..json_responses import *
 from tangra_test_case import *
-
+from public_api.tangra_error_codes import TangraErrorCodes
 
 class StudyProgressionTestCase(TangraTestCase):
     """
@@ -66,22 +66,22 @@ class StudyProgressionTestCase(TangraTestCase):
          """Ensure that participants can't move past the last stage in a study."""
          
          # Make sure participant can move through the whole study first
-         self.perform_and_verify_query('/public_api/get_current_stage', 1)
-         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-         self.perform_and_verify_query('/public_api/get_current_stage', 2)
-         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-         self.perform_and_verify_query('/public_api/get_current_stage', 3)
-         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
+         self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+         self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
+         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+         self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(3))
+         self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
          
          #shouldn't be able to get stages or finish stages if the participant is finished the study
-         self.perform_and_verify_query('/public_api/get_current_stage', FailureResponse.failure_string)
-         self.perform_and_verify_query('/public_api/finish_current_stage', FailureResponse.failure_string)
+         self.perform_and_verify_query('/public_api/get_current_stage', FailureResponse(TangraErrorCodes.INVALID_STAGE_REQUEST))
+         self.perform_and_verify_query('/public_api/finish_current_stage', FailureResponse(TangraErrorCodes.INVALID_STAGE_REQUEST))
          
          #ensure no other participant was moved inappropriately
-         self.perform_and_verify_query('/public_api/logout', SuccessResponse.success_string)
+         self.perform_and_verify_query('/public_api/logout', SuccessResponse(None))
          p2_data = {'username': 'participant_2', 'password': 'participant_2'}
-         self.perform_and_verify_query('/public_api/login', SuccessResponse.success_string, "POST", p2_data)
-         self.perform_and_verify_query('/public_api/get_current_stage', 1)
+         self.perform_and_verify_query('/public_api/login', SuccessResponse(None), "POST", p2_data)
+         self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
 
 
 

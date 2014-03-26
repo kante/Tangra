@@ -62,7 +62,10 @@ def get_current_stage(request):
     """Return the index of the stage that the requesting user is currently on."""
     try:
         stage_number = get_current_stage_number(request.user)
-        return SuccessResponse(stage_number)
+        if stage_number == None:
+            return FailureResponse("Participant has finished all stages.")
+        else:
+            return SuccessResponse(stage_number)
     except:
         return FailureResponse("500 Server error.")
 

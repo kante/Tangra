@@ -163,7 +163,7 @@ def get_data_for_stage(request):
     stage_number = request.POST['stage']
     raw_data = get_data_for_user_and_stage_number(request.user, stage_number)
 
-    return JsonResponse(raw_data)
+    return SuccessResponse(raw_data)
 
 
 

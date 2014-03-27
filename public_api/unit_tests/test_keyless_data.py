@@ -37,88 +37,88 @@ class MultipleStageTestCase(KeylessDataTestCase):
         expected_data = [data_to_save["data"]]
         self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
         
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
         
-        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse(expected_data), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":2})
 
 
     def test_single_string_in_current_stage_none_in_past(self):
-        self.perform_and_verify_query('/public_api/get_data', [])
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse([]))
         
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
         
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":2})
 
         data_to_save = {"data" : "This is a string I am saving"}
-        self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+        self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
         expected_data = [data_to_save["data"]]
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse(expected_data), "POST", {"stage":2})
 
 
     def test_mupltiple_strings_in_current_stage_none_in_past(self):
-        self.perform_and_verify_query('/public_api/get_data', [])
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse([]))
         
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
         
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":2})
 
         data_to_save = {"data" : "This is a string I am saving"}
         expected_data = []
         for i in range(10):
-            self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+            self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
             expected_data.append(data_to_save["data"])
 
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse(expected_data), "POST", {"stage":2})
 
 
     def test_mupltiple_strings_in_past_stage_none_in_current(self):
-        self.perform_and_verify_query('/public_api/get_data', [])
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse([]))
         
         data_to_save = {"data" : "This is a string I am saving"}
         expected_data = []
         for i in range(10):
-            self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+            self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
             expected_data.append(data_to_save["data"])
-        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse(expected_data), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
 
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
         
-        self.perform_and_verify_query('/public_api/get_data', [])
-        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse([]))
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse(expected_data), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":2})
 
 
     def test_multiple_strings_in_middle_stage(self):
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
 
         data_to_save = {"data" : "This is a string I am saving"}
         expected_data = []
         for i in range(10):
-            self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+            self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
             expected_data.append(data_to_save["data"])
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 3)
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(3))
 
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', expected_data, "POST", {"stage":2})
-        self.perform_and_verify_query('/public_api/get_data_for_stage', [], "POST", {"stage":3})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse(expected_data), "POST", {"stage":2})
+        self.perform_and_verify_query('/public_api/get_data_for_stage', SuccessResponse([]), "POST", {"stage":3})
 
 
 class SingleStageTestCase(KeylessDataTestCase):
@@ -131,7 +131,7 @@ class SingleStageTestCase(KeylessDataTestCase):
     
     def test_retrieve_with_no_data(self):
         expected_data = []
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
     
     
     def test_saving_single_string(self):
@@ -144,13 +144,13 @@ class SingleStageTestCase(KeylessDataTestCase):
     
     def test_saving_multiple_strings(self):
         data_to_save = {"data" : "This is a string I am saving"}
-        self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", data_to_save)
+        self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", data_to_save)
         
         more_data = {"data" : "ERUJSADFNN848349534%#$%3453450912=0--09234][]"}
-        self.perform_and_verify_query('/public_api/save_data', SuccessResponse.success_string, "POST", more_data)
+        self.perform_and_verify_query('/public_api/save_data', SuccessResponse(None), "POST", more_data)
         
         expected_data = [data_to_save["data"], more_data["data"]]
-        self.perform_and_verify_query('/public_api/get_data', expected_data)
+        self.perform_and_verify_query('/public_api/get_data', SuccessResponse(expected_data))
 
 
 

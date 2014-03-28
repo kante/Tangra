@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+<script>
+    num_questions = 5
+</script>
+
+<script src="{% static "rural_medicine_questionairre/js/connectivity_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/submit.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/questionairre_builder.js" %}"></script>
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/questionairre_style.css" %}">
+
+	
+	<h1>Inclusion and Connectivity</h1>
+	
+	
+	<form id="shipley_form">
+
+		<div id="injury_background">
+			<!-- /Background Information -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('background_info',$(this));" class="right">
+						Background Information
+					</a>
+				</h2>
+
+				<div id='background_info'>
+					<p>
+						An inclusive and connected community is one that values all members and supports their differences.  A feeling of belonging does more than facilitate individual enjoyment and quality of life, but can be a means of increasing productivity and stability in entire townships.  Most members of rural Canadians feel a familiarity and kinship with the people with whom they share their town, with social networks being one of the most significant strategies for emotional and physical wellbeing.
+					</p>
+					<p>
+					Rural Canadians are less likely to self-report stress and low self-esteem than Canadians in urban areas, and are generally satisfied with their quality of life.  However, this belies the many individuals who feel isolated in remote communities.  The frail elderly, disabled, and impoverished are especially vulnerable to becoming detached from services and supports.  The reasons for this are multifactorial: services can be limited in rural areas, individuals live in areas that are difficult to access geographically, small communities may not have the population to support social networks for all individuals in the community, and individuals with health issues may be the only member of their community with such a condition.   Without relationships between individuals and groups, the overall health of the community decreases.
+					</p>
+					
+				</div>
+			</div>
+			<!-- /Background Information -->
+
+			<!-- References -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('goals',$(this));" class="right">
+					Goals
+					</a>
+				</h2>
+
+				<div id='goals' style="display:none;">
+					<ul>
+					    <li>Optional early identification of problems if community member is unexpectedly absent</li>
+                        <li>Inclusion policy for community event specifically welcoming individuals with a mental and physical disability</li>
+                        <li>Fully accessible community facilities</li>
+                        <li>Recreational programming for individuals with mental or physical challenge</li>
+                        <li>All municipal employees and health care providers to abide by anti-harassment policies</li>
+                    </ul>
+				</div>
+			</div>
+			<!-- /References -->
+
+
+			<!-- Goals -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('references',$(this));" class="right">
+					References
+					</a>
+				</h2>
+
+				<div id='references' style="display:none;">
+					<ul>
+
+						<li>Graham, N. (2007). Overcoming social isolation in rural communities. A Life in the Day, 11(2), p 22 – 26. </li>
+						<li>Peake, K. (2008). Achieving social inclusion through the early years national forum agenda. [PDF document]. Retrieved from:  http://www.bsl.org.au/pdfs/Peake_paper_early_years_12Dec08.pdf</li>
+						<li>Public Health Agency of Canada. (2006). How healthy are rural Canadians? An assessment of their health status and health determinants.  Canada’s Rural Communities: Understanding Rural Health and Its Determinants.  Ottawa, ON: Canadian Institute for Health Information.</li>
+						<li>Rolfe, R.E. (2006). Social cohesion and community resilience: A multi-disciplinary review of literature for rural health research.  Halifax, NS: The Rural Centre.</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /Goals -->
+			<br>
+			<center>
+				<div style="margin:0 0 100px 0;" id="submit_box">
+					<div id="goto_questions_container">
+						<a style="color:blue;" href="#" onclick="go_to_survey();">
+							<span class="actbutton green" style="width:200px;padding: 10px;">
+								Show Survey
+							</span>
+						</a>
+					</div>
+			</center>
+			
+		</div> <!--/Injury background-->
+
+		
+		<div id="injury_questions">
+			
+				<!-- Write the questions -->
+				<script>
+					for (var i=0; i<connectivity_questions.length; i++)
+					{
+							write_question(i, connectivity_questions[i], connectivity_rationale[i]);
+					}
+				</script>
+		
+				<br><br>
+				
+				<center>
+					<div style="margin:0 0 100px 0;" id="submit_box">
+						<div id="submit_container">
+							<a style="color:blue;" href="#" onclick="submit_data();">
+								<span class="actbutton green" style="width:200px;padding: 10px;">
+									   Submit Answers
+								</span>
+							</a>
+						</div>
+						<div style="display:none;" id="waiting_container">
+							Request submitted... please wait.
+						</div>
+						<div style="display:none;" id="retry_container">
+							Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+							to try again.
+						</div>
+					</div>
+				</center>
+		
+			</div>
+		</div> <!--/Injury Questions-->
+
+
+		
+	</form>
+
+	<br>
+	
+
+
+{% endblock %}
+
+

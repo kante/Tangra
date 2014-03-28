@@ -38,6 +38,8 @@ function parse_results_string(results_string)
     }
     
     return results;
+    
+    
 }
 
 
@@ -59,6 +61,10 @@ function success(data, textStatus, jqXHR)
     var accessibility_results_string = data["rural_medicine_questionairre"]["4"];
     var parsed_accessibility_results = parse_results_string(accessibility_results_string);
     generate_response("#tab4box", parsed_accessibility_results, accessibility_descriptions, accessibility_questions, accessibility_links);
+    
+    var connectivity_results_string = data["rural_medicine_questionairre"]["5"];
+    var parsed_connectivity_results = parse_results_string(connectivity_results_string);
+    generate_response("#tab5box", parsed_connectivity_results, connectivity_descriptions, connectivity_questions, connectivity_links);
     
     
     $("#shipley_form").show();
@@ -96,21 +102,23 @@ function generate_response(in_this_div, from_these_results, with_interventions, 
         {
             no_answers = false;
             
+            var answer_num = answers_in_category[j];
+            var the_description =  with_interventions[answer_num];
+            var the_intervention = and_links[answer_num];
+            
             html_string += '                                                    \
                 <div class="intervention_box">                                  \
                     <div class="intervention_header">                           \
                         Because you ' + english_translation[i] + '              \
                     </div>                                                      \
                     <div class="intervention_question">                         \
-                        ' + questions[i] + '                                    \
+                        ' + questions[answer_num] + '                           \
                     </div>                                                      \
                     <div class="intervention_header">                           \
                         You may be interested in the following:                 \
                     </div>';
                     
-            var answer_num = answers_in_category[j];
-            var the_description =  with_interventions[answer_num];
-            var the_intervention = and_links[answer_num];
+            
             
             if ($.isArray(the_description)) {
                 for (var k=0; k<the_description.length; k++)

@@ -17,7 +17,7 @@ class KeyedDataTestCase(TangraTestCase):
         self.response = self.client.post('/study_builder/build_study', {'study':'unit_test_study'})
         
         self.credentials = {'username': 'participant_1', 'password': 'participant_1'}
-        self.perform_and_verify_query('/public_api/login', SuccessResponse.success_string, "POST", self.credentials)
+        self.perform_and_verify_query('/public_api/login', SuccessResponse(None), "POST", self.credentials)
         
         self.participant = User.objects.get(username=self.credentials['username'])
         self.assertIsNotNone(self.participant)
@@ -35,12 +35,12 @@ class MultipleStageTestCase(KeyedDataTestCase):
     def test_single_string_in_current_stage(self):
         """Ensure basic saving of data with key works as expected"""
         data_to_save = {"data" : "This is a string I am saving", "key" : "elephants"}
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save)
         
         expected_data = data_to_save["data"]
         good_key_data = {"key" : "elephants"}
         bad_key_data = {"key" : "giraffes"}
-        self.perform_and_verify_query('/public_api/get_data_for_key', expected_data, "POST", good_key_data)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(expected_data), "POST", good_key_data)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
 
 
@@ -52,13 +52,13 @@ class MultipleStageTestCase(KeyedDataTestCase):
         bad_key_data = {"key" : "giraffes"}
 
         # first, see if the data is saved appropriately.
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_clobber)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_clobber["data"], "POST", good_key_data)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_clobber)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_clobber["data"]), "POST", good_key_data)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
 
         # now see if it is clobbered appropriately
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save["data"], "POST", good_key_data)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save["data"]), "POST", good_key_data)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
 
 
@@ -74,53 +74,53 @@ class MultipleStageTestCase(KeyedDataTestCase):
         bad_key_data_with_stage = {"key" : "giraffes", "stage" : 1}
 
         # save the data for stage 1.
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save_stage_1)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save_stage_1["data"], "POST", good_key_data)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save_stage_1)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", good_key_data)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_1["data"], "POST", good_key_data_with_stage)
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", good_key_data_with_stage)
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", bad_key_data_with_stage)
 
         # move to the next stage
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
 
         # save the data for stage 2.
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save_stage_2)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save_stage_2["data"], "POST", good_key_data)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save_stage_2)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save_stage_2["data"]), "POST", good_key_data)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
 
         #check that old data is still retrievable
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_1["data"], "POST", good_key_data_with_stage)
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", good_key_data_with_stage)
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", bad_key_data_with_stage)
 
         # check that new data is retrievable
         good_key_data_with_stage["stage"] = 2
         bad_key_data_with_stage["stage"] = 2
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_2["data"], "POST", good_key_data_with_stage)
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_2["data"]), "POST", good_key_data_with_stage)
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", bad_key_data_with_stage)
         
         # move to the next stage
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 3)
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(3))
 
         # save the data for stage 3.
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save_stage_3)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save_stage_3["data"], "POST", good_key_data)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save_stage_3)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save_stage_3["data"]), "POST", good_key_data)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
 
         #check that old data is still retrievable
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_2["data"], "POST", good_key_data_with_stage)
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_2["data"]), "POST", good_key_data_with_stage)
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", bad_key_data_with_stage)
         good_key_data_with_stage["stage"] = 1
         bad_key_data_with_stage["stage"] = 1
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_1["data"], "POST", good_key_data_with_stage)
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", good_key_data_with_stage)
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", bad_key_data_with_stage)
 
         # check that new data is retrievable
         good_key_data_with_stage["stage"] = 3
         bad_key_data_with_stage["stage"] = 3
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_3["data"], "POST", good_key_data_with_stage)
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_3["data"]), "POST", good_key_data_with_stage)
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", bad_key_data_with_stage)
 
 
@@ -132,11 +132,11 @@ class MultipleStageTestCase(KeyedDataTestCase):
         good_key_data2 = {"key" : "pink"}
         bad_key_data = {"key" : "giraffes"}
 
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save1)
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save2)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save1)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save2)
 
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save1["data"], "POST", good_key_data1)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save2["data"], "POST", good_key_data2)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save1["data"]), "POST", good_key_data1)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save2["data"]), "POST", good_key_data2)
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", bad_key_data)
 
 
@@ -151,37 +151,37 @@ class MultipleStageTestCase(KeyedDataTestCase):
 
 
         # save the data for stage 1.
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save_stage_1)
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", other_data_to_save_stage_1)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save_stage_1)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", other_data_to_save_stage_1)
 
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save_stage_1["data"], "POST", {"key":"elephants"})
-        self.perform_and_verify_query('/public_api/get_data_for_key', other_data_to_save_stage_1["data"], "POST", {"key":"el guapo"})
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", {"key":"elephants"})
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(other_data_to_save_stage_1["data"]), "POST", {"key":"el guapo"})
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", {"key":""})
 
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_1["data"], "POST", {"key":"elephants", "stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', other_data_to_save_stage_1["data"], "POST", {"key":"el guapo", "stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", {"key":"elephants", "stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(other_data_to_save_stage_1["data"]), "POST", {"key":"el guapo", "stage":1})
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", {"key":"rere", "stage":1})
 
         # move to the next stage
-        self.perform_and_verify_query('/public_api/get_current_stage', 1)
-        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse.success_string)
-        self.perform_and_verify_query('/public_api/get_current_stage', 2)
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(1))
+        self.perform_and_verify_query('/public_api/finish_current_stage', SuccessResponse(None))
+        self.perform_and_verify_query('/public_api/get_current_stage', SuccessResponse(2))
 
         # save the data for stage 2.
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", data_to_save_stage_2)
-        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse.success_string, "POST", other_data_to_save_stage_2)
-        self.perform_and_verify_query('/public_api/get_data_for_key', data_to_save_stage_2["data"], "POST", {"key":"elephants"})
-        self.perform_and_verify_query('/public_api/get_data_for_key', other_data_to_save_stage_2["data"], "POST", {"key":"balloon"})
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", data_to_save_stage_2)
+        self.perform_and_verify_query('/public_api/save_data_with_key', SuccessResponse(None), "POST", other_data_to_save_stage_2)
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(data_to_save_stage_2["data"]), "POST", {"key":"elephants"})
+        self.perform_and_verify_query('/public_api/get_data_for_key', SuccessResponse(other_data_to_save_stage_2["data"]), "POST", {"key":"balloon"})
         self.perform_and_verify_query('/public_api/get_data_for_key', FailureResponse.failure_string, "POST", {"key":""})
 
         # make sure old data was not clobbered
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_1["data"], "POST", {"key":"elephants", "stage":1})
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', other_data_to_save_stage_1["data"], "POST", {"key":"el guapo", "stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_1["data"]), "POST", {"key":"elephants", "stage":1})
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(other_data_to_save_stage_1["data"]), "POST", {"key":"el guapo", "stage":1})
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", {"key":"rere", "stage":1})
 
         # make sure new data is still there
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', data_to_save_stage_2["data"], "POST", {"key":"elephants", "stage":2})
-        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', other_data_to_save_stage_2["data"], "POST", {"key":"balloon", "stage":2})
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(data_to_save_stage_2["data"]), "POST", {"key":"elephants", "stage":2})
+        self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', SuccessResponse(other_data_to_save_stage_2["data"]), "POST", {"key":"balloon", "stage":2})
         self.perform_and_verify_query('/public_api/get_data_for_stage_and_key', FailureResponse.failure_string, "POST", {"key":"rere", "stage":2})
 
 

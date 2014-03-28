@@ -3,15 +3,11 @@
 <study>
 	<name name_stub="rmq">rural_medicine_questionairre</name>
 	
-	<description>An example using the Shipley Vocabulary Test</description>
-	<informed_consent>Do you wish to be tested?</informed_consent>
-	<instructions>
-		In the following survery, you will see a word in capital letters for 
-		each question. Underneath there are four other words. Select the one word
-		 which means the same thing, or most nearly the same thing as the first 
-		word. If you don't know, guess.
+	<description>Rural Medicine Questionairre.</description>
+	<informed_consent>None.</informed_consent>
+	<instructions>None.
 	</instructions>
-	<eligibility>Everyone.</eligibility>
+	<eligibility>None.</eligibility>
 	<reward>None.</reward>
 
 	<start_date>2002-09-24</start_date>
@@ -20,10 +16,9 @@
 	<!-- All users who should be able to administer the study. Investigators
 	CANNOT be participants! -->
 	<investigators>
-		<user name="kante" password="temp1234"/>
-		<user name="natalie" password="temp1234"/>
-		<user name="yasmin" password="temp1234"/>
-		<user name="dr_d"	password="dr_d"/>
+		<user name="kante" password="kantetemp1234"/>
+		<user name="natalie" password="natalietemp1234"/>
+		<user name="yasmin" password="yasmintemp1234"/>
 	</investigators>
 
 	<!-- 
@@ -34,7 +29,8 @@
 
 		<stage directory="injury_prevention"/>
 		<stage directory="housing"/>
-		
+		<stage directory="environment"/>
+	
 		<stage directory="results"/>
 		
 	</all_stages>
@@ -57,6 +53,8 @@
 			<stages>
 				<stage directory="injury_prevention"/>
 				<stage directory="housing"/>
+				<stage directory="environment"/>
+				
 				<stage directory="results"/>
 				
 			</stages>

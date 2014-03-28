@@ -5,6 +5,7 @@
 {% load staticfiles %}
 <script src="{% static "rural_medicine_questionairre/js/injury_data.js" %}"></script>
 <script src="{% static "rural_medicine_questionairre/js/housing_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/environment_data.js" %}"></script>
 <script src="{% static "rural_medicine_questionairre/js/results_builder.js" %}"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/results_style.css" %}">
@@ -23,11 +24,14 @@
 <div id="supertabs">
     <ul>
         <li class="tablink on" id="tab1">
-            Injury Prevention and Health Promotion
+            Health Promotion
         </li>
         
         <li class="tablink" id="tab2">
-            Affordable and Secure Housing
+            Secure Housing
+        </li>
+        <li class="tablink" id="tab3">
+            Physical Environment
         </li>
     </ul>
 </div>
@@ -40,6 +44,9 @@
     <!-- This is populated in the results_builder.js script-->
 </div>
 
+<div id="tab3box" class="tab" style="display:none">
+    <!-- This is populated in the results_builder.js script-->
+</div>
 
 
 {% endblock %}

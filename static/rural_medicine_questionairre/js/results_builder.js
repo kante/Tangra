@@ -52,6 +52,10 @@ function success(data, textStatus, jqXHR)
     var parsed_housing_results = parse_results_string(housing_results_string);
     generate_response("#tab2box", parsed_housing_results, housing_descriptions, housing_questions, housing_links);
     
+    var environment_results_string = data["rural_medicine_questionairre"]["3"];
+    var parsed_environment_results = parse_results_string(environment_results_string);
+    generate_response("#tab3box", parsed_environment_results, environment_descriptions, environment_questions, environment_links);
+    
     $("#shipley_form").show();
     $("#loading_box").hide();
 }

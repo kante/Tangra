@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+<script>
+    num_questions = 5	
+</script>
+
+<script src="{% static "rural_medicine_questionairre/js/environment_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/submit.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/questionairre_builder.js" %}"></script>
+
+<script>
+    alert(environment_questions)	
+</script>
+
+<link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/questionairre_style.css" %}">
+
+	
+	<h1>Physical Environment</h1>
+	
+	
+	<form id="shipley_form">
+
+		<div id="injury_background">
+			<!-- /Background Information -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('background_info',$(this));" class="right">
+						Background Information
+					</a>
+				</h2>
+
+				<div id='background_info'>
+					<p>
+						Air, water, and land quality are essential for good health as they provide a vehicle for pathogen and carcinogen transport to humans. While exposure to many of these pathogens and carcinogens is infrequent, appropriate monitoring of the physical environments quality is essential to public health maintenance.  This is especially meaningful to agricultural communities, where some residents may use pesticides.
+					</p>
+					
+				</div>
+			</div>
+			<!-- /Background Information -->
+
+			<!-- References -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('goals',$(this));" class="right">
+					Goals
+					</a>
+				</h2>
+
+				<div id='goals' style="display:none;">
+					<ul>
+					    <li>Adequate monitoring of air, water, and land quality</li>
+                        <li>Reduction of auto-dependent environment</li>
+                        <li>Promotion of sound protection and time limits for noise pollution</li>
+                    </ul>
+				</div>
+			</div>
+			<!-- /References -->
+
+
+			<!-- Goals -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('references',$(this));" class="right">
+					References
+					</a>
+				</h2>
+
+				<div id='references' style="display:none;">
+					<ul>
+
+						<li>Gray, J.A., Zimmerman, J.L., & Rimmer, J.H. (2012). Built environment instruments for walkability, bikeability, and recreation: Disability and universal design relevant? Disability and Health Journal, 5, 87-101. </li>
+					</ul>
+				</div>
+			</div>
+			<!-- /Goals -->
+			<br>
+			<center>
+				<div style="margin:0 0 100px 0;" id="submit_box">
+					<div id="goto_questions_container">
+						<a style="color:blue;" href="#" onclick="go_to_survey();">
+							<span class="actbutton green" style="width:200px;padding: 10px;">
+								Show Survey
+							</span>
+						</a>
+					</div>
+			</center>
+			
+		</div> <!--/Injury background-->
+
+		
+		<div id="injury_questions">
+			
+				<!-- Write the questions -->
+				<script>
+					for (var i=0; i<environment_questions.length; i++)
+					{
+							write_question(i, environment_questions[i], environment_rationale[i]);
+					}
+				</script>
+		
+				<br><br>
+				
+				<center>
+					<div style="margin:0 0 100px 0;" id="submit_box">
+						<div id="submit_container">
+							<a style="color:blue;" href="#" onclick="submit_data();">
+								<span class="actbutton green" style="width:200px;padding: 10px;">
+									   Submit Answers
+								</span>
+							</a>
+						</div>
+						<div style="display:none;" id="waiting_container">
+							Request submitted... please wait.
+						</div>
+						<div style="display:none;" id="retry_container">
+							Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+							to try again.
+						</div>
+					</div>
+				</center>
+		
+			</div>
+		</div> <!--/Injury Questions-->
+
+
+		
+	</form>
+
+	<br>
+	
+
+
+{% endblock %}
+
+

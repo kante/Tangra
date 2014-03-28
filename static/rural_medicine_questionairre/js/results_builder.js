@@ -66,6 +66,10 @@ function success(data, textStatus, jqXHR)
     var parsed_connectivity_results = parse_results_string(connectivity_results_string);
     generate_response("#tab5box", parsed_connectivity_results, connectivity_descriptions, connectivity_questions, connectivity_links);
     
+    var nutrition_results_string = data["rural_medicine_questionairre"]["6"];
+    var parsed_nutrition_results = parse_results_string(nutrition_results_string);
+    generate_response("#tab6box", parsed_nutrition_results, nutrition_descriptions, nutrition_questions, nutrition_links);
+    
     
     $("#shipley_form").show();
     $("#loading_box").hide();

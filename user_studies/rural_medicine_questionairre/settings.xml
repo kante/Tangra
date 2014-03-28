@@ -32,6 +32,7 @@
 		<stage directory="environment"/>
 		<stage directory="accessibility"/>
 		<stage directory="connectivity"/>
+		<stage directory="nutrition"/>
 
 		<stage directory="results"/>
 		
@@ -41,16 +42,19 @@
 	<!-- One entry for each distinct group in the study -->
 	<all_groups>
 		<group name="everyone">
-			<user name="jim1"/>
-			<user name="jill1"/>
-			<user name="jim2"/>
-			<user name="jill2"/>
-			<user name="jim3"/>
-			<user name="jill3"/>
-			<user name="jim4"/>
-			<user name="jill4"/>
-			<user name="jim5"/>
-			<user name="jill5"/>
+            <user name="atokous"/>
+            <user name="Aceratherium"/>
+            <user name="adfix"/>
+            <user name="ahong"/>
+            <user name="bisontine"/>
+            <user name="bootlicker"/>
+            <user name="Bromius"/>
+            <user name="archangelship"/>
+            <user name="aspartyl"/>
+            <user name="autodynamic"/>
+            <user name="actinograph"/>
+            <user name="jill1"/>
+            
 			<!-- List the stages you want included in this group IN ORDER -->
 			<stages>
 				<stage directory="injury_prevention"/>
@@ -58,7 +62,7 @@
 				<stage directory="environment"/>
         		<stage directory="accessibility"/>
         		<stage directory="connectivity"/>
-
+        		<stage directory="nutrition"/>
 				<stage directory="results"/>
 				
 			</stages>

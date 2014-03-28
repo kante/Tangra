@@ -161,7 +161,7 @@ def save_post_data(request):
     
     #print >>sys.stderr, data
     #TODO: how to print to stderr without crashing shit?
-    print data
+    #print data
     
     dt = datetime.datetime.now()    
     code = "CSV"

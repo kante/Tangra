@@ -7,17 +7,20 @@
 		 passwords randomly (or perhaps email them automatically to the users.)
 	-->
 
-		<user name="jim1" password="jim1"/>
-		<user name="jim2" password="jim2"/>
-		<user name="jim3" password="jim3"/>
-		<user name="jim4" password="jim4"/>
-		<user name="jim5" password="jim5"/>
-		
-		<user name="jill1" password="jill1"/>
-		<user name="jill2" password="jill2"/>
-		<user name="jill3" password="jill3"/>
-		<user name="jill4" password="jill4"/>
-		<user name="jill5" password="jill5"/>
+    <user name="atokous" password="5392"/>
+    <user name="Aceratherium" password="13945"/>
+    <user name="adfix" password="30153"/>
+    <user name="ahong" password="4006"/>
+    <user name="bisontine" password="19409"/>
+    <user name="bootlicker" password="20065"/>
+    <user name="Bromius" password="22964"/>
+    <user name="archangelship" password="27241"/>
+    <user name="aspartyl" password="24068"/>
+    <user name="autodynamic" password="20627"/>
+    <user name="actinograph" password="3186"/>
+    
+	<user name="jill1" password="jilltemp1234"/>
+
 
 </participants>
 

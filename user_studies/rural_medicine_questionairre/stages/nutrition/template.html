@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+<script>
+    num_questions = 4	
+</script>
+
+<script src="{% static "rural_medicine_questionairre/js/nutrition_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/submit.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/questionairre_builder.js" %}"></script>
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/questionairre_style.css" %}">
+
+	
+	<h1>Nutrition and Food Security</h1>
+	
+	
+	<form id="shipley_form">
+
+		<div id="injury_background">
+			<!-- /Background Information -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('background_info',$(this));" class="right">
+						Background Information
+					</a>
+				</h2>
+
+				<div id='background_info'>
+					<p>
+						Healthy eating is fundamental to good health. A principal contributor to overweight and obesity is consumption of high-caloric foods which is typical of “fast food” and junk foods.   The concept of “food desert,” decreased access to nutritious food, has emerged as a consequence of rural food sources.  For example, in rural areas, community members often travel between 25-50km to access grocery stores.  This can make fresh and healthy food inconvenient, time consuming, and expensive options.
+					</p>
+					
+				</div>
+			</div>
+			<!-- /Background Information -->
+
+			<!-- References -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('goals',$(this));" class="right">
+					Goals
+					</a>
+				</h2>
+
+				<div id='goals' style="display:none;">
+					<ul>
+					    <li>Improved access to community supermarkets, farmer’s markets, and community gardens</li>
+                        <li>Increase availability of healthier foods and beverages in public service venues (schools, after-school programs, child care centers, community recreational facilities, city and county buildings, prisons, juvenile detention centers)
+                        </li>
+                    </ul>
+				</div>
+			</div>
+			<!-- /References -->
+
+
+			<!-- Goals -->
+			<div id="study_details">
+				<h2>
+					<a href="" onclick="return toggle_detail('references',$(this));" class="right">
+					References
+					</a>
+				</h2>
+
+				<div id='references' style="display:none;">
+					<ul>
+
+						<li>Provincial Health Services Authority (2009). Foundations for a Healthier Built Environment. Retrieved from: www.psha.ca/populationhealth</li>
+						<li>McCracken, V., Sage, J., & Sage, R. (2012). Do farmers’ markets ameliorate food deserts? Focus, 29(1), p21-26.</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /Goals -->
+			<br>
+			<center>
+				<div style="margin:0 0 100px 0;" id="submit_box">
+					<div id="goto_questions_container">
+						<a style="color:blue;" href="#" onclick="go_to_survey();">
+							<span class="actbutton green" style="width:200px;padding: 10px;">
+								Show Survey
+							</span>
+						</a>
+					</div>
+			</center>
+			
+		</div> <!--/Injury background-->
+
+		
+		<div id="injury_questions">
+			
+				<!-- Write the questions -->
+				<script>
+					for (var i=0; i<nutrition_questions.length; i++)
+					{
+							write_question(i, nutrition_questions[i], nutrition_rationale[i]);
+					}
+				</script>
+		
+				<br><br>
+				
+				<center>
+					<div style="margin:0 0 100px 0;" id="submit_box">
+						<div id="submit_container">
+							<a style="color:blue;" href="#" onclick="submit_data();">
+								<span class="actbutton green" style="width:200px;padding: 10px;">
+									   Submit Answers
+								</span>
+							</a>
+						</div>
+						<div style="display:none;" id="waiting_container">
+							Request submitted... please wait.
+						</div>
+						<div style="display:none;" id="retry_container">
+							Submit failed. Please click <a style="color:blue;" href="#" onclick="submit_data();">here</a> 
+							to try again.
+						</div>
+					</div>
+				</center>
+		
+			</div>
+		</div> <!--/Injury Questions-->
+
+
+		
+	</form>
+
+	<br>
+	
+
+
+{% endblock %}
+
+

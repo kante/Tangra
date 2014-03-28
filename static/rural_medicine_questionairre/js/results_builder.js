@@ -56,6 +56,11 @@ function success(data, textStatus, jqXHR)
     var parsed_environment_results = parse_results_string(environment_results_string);
     generate_response("#tab3box", parsed_environment_results, environment_descriptions, environment_questions, environment_links);
     
+    var accessibility_results_string = data["rural_medicine_questionairre"]["4"];
+    var parsed_accessibility_results = parse_results_string(accessibility_results_string);
+    generate_response("#tab4box", parsed_accessibility_results, accessibility_descriptions, accessibility_questions, accessibility_links);
+    
+    
     $("#shipley_form").show();
     $("#loading_box").hide();
 }
@@ -81,6 +86,7 @@ function generate_response(in_this_div, from_these_results, with_interventions, 
     var response_categories = ["strongly_disagree", "disagree", "dont_know", "neutral"];
     var english_translation = ["strongly disagreed that:", "disagreed that:", "didn't know if:", "were neutral about whether:"];
     var html_string = "";
+    var no_answers = true;
     
     for (var i=0; i<response_categories.length; i++) 
     {
@@ -88,6 +94,8 @@ function generate_response(in_this_div, from_these_results, with_interventions, 
         var answers_in_category = from_these_results[response_categories[i]];
         for(var j=0; j<answers_in_category.length; j++)
         {
+            no_answers = false;
+            
             html_string += '                                                    \
                 <div class="intervention_box">                                  \
                     <div class="intervention_header">                           \
@@ -117,5 +125,9 @@ function generate_response(in_this_div, from_these_results, with_interventions, 
         }
     }
     
-    $(in_this_div).append(html_string);
+    if (no_answers) {
+        $(in_this_div).append('<div class="intervention_box">We found no interventions based on your answers for this section.</div>');
+    } else {
+        $(in_this_div).append(html_string);
+    }
 }

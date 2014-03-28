@@ -5,10 +5,10 @@
 {% load staticfiles %}
 
 <script>
-    num_questions = 5	
+    num_questions = 3	
 </script>
 
-<script src="{% static "rural_medicine_questionairre/js/environment_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/accessibility_data.js" %}"></script>
 <script src="{% static "rural_medicine_questionairre/js/submit.js" %}"></script>
 <script src="{% static "rural_medicine_questionairre/js/questionairre_builder.js" %}"></script>
 
@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/questionairre_style.css" %}">
 
 	
-	<h1>Physical Environment</h1>
+	<h1>Accessibility of Health Care Services</h1>
 	
 	
 	<form id="shipley_form">
@@ -33,7 +33,7 @@
 
 				<div id='background_info'>
 					<p>
-						Air, water, and land quality are essential for good health as they provide a vehicle for pathogen and carcinogen transport to humans. While exposure to many of these pathogens and carcinogens is infrequent, appropriate monitoring of the physical environments quality is essential to public health maintenance.  This is especially meaningful to agricultural communities, where some residents may use pesticides.
+						It is estimated that 20-30% of Canadians live in a rural setting while many health care facilities exist in urban centers. This leaves rural residents an average 60 km commute to family physicians. Adequate access to health care services is vital to health maintenance and initiatives to increase rural physician recruitment in conjunction with programs to increase rural community access to health care providers are needed to assure no disparities in health care in rural settings.
 					</p>
 					
 				</div>
@@ -50,9 +50,9 @@
 
 				<div id='goals' style="display:none;">
 					<ul>
-					    <li>Adequate monitoring of air, water, and land quality</li>
-                        <li>Reduction of auto-dependent environment</li>
-                        <li>Promotion of sound protection and time limits for noise pollution</li>
+					    <li>Increased patient roster promotion</li>
+                        <li>Programs for physician recruitment and retention</li>
+                        <li>Programs to facilitate telemedicine and timely referral to higher levels of care.</li>
                     </ul>
 				</div>
 			</div>
@@ -70,7 +70,8 @@
 				<div id='references' style="display:none;">
 					<ul>
 
-						<li>Gray, J.A., Zimmerman, J.L., & Rimmer, J.H. (2012). Built environment instruments for walkability, bikeability, and recreation: Disability and universal design relevant? Disability and Health Journal, 5, 87-101. </li>
+						<li>http://www.hc-sc.gc.ca/hl-vs/jfy-spv/rural-rurale-eng.php</li>
+			                    <li>http://www.unbc.ca/assets/northern_studies/northern/issues_affecting_access_to_health_services_in_northern.pdf</li>
 					</ul>
 				</div>
 			</div>
@@ -94,9 +95,9 @@
 			
 				<!-- Write the questions -->
 				<script>
-					for (var i=0; i<environment_questions.length; i++)
+					for (var i=0; i<accessibility_questions.length; i++)
 					{
-							write_question(i, environment_questions[i], environment_rationale[i]);
+							write_question(i, accessibility_questions[i], accessibility_rationale[i]);
 					}
 				</script>
 		

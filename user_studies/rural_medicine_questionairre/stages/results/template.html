@@ -6,6 +6,8 @@
 <script src="{% static "rural_medicine_questionairre/js/injury_data.js" %}"></script>
 <script src="{% static "rural_medicine_questionairre/js/housing_data.js" %}"></script>
 <script src="{% static "rural_medicine_questionairre/js/environment_data.js" %}"></script>
+<script src="{% static "rural_medicine_questionairre/js/accessibility_data.js" %}"></script>
+
 <script src="{% static "rural_medicine_questionairre/js/results_builder.js" %}"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static "rural_medicine_questionairre/css/results_style.css" %}">
@@ -33,6 +35,9 @@
         <li class="tablink" id="tab3">
             Physical Environment
         </li>
+        <li class="tablink" id="tab4">
+            Health Care Access
+        </li>
     </ul>
 </div>
 
@@ -45,6 +50,10 @@
 </div>
 
 <div id="tab3box" class="tab" style="display:none">
+    <!-- This is populated in the results_builder.js script-->
+</div>
+
+<div id="tab4box" class="tab" style="display:none">
     <!-- This is populated in the results_builder.js script-->
 </div>
 

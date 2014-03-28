@@ -328,7 +328,7 @@ def get_user_data(request):
             the_study = datum.studyparticipant.study.name
             user_data[the_study][int(datum.stage)] = datum.datum;
     
-    # print >>sys.stderr,  user_data
+    #print  user_data
     return HttpResponse(json.dumps(user_data), content_type="application/json")
 
 

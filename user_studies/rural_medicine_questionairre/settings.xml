@@ -30,7 +30,7 @@
 		<stage directory="injury_prevention"/>
 		<stage directory="housing"/>
 		<stage directory="environment"/>
-	
+		<stage directory="accessibility"/>
 		<stage directory="results"/>
 		
 	</all_stages>
@@ -54,7 +54,7 @@
 				<stage directory="injury_prevention"/>
 				<stage directory="housing"/>
 				<stage directory="environment"/>
-				
+        		<stage directory="accessibility"/>
 				<stage directory="results"/>
 				
 			</stages>
